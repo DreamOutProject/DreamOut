@@ -1,13 +1,14 @@
 package Main.src;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class UserData {
 
-	private ArrayList<User> user;
+	private Vector<User> user;
 	
 	public UserData() {
-		user = new ArrayList<User>();
+		user = new Vector<User>();
 	}
 	//사용자 추가
 	public void addUser(User us) {
