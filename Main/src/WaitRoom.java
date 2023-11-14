@@ -16,7 +16,7 @@ public class WaitRoom extends JPanel{
 		mkroom.setBounds(1055,50,105,30);
 		
 		//대기방 스크롤
-		JPanel t = new JPanel(new GridLayout());
+		JPanel t = new JPanel(new GridLayout(0,2));
 		scroll = new JScrollPane();
 		t.add(scroll);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -24,6 +24,12 @@ public class WaitRoom extends JPanel{
 		
 		t.add(scroll);
 		add(t);
+		
+		/*JPanel p = new JPanel();
+		JTextArea t_display = new JTextArea();
+		p.add(t_display);
+		t.add(p);*/
+		
 		
 		
 		add(mkroom);
