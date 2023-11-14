@@ -4,7 +4,6 @@ import javax.swing.*;
 
 
 public class WaitRoom extends JPanel{
-	private JLabel Jlabel;
 	private JButton mkroom;
 	private JScrollPane scroll;
 	
@@ -17,13 +16,21 @@ public class WaitRoom extends JPanel{
 		mkroom.setBounds(1055,50,105,30);
 		
 		//대기방 스크롤
+		JPanel t = new JPanel(new GridLayout());
 		scroll = new JScrollPane();
-		scroll.setBounds(165,100,1000,530);
+		t.add(scroll);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		t.setBounds(165,100,1000,530);
+		
+		t.add(scroll);
+		add(t);
 		
 		
 		add(mkroom);
-		add(scroll);
+		
+		
+		
+		
 		
 		
 
