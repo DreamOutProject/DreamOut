@@ -15,7 +15,6 @@ public class StartLogin extends JPanel{
 	private JTextField email;
 	private JPasswordField pw;
 	private JLabel Jlabel,lab1,lab2;
-	private JTextArea t_display;
 	private UserData user;
 
 	StartLogin() {
@@ -41,7 +40,6 @@ public class StartLogin extends JPanel{
 		add(createNamePanel());
 		add(createLoginPanel());
         add(createButtonPanel());
-        add(createMessagePanel());
        
     }
 	
@@ -96,20 +94,6 @@ public class StartLogin extends JPanel{
 		
 		return t;
 	}
-	//오류 메세지
-	public JPanel createMessagePanel() {
-		JPanel t = new JPanel(new GridLayout());
-		t.setBackground(new Color(115,52,211));
-		t_display = new JTextArea();
-		
-		t_display.setEditable(false);
-		
-		t.setBounds(325, 240, 185, 50);
-		t.add(t_display);
-		
-		return t;
-	}
-	
 	
 
 	public void addActionListener() {
@@ -119,13 +103,20 @@ public class StartLogin extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				//정보가 비어있을 때
 				if(isBlank()) {
-					t_display.setText("모든 정보를 입력해주세요");
+					JOptionPane.showMessageDialog(
+                            StartLogin.this,
+                            "모든 정보를 입력하세요"
+                    );
 				}
 				//모두 입력했을 때
 				else {
 					//email이 중복일 때
 					if(user.isIdOverlab(email.getText())) {
-						t_display.setText("이미 존재하는 이메일입니다.");
+
+						JOptionPane.showMessageDialog(
+                                StartLogin.this,
+                                "이미 존재하는 이메일입니다"
+                        );
 						email.requestFocus();
 					}
 					//가입 성공
@@ -134,10 +125,13 @@ public class StartLogin extends JPanel{
 							email.getText(),
 							String.valueOf(pw.getPassword())
 								));
-						t_display.setText("회원 가입 성공!");
+						JOptionPane.showMessageDialog(
+                                StartLogin.this,
+                                "회원 가입 성공!"
+                        );
 					}
 				}
-				t_display.setText("");
+				
 			}
 		});
 		
@@ -146,30 +140,46 @@ public class StartLogin extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				//아이디가 비었을 때
 				if(email.getText().isEmpty()) {
-					t_display.setText("이메일를 입력하세요");
+					JOptionPane.showMessageDialog(
+                            StartLogin.this,
+                            "이메일을 입력하세요"
+                    );
 					
 				}
 				//아이디가 있을 때
 				else if(user.contains(new User(email.getText()))) {
 					//비밀번호가 비었을 때
 					if(String.valueOf(pw.getPassword()).isEmpty()) {
-						t_display.setText("비밀번호를 입력하세요");
+						JOptionPane.showMessageDialog(
+                                StartLogin.this,
+                                "비밀번호를 입력하세요"
+                        );
 					}
 					//비밀번호가 일치 X
 					else if(!user.getUser(email.getText()).getpw().equals(String.valueOf(pw.getPassword()))) {
-						t_display.setText("비밀번호가 일치하지 않습니다");
+						JOptionPane.showMessageDialog(
+                                StartLogin.this,
+                                "비밀번호가 일치하지 않습니다"
+                        );
 					}
 					//모두 입력 완료
 					else {
 						setVisible(false);
-						Main.showWaitRoom(); 
+						JFrame mainFrame = Main.getFrame();
+						mainFrame.getContentPane().removeAll();
+						mainFrame.add(new WaitRoom());
+						mainFrame.revalidate();
+						mainFrame.repaint(); 
 					}
 				}
 				//존재하지 않는 이메일일 때
 				else {
-					t_display.setText("존재하지 않는 이메일입니다");
+					JOptionPane.showMessageDialog(
+                            StartLogin.this,
+                            "존재하지 않는 이메일입니다"
+                    );
 				}
-				t_display.setText("");
+				
 			}
 		});
 		
