@@ -62,15 +62,13 @@ public class Main {
 
 
     Main(){
-    	  frame = new JFrame("DreamOut");
+        frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new GameRoom());
+        frame.add(new StartLogin(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
     }
 
-    public static void main(String[] args) {
-        new Main();
-    }
+    public static void main(String[] args) {new Main();}
 }

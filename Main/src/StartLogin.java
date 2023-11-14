@@ -1,9 +1,7 @@
-package Main.src;
+
 import java.awt.*;
-import java.awt.desktop.ScreenSleepEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.security.PublicKey;
 
 import javax.swing.*;
 
@@ -17,7 +15,7 @@ public class StartLogin extends JPanel{
 	private JLabel Jlabel,lab1,lab2;
 	private UserData user;
 
-	StartLogin() {
+	StartLogin(JFrame frame) {
 
 		user = new UserData();
 		
@@ -26,7 +24,7 @@ public class StartLogin extends JPanel{
 		setBackground(new Color(115,52,211));
         setSize(1280,720);
         setVisible(true);
-        addActionListener();
+        addActionListener(frame);
         
 
         
@@ -96,7 +94,7 @@ public class StartLogin extends JPanel{
 	}
 	
 
-	public void addActionListener() {
+	public void addActionListener(JFrame mainFrame) {
 		
 		b_signup.addActionListener(new ActionListener() {
 			@Override
@@ -165,7 +163,6 @@ public class StartLogin extends JPanel{
 					//모두 입력 완료
 					else {
 						setVisible(false);
-						JFrame mainFrame = Main.getFrame();
 						mainFrame.getContentPane().removeAll();
 						mainFrame.add(new WaitRoom());
 						mainFrame.revalidate();

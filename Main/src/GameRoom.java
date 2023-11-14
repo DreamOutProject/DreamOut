@@ -19,9 +19,8 @@ public class GameRoom extends JPanel {
     String[] topics=  {"일상생활", "스포츠","전자기기","랜덤"};
     
     private int button_num = -1;
-
-    GameRoom(){
-        Main.init(this);
+    GameRoom(JFrame frame){
+    	Main.init(this);
         //주제 선택창
         topic = new JComboBox(topics);
         topic.setLocation(700,75);
@@ -38,13 +37,13 @@ public class GameRoom extends JPanel {
         scrollPane.setSize(300,400);
         scrollPane.setLocation(250, 160);
 
-
+        
         add(topic);
         add(scrollPane);
         add(l_topic);
-        add(createRightPanel());//게임 선택 패널
+        add(createRightPanel(frame));//게임 선택 패널
     }
-	public JPanel createRightPanel() {
+	public JPanel createRightPanel(JFrame f) {
 		JPanel t = new JPanel(new BorderLayout());
 		t.setSize(500,400);
         t.setLocation(620, 160);
@@ -55,11 +54,10 @@ public class GameRoom extends JPanel {
 				super.mouseClicked(e);
 				
 				if(button_num !=-1) {
-					JFrame mainFrame = Main.getFrame();
-					mainFrame.getContentPane().removeAll();
-					mainFrame.add(new GameStartRoom());
-					mainFrame.revalidate();
-					mainFrame.repaint();
+					f.getContentPane().removeAll();
+					f.add(new GameStartRoom(f));
+					f.revalidate();
+					f.repaint();
 				}
 			}
 		});
@@ -87,6 +85,18 @@ public class GameRoom extends JPanel {
     	@Override
     	public void mouseClicked(MouseEvent e) {
     		super.mouseClicked(e);
+    		System.out.println("지금 클릭되었습니다.");
+    		JButton temp = (JButton) e.getComponent();
+    		
+    		if(temp.getText().charAt(1)== 'h') {//2번 클릭인지 확인
+    			button_num = 2;
+    		}else {
+    			button_num = 1;
+    		}
+    	}
+    	@Override
+    	public void mousePressed(MouseEvent e) {
+    		super.mousePressed(e);
     		System.out.println("지금 클릭되었습니다.");
     		JButton temp = (JButton) e.getComponent();
     		
