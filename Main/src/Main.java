@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Main {
     private static JFrame frame;
+    protected static Socket s;//소켓
     static void init(JPanel t){
         t.setLayout(null);//패널 자유롭게 셋팅하기
         t.setBackground(new Color(115,52,211));
@@ -58,7 +61,13 @@ public class Main {
         return t;
     }
 
-
+    public static void test(){
+        try {
+            s = new Socket("localhost",54321);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     Main(){
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
