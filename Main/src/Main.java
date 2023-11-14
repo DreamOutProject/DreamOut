@@ -1,4 +1,3 @@
-package Main.src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -63,9 +62,9 @@ public class Main {
 
 
     Main(){
-    	frame = new JFrame("DreamOut");
+    	  frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new StartLogin());
+        frame.add(new GameRoom());
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
