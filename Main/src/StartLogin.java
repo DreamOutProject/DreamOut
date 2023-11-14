@@ -1,4 +1,4 @@
-package Main.src;
+
 import java.awt.*;
 import java.awt.desktop.ScreenSleepEvent;
 import java.awt.event.ActionEvent;
