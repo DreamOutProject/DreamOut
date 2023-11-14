@@ -1,3 +1,4 @@
+package Main.src;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +14,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 
-public class DreamOut1 extends JFrame{
+public class StartLogin extends JFrame{
 	private JButton b_login, b_signup;
 	private Font f1;
 	private JLabel a;
@@ -21,7 +22,7 @@ public class DreamOut1 extends JFrame{
 	private JLabel Jlabel;
 	
 
-	public DreamOut1() {
+	public StartLogin() {
 		/*final int LABEL_WIDTH = 100;
 		final int LABEL_HEIGHT = 100;
 		int xPosition = 100;
@@ -124,10 +125,5 @@ public class DreamOut1 extends JFrame{
 		Jlabel.setLocation(e.getX()-r.width,e.getY()-r.height);
 	}
 	
-	
-	public static void main(String[] args) {
-
-        new DreamOut1();
-    }
 	
 }

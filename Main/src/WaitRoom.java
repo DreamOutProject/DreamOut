@@ -1,3 +1,4 @@
+package Main.src;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,14 +15,14 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultStyledDocument;
 
 
-public class DreamOut2 extends JFrame implements MouseListener{
+public class WaitRoom extends JFrame implements MouseListener{
 	private JLabel Jlabel;
 	private JButton mkroom;
 	private JTextPane t_display1,t_display2;
 	private JScrollPane scroll;
 	
 	
-	public DreamOut2() {
+	public WaitRoom() {
 		/*final int LABEL_WIDTH = 100;
 		final int LABEL_HEIGHT = 100;
 		int xPosition = 100;
@@ -130,8 +131,4 @@ public class DreamOut2 extends JFrame implements MouseListener{
 		
 	}
 	
-	public static void main(String[] args) {
-
-        new DreamOut2();
-    }
 }
