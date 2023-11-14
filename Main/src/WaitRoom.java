@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DefaultStyledDocument;
 
 
-public class WaitRoom extends JFrame implements MouseListener{
+public class WaitRoom extends JPanel implements MouseListener{
 	private JLabel Jlabel;
 	private JButton mkroom;
 	private JTextPane t_display1,t_display2;
@@ -81,7 +81,7 @@ public class WaitRoom extends JFrame implements MouseListener{
 		
 		
 		add(t);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setSize(1280,720);
         setVisible(true);
         

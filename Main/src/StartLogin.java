@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 
-public class StartLogin extends JFrame{
+public class StartLogin extends JPanel{
 	private JButton b_login, b_signup;
 	private Font f1;
 	private JLabel a;
@@ -32,7 +32,6 @@ public class StartLogin extends JFrame{
     
 		//Jlabel = new JLabel("좌표");
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1280,720);
         
         

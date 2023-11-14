@@ -60,7 +60,7 @@ public class Main extends JFrame {
 
     Main(){
         setSize(1280,720);
-        add(new GameRoom());
+        add(new StartLogin());
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
