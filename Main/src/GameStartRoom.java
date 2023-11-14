@@ -8,11 +8,14 @@ public class GameStartRoom extends JPanel {
     private JTextField t_input;//글자를 입력할 수 있고 없고.
     private JLabel l_pallete;//팔렛트
     private JLabel client;
+    
+    private int round;
 
-    final int WIDTH = 900;
+    private final int WIDTH = 900;
 
-    GameStartRoom(){
+    GameStartRoom(JFrame f){
         Main.init(this);
+        this.round=1;//처음 라운드는 1이다.
         //진행바
         timeBar = new JLabel("");
         timeBar.setOpaque(true);
@@ -47,7 +50,7 @@ public class GameStartRoom extends JPanel {
 
         //client
 
-        client = new JLabel("Round : 1/8");
+        client = new JLabel("Round : "+round+"/8");
         client.setFont(new Font("Courier", Font.BOLD,11));
         client.setOpaque(true);
         client.setBackground(Color.lightGray);
@@ -60,6 +63,6 @@ public class GameStartRoom extends JPanel {
         add(t_display);
         add(t_input);
         add(l_pallete);
-
     }
+    
 }
