@@ -6,7 +6,6 @@ import javax.swing.*;
 public class WaitRoom extends JPanel{
 	private JLabel Jlabel;
 	private JButton mkroom;
-	private JTextPane t_display1,t_display2;
 	private JScrollPane scroll;
 	
 	
