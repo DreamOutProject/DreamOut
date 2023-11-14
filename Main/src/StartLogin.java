@@ -1,17 +1,6 @@
 package Main.src;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.*;
-import java.net.*;
-
-import java.rmi.UnknownHostException;
-
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 
 public class StartLogin extends JPanel{
@@ -19,35 +8,18 @@ public class StartLogin extends JPanel{
 	private Font f1;
 	private JLabel a;
 	private JTextField email,pw;
-	private JLabel Jlabel;
+	private JLabel Jlabel,lab1,lab2;
 	
 
-	public StartLogin() {
-		/*final int LABEL_WIDTH = 100;
-		final int LABEL_HEIGHT = 100;
-		int xPosition = 100;
-		int yPosition = 100;*/
-		setLayout(null);
-		buildGUI();
-    
-		//Jlabel = new JLabel("좌표");
+	StartLogin() {
 
+		buildGUI();
+		setLayout(null);
+		setBackground(new Color(115,52,211));
         setSize(1280,720);
-        
-        
-        
         setVisible(true);
         
 
-        
-        /*Jlabel.setBounds(xPosition, yPosition, LABEL_WIDTH, LABEL_HEIGHT);
-        add(Jlabel);
-        System.out.println("좌표값:"+Jlabel.getBounds());
-        addEventListener();*/
-       
-        
-        
-        
         
     }
 	
@@ -61,32 +33,30 @@ public class StartLogin extends JPanel{
 	
 	public JPanel createNamePanel(){
         JPanel t = new JPanel();
-       
-
+        t.setBackground(new Color(115,52,211));
         f1 = new Font("바탕",Font.ITALIC, 60);
         a = new JLabel("DreamOut");
         a.setHorizontalAlignment(JLabel.CENTER);
         
         a.setFont(f1);
-        t.setBounds(426, 20, 426,100);
+        t.setBounds(426, 40, 426,100);
         t.add(a);
-        
-        
         
         return t;
     }
 	
 	public JPanel createLoginPanel() {
-		JPanel t = new JPanel(new GridLayout(2,2,5,5));
-		 t.setBorder(new TitledBorder(new LineBorder(Color.black,1)));
-		
-		JLabel lab1 = new JLabel("이메일");
+		JPanel t = new JPanel(new GridLayout(3,2,10,10));
+		t.setBackground(new Color(115,52,211));
+		lab1 = new JLabel("이메일",Jlabel.RIGHT);
+		lab1.setFont(new Font("바탕",Font.BOLD,20));
 		email = new JTextField(20);
 		
-		JLabel lab2 = new JLabel("비밀번호");
+		lab2 = new JLabel("비밀번호",Jlabel.RIGHT);
+		lab2.setFont(new Font("바탕",Font.BOLD,20));
 		pw = new JTextField(20);
 		
-		t.setBounds(210,300,290,150);
+		t.setBounds(130,300,380,200);
 		
 		t.add(lab1);
 		t.add(email);
@@ -99,9 +69,9 @@ public class StartLogin extends JPanel{
 	
 	public JPanel createButtonPanel() {
 		JPanel t = new JPanel(new GridLayout(2,1,5,5));
-		 t.setBorder(new TitledBorder(new LineBorder(Color.black,1)));
-
-		t.setBounds(800,300,270,150);
+		t.setBackground(new Color(115,52,211));
+		
+		t.setBounds(800,300,230,130);
 		
 		 b_signup = new JButton("회원가입");
 		 b_login = new JButton("로그인");
@@ -111,18 +81,5 @@ public class StartLogin extends JPanel{
 		
 		return t;
 	}
-	
-	/*private void addEventListener() {
-		this.addMouseListener(this);
-	}*/
-	
-	public void mouseClicked(MouseEvent e) {
-		Rectangle r = Jlabel.getBounds();
-		e.getX();
-		e.getY();
-		System.out.println("(x,y): "+e.getX()+e.getY());
-		Jlabel.setLocation(e.getX()-r.width,e.getY()-r.height);
-	}
-	
 	
 }
