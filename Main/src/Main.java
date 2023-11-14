@@ -39,9 +39,7 @@ public class Main {
         t.setOpaque(true);
         return t;
     }
-    protected static JFrame getFrame() {
-    	return frame;
-    }
+
     static public JPanel createPlayerPanel(){
         JPanel t = new JPanel(new GridLayout(0,1,0,5));//0을 입력하면 제한없이 받는 거임.
         //플레이어는 아래로 계속 뜨게끔 만들 거임.
@@ -64,7 +62,7 @@ public class Main {
     Main(){
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new StartLogin(frame));
+        frame.add(new GameRoom(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
