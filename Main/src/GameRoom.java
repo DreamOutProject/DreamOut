@@ -1,3 +1,4 @@
+package Main.src;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -87,6 +88,18 @@ public class GameRoom extends JPanel {
     	@Override
     	public void mouseClicked(MouseEvent e) {
     		super.mouseClicked(e);
+    		System.out.println("지금 클릭되었습니다.");
+    		JButton temp = (JButton) e.getComponent();
+    		
+    		if(temp.getText().charAt(1)== 'h') {//2번 클릭인지 확인
+    			button_num = 2;
+    		}else {
+    			button_num = 1;
+    		}
+    	}
+    	@Override
+    	public void mousePressed(MouseEvent e) {
+    		super.mousePressed(e);
     		System.out.println("지금 클릭되었습니다.");
     		JButton temp = (JButton) e.getComponent();
     		
