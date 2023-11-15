@@ -22,7 +22,8 @@ public class GameRoom extends JPanel {
     GameRoom(JFrame frame){
     	Main.init(this);
         //주제 선택창
-        topic = new JComboBox(topics);
+        topic = new JComboBox<>(topics);
+
         topic.setLocation(700,75);
         topic.setSize(350,80);
 

@@ -6,7 +6,7 @@ public class GameEndRoom extends JPanel {
     private JScrollPane displayScroll;//그림 스크롤
     private JTextArea t_display;//그림 그린 것들이 뜨는 곳
 
-    GameEndRoom(){
+    GameEndRoom(JFrame f){
             Main.init(this);
 
 

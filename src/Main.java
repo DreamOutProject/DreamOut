@@ -2,9 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.Socket;
 
 public class Main {
     private static JFrame frame;
+    protected static Socket s;//소켓
     static void init(JPanel t){
         t.setLayout(null);//패널 자유롭게 셋팅하기
         t.setBackground(new Color(115,52,211));
@@ -39,9 +42,7 @@ public class Main {
         t.setOpaque(true);
         return t;
     }
-    protected static JFrame getFrame() {
-    	return frame;
-    }
+
     static public JPanel createPlayerPanel(){
         JPanel t = new JPanel(new GridLayout(0,1,0,5));//0을 입력하면 제한없이 받는 거임.
         //플레이어는 아래로 계속 뜨게끔 만들 거임.
@@ -60,11 +61,17 @@ public class Main {
         return t;
     }
 
-
+    public static void test(){
+        try {
+            s = new Socket("localhost",54321);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     Main(){
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new StartLogin(frame));
+        frame.add(new GameRoom(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);

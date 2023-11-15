@@ -1,1 +1,8 @@
-/bin/
+### IntelliJ IDEA ###
+out
+*.iml
+.idea
+
+
+### Mac OS ###
+.DS_Store

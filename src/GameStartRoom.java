@@ -11,10 +11,13 @@ public class GameStartRoom extends JPanel {
     private int round;
 
     private final int WIDTH = 900;
+    private Thread timer;
 
     GameStartRoom(JFrame f){
         Main.init(this);
         this.round=1;//처음 라운드는 1이다.
+        timer = new MyThread(f);
+        timer.start();
         //진행바
         timeBar = new JLabel("");
         timeBar.setOpaque(true);
@@ -63,5 +66,34 @@ public class GameStartRoom extends JPanel {
         add(t_input);
         add(l_pallete);
     }
-    
+
+    class MyThread extends Thread {
+        int insertTime=5;
+        int time=insertTime;
+        private JFrame MainFrame;
+        MyThread(JFrame f){this.MainFrame = f;}
+        @Override
+        public void run() {
+            super.run();
+            while(round!=3){
+                try {
+                    while(time!=0){
+                        System.out.println("Time : "+ time);
+                        Thread.sleep(1000);//1초 기다리고
+                        time--;
+                    }
+                } catch (InterruptedException e) {}
+                round++;
+                client.setText("Round : "+round+"/8");
+                System.out.println("현재 라운드 : " + round);
+                time=--insertTime;
+                MainFrame.repaint();
+                MainFrame.revalidate();
+            }
+            MainFrame.getContentPane().removeAll();
+            MainFrame.add(new GameEndRoom(MainFrame));
+            MainFrame.revalidate();
+            MainFrame.repaint();
+        }
+    }
 }
