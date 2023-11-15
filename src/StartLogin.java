@@ -164,7 +164,7 @@ public class StartLogin extends JPanel{
 					else {
 						setVisible(false);
 						mainFrame.getContentPane().removeAll();
-						mainFrame.add(new WaitRoom());
+						mainFrame.add(new WaitRoom(mainFrame));
 						mainFrame.revalidate();
 						mainFrame.repaint(); 
 					}
