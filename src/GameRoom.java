@@ -59,6 +59,8 @@ public class GameRoom extends JPanel {
 					f.add(new GameStartRoom(f));
 					f.revalidate();
 					f.repaint();
+				}else{
+					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
 				}
 			}
 		});

@@ -18,84 +18,84 @@ public class StartLogin extends JPanel{
 	StartLogin(JFrame frame) {
 
 		user = new UserData();
-		
+
 		buildGUI();
 		setLayout(null);
 		setBackground(new Color(115,52,211));
         setSize(1280,720);
         setVisible(true);
         addActionListener(frame);
-        
 
-        
+
+
     }
-	
+
 	public UserData getUsers() {
 		return user;
 	}
-	
+
 	public void buildGUI(){
 		add(createNamePanel());
 		add(createLoginPanel());
         add(createButtonPanel());
-       
+
     }
-	
-	
+
+
 	public JPanel createNamePanel(){
         JPanel t = new JPanel();
         t.setBackground(new Color(115,52,211));
         f1 = new Font("바탕",Font.ITALIC, 60);
         a = new JLabel("DreamOut");
         a.setHorizontalAlignment(JLabel.CENTER);
-        
+
         a.setFont(f1);
         t.setBounds(426, 40, 426,100);
         t.add(a);
-        
+
         return t;
     }
-	
+
 	public JPanel createLoginPanel() {
 		JPanel t = new JPanel(new GridLayout(3,2,10,10));
 		t.setBackground(new Color(115,52,211));
 		lab1 = new JLabel("이메일",Jlabel.RIGHT);
 		lab1.setFont(new Font("바탕",Font.BOLD,20));
 		email = new JTextField(20);
-		
+
 		lab2 = new JLabel("비밀번호",Jlabel.RIGHT);
 		lab2.setFont(new Font("바탕",Font.BOLD,20));
 		pw = new JPasswordField(20);
-		
+
 		t.setBounds(130,300,380,200);
-		
+
 		t.add(lab1);
 		t.add(email);
 		t.add(lab2);
 		t.add(pw);
-		
-		
+
+
 		return t;
 	}
-	
+
 	public JPanel createButtonPanel() {
 		JPanel t = new JPanel(new GridLayout(2,1,5,5));
 		t.setBackground(new Color(115,52,211));
-		
+
 		t.setBounds(800,300,230,130);
-		
+
 		 b_signup = new JButton("회원가입");
 		 b_login = new JButton("로그인");
-		 
+
 		 t.add(b_signup);
 		 t.add(b_login);
-		
+
 		return t;
 	}
-	
+
 
 	public void addActionListener(JFrame mainFrame) {
-		
+
 		b_signup.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -119,6 +119,7 @@ public class StartLogin extends JPanel{
 					}
 					//가입 성공
 					else {
+
 						user.addUser(new User(
 							email.getText(),
 							String.valueOf(pw.getPassword())
@@ -129,10 +130,10 @@ public class StartLogin extends JPanel{
                         );
 					}
 				}
-				
+
 			}
 		});
-		
+
 		b_login.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -142,7 +143,7 @@ public class StartLogin extends JPanel{
                             StartLogin.this,
                             "이메일을 입력하세요"
                     );
-					
+
 				}
 				//아이디가 있을 때
 				else if(user.contains(new User(email.getText()))) {
@@ -166,7 +167,7 @@ public class StartLogin extends JPanel{
 						mainFrame.getContentPane().removeAll();
 						mainFrame.add(new WaitRoom());
 						mainFrame.revalidate();
-						mainFrame.repaint(); 
+						mainFrame.repaint();
 					}
 				}
 				//존재하지 않는 이메일일 때
@@ -176,12 +177,12 @@ public class StartLogin extends JPanel{
                             "존재하지 않는 이메일입니다"
                     );
 				}
-				
+
 			}
 		});
-		
+
 	}
-	
+
 	public boolean isBlank() {
 		boolean a = false;
 		if(email.getText().isEmpty()) {
@@ -194,5 +195,5 @@ public class StartLogin extends JPanel{
 		}
 		return a;
 	}
-	
+
 }

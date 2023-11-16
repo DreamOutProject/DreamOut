@@ -69,6 +69,7 @@ public class Main {
         }
     }
     Main(){
+        test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
         frame.add(new GameRoom(frame));
