@@ -1,8 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class GameStartRoom extends JPanel {
-    private JLabel timeBar;//시간 진행률
+    private JProgressBar timeBar;//시간 진행률
     private JTextArea t_display;//그림 그리는 판
     private JTextField t_input;//글자를 입력할 수 있고 없고.
     private JLabel l_pallete;//팔렛트
@@ -13,18 +14,22 @@ public class GameStartRoom extends JPanel {
     private final int WIDTH = 900;
     private Thread timer;
 
+
+
     GameStartRoom(JFrame f){
         Main.init(this);
         this.round=1;//처음 라운드는 1이다.
-        timer = new MyThread(f);
-        timer.start();
         //진행바
-        timeBar = new JLabel("");
+        timeBar = new JProgressBar(0,60);
+        //timeBar.
+        timeBar.setFont(new Font("맑은 고딕",Font.BOLD,30));
         timeBar.setOpaque(true);
-        timeBar.setBackground(Color.WHITE);
-        timeBar.setLocation(210,40);
-        timeBar.setSize(WIDTH,40);
+        timeBar.setStringPainted(true);
+        timeBar.setBackground(Color.GREEN);
+        timeBar.setBounds(210,40,WIDTH,50);
 
+        timeBar.setValue(60);
+        timeBar.setString("60초");
 
         //display
         t_display = new JTextArea();
@@ -65,10 +70,14 @@ public class GameStartRoom extends JPanel {
         add(t_display);
         add(t_input);
         add(l_pallete);
+
+
+        timer = new MyThread(f);
+        //timer.start();
     }
 
     class MyThread extends Thread {
-        int insertTime=5;
+        int insertTime=60;
         int time=insertTime;
         private JFrame MainFrame;
         MyThread(JFrame f){this.MainFrame = f;}
@@ -78,7 +87,8 @@ public class GameStartRoom extends JPanel {
             while(round!=3){
                 try {
                     while(time!=0){
-                        System.out.println("Time : "+ time);
+                        timeBar.setValue(time);
+                        timeBar.setString(time+"초");
                         Thread.sleep(1000);//1초 기다리고
                         time--;
                     }

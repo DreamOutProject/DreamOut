@@ -3,11 +3,15 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class Main {
     private static JFrame frame;
     protected static Socket s;//소켓
+    protected static ObjectOutputStream out;
+    protected static ObjectInputStream in;
     static void init(JPanel t){
         t.setLayout(null);//패널 자유롭게 셋팅하기
         t.setBackground(new Color(115,52,211));
@@ -43,40 +47,62 @@ public class Main {
         return t;
     }
 
-    static public JPanel createPlayerPanel(){
-        JPanel t = new JPanel(new GridLayout(0,1,0,5));//0을 입력하면 제한없이 받는 거임.
-        //플레이어는 아래로 계속 뜨게끔 만들 거임.
-        t.setBackground(new Color(77,34,146));
-
-        JLabel player = NewLabel("플레이어 인원 0/8",23);
-        player.setForeground(new Color(191,179,215));
-        player.setBackground(new Color(77,37,148));
-        t.add(player);
-
-        for(int i=0;i<15;i++){
-            JLabel temp = NewLabel("비어 있음",18,new Color(76,41,160));
-            temp.setForeground(new Color(119,70,224));
-            t.add(temp);
-        }
-        return t;
-    }
-
     public static void test(){
         try {
             s = new Socket("localhost",54321);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            out = new ObjectOutputStream(s.getOutputStream());
+            in = new ObjectInputStream(s.getInputStream());
+            out.writeObject(new ObjectMsg(new User(12,12),"회원가입"));
+            in.readObject();
+            new reapaintThread().start();
+        } catch (IOException | ClassNotFoundException ignored) {}
     }
     Main(){
         test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new GameRoom(frame));
+        frame.add(new GameStartRoom(frame));
+        JFrame.setDefaultLookAndFeelDecorated(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+
     }
 
     public static void main(String[] args) {new Main();}
+
+    static class reapaintThread extends Thread{
+        JFrame frame;
+        Socket paintSocket;
+        ObjectInputStream in;
+        reapaintThread(){
+            frame=Main.frame;
+            try{
+                paintSocket = new Socket("localhost",54321);
+                in = new ObjectInputStream(paintSocket.getInputStream());
+
+            }catch(IOException ignored){}
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            //해당하는 곳에서는 repaint명령이 떨어지면 계속 화면을 그려줘야 된다.
+
+            while(true){
+                try{
+                    ObjectMsg msg =(ObjectMsg) in.readObject();
+                    if(msg.getMsg()==null);
+                    else if(msg.getMsg().equals("repaint")){//화면 다시 그려주기
+                        frame.revalidate();
+                        frame.repaint();
+                        System.out.println("화면을 다시 그렸습니다.");
+                    }
+                }catch (IOException | ClassNotFoundException e){
+                    System.err.println("잘못된 데이터를 불러왔습니다.");
+                    break;
+                }
+            }
+        }
+    }
 }

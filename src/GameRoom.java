@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class GameRoom extends JPanel {
     private JScrollPane scrollPane;//플레이어 스크롤 바
@@ -19,8 +20,17 @@ public class GameRoom extends JPanel {
     String[] topics=  {"일상생활", "스포츠","전자기기","랜덤"};
     
     private int button_num = -1;
+	private Room room;
     GameRoom(JFrame frame){
     	Main.init(this);
+		try {
+			//Main.out.writeObject(new ObjectMsg(new User(12,12),"방접근",12));
+			Main.out.writeObject(new ObjectMsg("방정보",12));
+
+			ObjectMsg temp = (ObjectMsg)Main.in.readObject();
+			System.out.println(temp);
+			room = temp.getRoom();
+		} catch (IOException | ClassNotFoundException ignored) {}
         //주제 선택창
         topic = new JComboBox<>(topics);
 
@@ -34,7 +44,7 @@ public class GameRoom extends JPanel {
         l_topic.setLocation(650,100);
 
         //스크롤
-        scrollPane = new JScrollPane(Main.createPlayerPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane = new JScrollPane(createPlayerPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setSize(300,400);
         scrollPane.setLocation(250, 160);
 
@@ -64,10 +74,29 @@ public class GameRoom extends JPanel {
 				}
 			}
 		});
-        
-        
+
         t.add(createGamePanel(),BorderLayout.CENTER);
         t.add(b_choice,BorderLayout.SOUTH);
+		return t;
+	}
+	public JPanel createPlayerPanel(){
+		JPanel t = new JPanel(new GridLayout(0,1,0,5));//0을 입력하면 제한없이 받는 거임.
+		//플레이어는 아래로 계속 뜨게끔 만들 거임.
+		t.setBackground(new Color(77,34,146));
+
+		JLabel player = Main.NewLabel("플레이어 인원 "+room.getUsers().size()+"/"+room.getRoomSize(),23);
+		player.setForeground(new Color(191,179,215));
+		player.setBackground(new Color(77,37,148));
+		t.add(player);
+		for(int i=0;i<room.getUsers().size();i++){
+			JLabel temp = Main.NewLabel(room.getUsers().elementAt(i).getId()+"",18);
+			t.add(temp);
+		}
+		for(int i=0;i<15;i++){
+			JLabel temp = Main.NewLabel("비어 있음",18,new Color(76,41,160));
+			temp.setForeground(new Color(119,70,224));
+			t.add(temp);
+		}
 		return t;
 	}
 	public JPanel createGamePanel(){
