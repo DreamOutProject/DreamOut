@@ -1,3 +1,10 @@
+package com.Main;
+
+import com.CommunicateObject.*;
+import com.CommunicateObject.User;
+import com.Room.*;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -7,33 +14,19 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+
 public class Main {
     private static JFrame frame;
     protected static Socket s;//소켓
-    protected static ObjectOutputStream out;
-    protected static ObjectInputStream in;
-    static void init(JPanel t){
-        t.setLayout(null);//패널 자유롭게 셋팅하기
-        t.setBackground(new Color(115,52,211));
-        JLabel Logo =new JLabel("DREAM OUT");
-        Logo.setLocation(15,5);
-        Logo.setFont(new Font("궁서체",Font.ITALIC,30));
-        Logo.setSize(200,110);
-        t.add(Logo);
-        t.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                System.out.println(e.getPoint());
-            }
-        });
-        t.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                super.mouseDragged(e);
-                System.out.println(e.getPoint());
-            }
-        });
+    public static ObjectOutputStream out;
+    public static ObjectInputStream in;
+    public static User my = null;//로그인 안 했을 때
+    public static Room room=null;//현재 접속하고 있는 방 정보
+
+    public static void Transition_go(RoomPanel panel){
+        frame.setContentPane(panel);
+        frame.revalidate();
+        frame.repaint();
     }
     static public JLabel NewLabel(String insertMsg,int size){//빈 라벨
         return NewLabel(insertMsg,size,new Color(202,190,224));
@@ -52,24 +45,25 @@ public class Main {
             s = new Socket("localhost",54321);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
-            out.writeObject(new ObjectMsg(new User(12,12),"회원가입"));
+            ObjectMsg msg = new User(new StringMsg("회원가입"),12,12);
+            out.writeObject(msg);
             in.readObject();
             new reapaintThread().start();
         } catch (IOException | ClassNotFoundException ignored) {}
     }
     Main(){
-        test();//테스트 서버 접속
+        //test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new GameStartRoom(frame));
+        frame.add(new GameRoom(frame));
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
     }
-
     public static void main(String[] args) {new Main();}
+
+
 
     static class reapaintThread extends Thread{
         JFrame frame;
@@ -80,7 +74,6 @@ public class Main {
             try{
                 paintSocket = new Socket("localhost",54321);
                 in = new ObjectInputStream(paintSocket.getInputStream());
-
             }catch(IOException ignored){}
         }
 
@@ -88,7 +81,6 @@ public class Main {
         public void run() {
             super.run();
             //해당하는 곳에서는 repaint명령이 떨어지면 계속 화면을 그려줘야 된다.
-
             while(true){
                 try{
                     ObjectMsg msg =(ObjectMsg) in.readObject();

@@ -1,11 +1,11 @@
-import java.io.Serializable;
+package com.CommunicateObject;
 
-public class User implements Serializable {
+public class User extends ObjectMsgDecorator{
 	private Integer id;
 	private Integer pw;
 	//나중에 업데이트 사항 private String nick;
-
-	User(Integer id, Integer pw){
+	public User(ObjectMsg obj,Integer id, Integer pw){
+		super(obj);
 		this.id = id;
 		this.pw = pw;
 	}
@@ -15,6 +15,6 @@ public class User implements Serializable {
         return this.id.equals(us.getId()) && this.pw.equals(us.getPw());
     }
 	public boolean IsPw(User u) {return this.pw.equals(u.getPw());}
-	@Override
-	public String toString() {return " id : " + id +  "pw : "+ pw;}
+	public void setId(Integer id){this.id=id;}
+	public void setPw(Integer pw){this.pw=pw;}
 }

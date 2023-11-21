@@ -1,10 +1,16 @@
+package com.Room;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.util.Vector;
 
-public class GameRoom extends JPanel {
+import com.Main.Main;
+import com.CommunicateObject.*;
+
+
+public class GameRoom extends RoomPanel {
     private JScrollPane scrollPane;//플레이어 스크롤 바
     private String firstsentence = "<HTML><h3>1. 스피드 게임 </h3>" +
             "<ol><li>60초 45초 빠르게 줄여가는 시간 속에서 해당 주제에 대한 그림을 그려보세요!<BR>" +
@@ -20,20 +26,25 @@ public class GameRoom extends JPanel {
     String[] topics=  {"일상생활", "스포츠","전자기기","랜덤"};
     
     private int button_num = -1;
-	private Room room;
-    GameRoom(JFrame frame){
-    	Main.init(this);
-		try {
-			//Main.out.writeObject(new ObjectMsg(new User(12,12),"방접근",12));
-			Main.out.writeObject(new ObjectMsg("방정보",12));
+	private final Room room;
+	private final Vector<User> temp;
+    public GameRoom(JFrame frame){
+		super();
 
-			ObjectMsg temp = (ObjectMsg)Main.in.readObject();
-			System.out.println(temp);
-			room = temp.getRoom();
-		} catch (IOException | ClassNotFoundException ignored) {}
+		ObjectMsg t = new StringMsg("방");
+		room = new Room(t,12,12,12);
+        temp = room.getUsers();
+		temp.add(new User(t,12,12));
+		temp.add(new User(t,123,123));
+		temp.add(new User(t,1234,12));
+		temp.add(new User(t,12322,123));
+		temp.add(new User(t,122234,12));
+		temp.add(new User(t,12234324,12));
+		temp.add(new User(t,123234234,123));
+		temp.add(new User(t,12323232,123));
+
         //주제 선택창
         topic = new JComboBox<>(topics);
-
         topic.setLocation(700,75);
         topic.setSize(350,80);
 
@@ -48,22 +59,24 @@ public class GameRoom extends JPanel {
         scrollPane.setSize(300,400);
         scrollPane.setLocation(250, 160);
 
-        
-        add(topic);
+
+		add(topic);
         add(scrollPane);
         add(l_topic);
         add(createRightPanel(frame));//게임 선택 패널
+
     }
 	public JPanel createRightPanel(JFrame f) {
 		JPanel t = new JPanel(new BorderLayout());
 		t.setSize(500,400);
         t.setLocation(620, 160);
+
+
 		JButton b_choice = new JButton("시작하기");
 		b_choice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				
 				if(button_num !=-1) {
 					f.getContentPane().removeAll();
 					f.add(new GameStartRoom(f));
@@ -73,53 +86,67 @@ public class GameRoom extends JPanel {
 					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
 				}
 			}
+			public void mousePressed(MouseEvent e) {
+				super.mousePressed(e);
+				if(button_num !=-1) {
+					Main.Transition_go(new GameStartRoom(f));
+				}else{
+					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
+				}
+			}
 		});
 
         t.add(createGamePanel(),BorderLayout.CENTER);
         t.add(b_choice,BorderLayout.SOUTH);
+
 		return t;
 	}
 	public JPanel createPlayerPanel(){
 		JPanel t = new JPanel(new GridLayout(0,1,0,5));//0을 입력하면 제한없이 받는 거임.
+		t.setPreferredSize(new Dimension(300,500));
 		//플레이어는 아래로 계속 뜨게끔 만들 거임.
 		t.setBackground(new Color(77,34,146));
-
 		JLabel player = Main.NewLabel("플레이어 인원 "+room.getUsers().size()+"/"+room.getRoomSize(),23);
 		player.setForeground(new Color(191,179,215));
 		player.setBackground(new Color(77,37,148));
 		t.add(player);
+
+		int total=room.getRoomSize();
 		for(int i=0;i<room.getUsers().size();i++){
-			JLabel temp = Main.NewLabel(room.getUsers().elementAt(i).getId()+"",18);
+			JLabel temp = Main.NewLabel(room.getUsers().get(i).getId()+"",18);
 			t.add(temp);
 		}
-		for(int i=0;i<15;i++){
+
+		for(int i=0;i<total-room.getUsers().size();i++){
 			JLabel temp = Main.NewLabel("비어 있음",18,new Color(76,41,160));
 			temp.setForeground(new Color(119,70,224));
 			t.add(temp);
 		}
 		return t;
 	}
+
 	public JPanel createGamePanel(){
     	JPanel t = new JPanel(new GridLayout(1,2));
-        
-
+		//첫 번쨰 버튼
         JButton first = new JButton(firstsentence);
+		first.addMouseListener(new Clicked());
+		first.setHorizontalAlignment(JButton.CENTER);
+
+		//두 번째 버튼
         JButton second= new JButton(secondsentence);
-        first.setHorizontalAlignment(JButton.CENTER);
         second.setHorizontalAlignment(JButton.CENTER);
-        first.addMouseListener(new clicked());
-        second.addMouseListener(new clicked());
+        second.addMouseListener(new Clicked());
+
+
         t.add(first);
         t.add(second);
         return t;
     }
-    class clicked extends MouseAdapter{
+    class Clicked extends MouseAdapter{
     	@Override
     	public void mouseClicked(MouseEvent e) {
     		super.mouseClicked(e);
-    		System.out.println("지금 클릭되었습니다.");
     		JButton temp = (JButton) e.getComponent();
-    		
     		if(temp.getText().charAt(1)== 'h') {//2번 클릭인지 확인
     			button_num = 2;
     		}else {
@@ -139,5 +166,4 @@ public class GameRoom extends JPanel {
     		}
     	}
     }
-
 }

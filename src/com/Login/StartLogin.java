@@ -119,7 +119,7 @@
 //                //가입 성공
 //                else {
 //
-//                    user.addUser(new User(
+//                    user.addUser(new CommunicateObject.User(
 //                        email.getText(),
 //                        String.valueOf(pw.getPassword())
 //                            ));
@@ -142,7 +142,7 @@
 //
 //            }
 //            //아이디가 있을 때
-//            else if(user.contains(new User(email.getText()))) {
+//            else if(user.contains(new CommunicateObject.User(email.getText()))) {
 //                //비밀번호가 비었을 때
 //                if(String.valueOf(pw.getPassword()).isEmpty()) {
 //                    JOptionPane.showMessageDialog(
