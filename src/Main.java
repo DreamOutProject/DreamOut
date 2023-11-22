@@ -71,7 +71,7 @@ public class Main {
     Main(){
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new StartLogin(frame));
+        frame.add(new GameRoom(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
