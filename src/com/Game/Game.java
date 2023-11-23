@@ -16,11 +16,11 @@ import java.util.Vector;
 public class Game{//
     private final JFrame mainFrame;
     public static Vector<Point>point = null;
-    public Game(JFrame f,JProgressBar timeBar,JLabel client){
+    public Game(JFrame f,JProgressBar timeBar,JLabel client,JLabel p){
         mainFrame = f;//메인 프레임 넣어주기
         point = new Vector<>();
         //시간 흐르기
-        new TimeThread(f,timeBar,client).start();
+        new TimeThread(f,timeBar,client,p).start();
     }
 
 }

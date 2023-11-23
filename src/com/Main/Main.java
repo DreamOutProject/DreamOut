@@ -24,6 +24,7 @@ public class Main {
     public static Room room=null;//현재 접속하고 있는 방 정보
 
     public static void Transition_go(RoomPanel panel){
+        frame.getContentPane().removeAll();
         frame.setContentPane(panel);
         frame.revalidate();
         frame.repaint();
@@ -55,11 +56,11 @@ public class Main {
         //test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.add(new GameRoom(frame));
-        JFrame.setDefaultLookAndFeelDecorated(true);
+        frame.setContentPane(new GameRoom(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
+
     }
     public static void main(String[] args) {new Main();}
 

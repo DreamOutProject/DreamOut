@@ -29,8 +29,6 @@ public class GameRoom extends RoomPanel {
 	private final Room room;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
-		super();
-
 		ObjectMsg t = new StringMsg("방");
 		room = new Room(t,12,12,12);
         temp = room.getUsers();
@@ -45,8 +43,7 @@ public class GameRoom extends RoomPanel {
 
         //주제 선택창
         topic = new JComboBox<>(topics);
-        topic.setLocation(700,75);
-        topic.setSize(350,80);
+		topic.setBounds(700,100,350,40);
 
         //주제 라벨
         JLabel l_topic=new JLabel("주제 ->");
@@ -64,7 +61,6 @@ public class GameRoom extends RoomPanel {
         add(scrollPane);
         add(l_topic);
         add(createRightPanel(frame));//게임 선택 패널
-
     }
 	public JPanel createRightPanel(JFrame f) {
 		JPanel t = new JPanel(new BorderLayout());
@@ -78,10 +74,7 @@ public class GameRoom extends RoomPanel {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				if(button_num !=-1) {
-					f.getContentPane().removeAll();
-					f.add(new GameStartRoom(f));
-					f.revalidate();
-					f.repaint();
+					Main.Transition_go(new GameStartRoom(f));
 				}else{
 					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
 				}

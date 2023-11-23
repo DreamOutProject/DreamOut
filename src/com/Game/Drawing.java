@@ -6,9 +6,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Drawing extends MouseAdapter {
-    private JPanel t_display;
+    private JLabel t_display;
     private JLabel client;
-    public Drawing(JPanel d,JLabel temp){
+    public Drawing(JLabel d,JLabel temp){
         t_display = d;
         client = temp;
     }
@@ -18,7 +18,6 @@ public class Drawing extends MouseAdapter {
         Game.point.add(null);//널은 처음을 구분하기 위해
         Game.point.add(e.getPoint());
         t_display.repaint();
-        t_display.revalidate();
         client.repaint();
     }
 
@@ -28,7 +27,6 @@ public class Drawing extends MouseAdapter {
         Game.point.add(e.getPoint());
         t_display.repaint();
         client.repaint();
-        client.revalidate();
     }
     @Override
     public void mousePressed(MouseEvent e) {
@@ -37,13 +35,11 @@ public class Drawing extends MouseAdapter {
         Game.point.add(e.getPoint());
         t_display.repaint();
         client.repaint();
-        client.revalidate();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
         client.repaint();
-        client.revalidate();
     }
 }
