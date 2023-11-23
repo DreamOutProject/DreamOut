@@ -13,7 +13,6 @@ public class GameEndRoom extends RoomPanel {
     private Room room=new Room(null,12,12,12);
     private Vector<User>temp;
     public GameEndRoom(JFrame f){
-
         temp = room.getUsers();
         temp.add(new User(null,12,12));
         temp.add(new User(null,123,123));
@@ -32,8 +31,6 @@ public class GameEndRoom extends RoomPanel {
         //사진들
         t_display = new JPanel(new GridLayout(0,2));
         t_display.setBackground(Color.WHITE);
-
-
         //스크린 스크롤
         displayScroll = new JScrollPane(t_display,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         displayScroll.setBounds(550,160,660,400);
