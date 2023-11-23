@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 
 public abstract class RoomPanel extends JPanel {
     public RoomPanel(){
-        System.out.println("여기 도달 했습니다.");
         setLayout(null);//패널 자유롭게 셋팅하기
         setBackground(Colors.MainColor);
 
