@@ -19,7 +19,9 @@ public abstract class ObjectMsg implements Serializable {
     public static final int ROOM_VIEW = 0x14;//방 보이기
     public static final int GAME_START_MODE = 0x15;//게임 시작
     public static final int TEMP = 0xA;
+    public ObjectMsg obj;
 
     public abstract void setMsgMode(int mode);
     public abstract int getMsgMode();
+    public ObjectMsg getObj(){return this.obj;}
 }

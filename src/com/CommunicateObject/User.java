@@ -6,6 +6,7 @@ public class User extends ObjectMsgDecorator{
 	//나중에 업데이트 사항 private String nick;
 	public User(ObjectMsg obj,Integer id, Integer pw){
 		super(obj);
+		this.obj = obj;
 		this.id = id;
 		this.pw = pw;
 	}
