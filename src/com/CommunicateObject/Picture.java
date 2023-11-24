@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.util.Vector;
 
 public class Picture extends ObjectMsgDecorator{
-    private Vector<JLabel>picture;
+    private Vector<JLabel>picture;//누구 유저의 그림앨범
     public Picture(ObjectMsg obj,Vector<JLabel> insert ) {
         super(obj);
         picture = insert;
