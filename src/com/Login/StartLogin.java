@@ -1,14 +1,20 @@
 package com.Login;
 
+import com.CommunicateObject.MsgMode;
 import com.CommunicateObject.ObjectMsg;
 import com.CommunicateObject.StringMsg;
 import com.CommunicateObject.User;
+import com.Main.Main;
+import com.Room.GameRoom;
+import com.Room.GameStartRoom;
 import com.Room.WaitRoom;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.*;
+import java.util.Arrays;
+import java.util.Objects;
 import javax.swing.*;
 
 
@@ -16,27 +22,22 @@ public class StartLogin extends JPanel{
     private JButton b_login, b_signup;
     private Font f1;
     private JLabel a;
-    private JTextField email;
-    private JPasswordField pw;
+    private JTextField email,pw;
     private JLabel Jlabel,lab1,lab2;
     private User user;
-    private Socket socket;
-
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
 
 
-    StartLogin(JFrame frame) throws IOException {
 
+
+    public StartLogin(JFrame frame) {
+        super();
 
         buildGUI();
         setLayout(null);
         setBackground(new Color(115,52,211));
         setSize(1280,720);
         setVisible(true);
-        connectToServer();
         addActionListener(frame);
-
 
 
     }
@@ -72,7 +73,7 @@ public class StartLogin extends JPanel{
 
         lab2 = new JLabel("비밀번호",Jlabel.RIGHT);
         lab2.setFont(new Font("바탕",Font.BOLD,20));
-        pw = new JPasswordField(20);
+        pw = new JTextField(20);
 
         t.setBounds(130,300,380,200);
 
@@ -101,7 +102,8 @@ public class StartLogin extends JPanel{
     }
 
 
-    public void addActionListener(JFrame mainFrame) {
+    public void addActionListener(JFrame f) {
+
 
         b_signup.addActionListener(new ActionListener() {
             @Override
@@ -117,19 +119,21 @@ public class StartLogin extends JPanel{
                 else {
                     try {
                         // user 정보 서버로 보내기
-                        out.writeObject(new User(
-                                new StringMsg("회원가입"),
+                        Main.out.writeObject(new User(
+                                new MsgMode(ObjectMsg.REGISTER_MODE),
                                 Integer.parseInt(email.getText()),
-                                Integer.parseInt(String.valueOf(pw.getPassword()))
-                        ));
+                                Integer.parseInt(pw.getText())
+                                ));
+
 
                         // 서버에서 user 정보 읽어오기
-                        ObjectMsg response = (ObjectMsg) in.readObject();
+                        ObjectMsg response = (ObjectMsg) Main.in.readObject();
 
-                        if (response instanceof StringMsg && response.getMsg().equals("회원가입 성공")) {
+                        if (response.getMsgMode() == ObjectMsg.SUCESSED) {
                             JOptionPane.showMessageDialog(
                                     StartLogin.this,
                                     "회원 가입 성공!"
+
                             );
                         } else {
                             JOptionPane.showMessageDialog(
@@ -158,69 +162,55 @@ public class StartLogin extends JPanel{
                 }
                 //아이디가 있을 때
                 else {
+//                    //메인에 있는 예시의 유저로 로그인
+//                    ObjectMsg t = new MsgMode(ObjectMsg.MSG_MODE);
+//                    if ((Integer.parseInt(email.getText()) == Main.my.getId())&& (Integer.parseInt(pw.getText()) == Main.my.getId())) {
+//                        Main.Transition_go(new WaitRoom(f));
+//                    }
+
+
+
+                    //서버에서 아이디, 비번 불러 줄 경우 아래 코드 활성화
                     try {
+                        Main.my = new User(null,Integer.parseInt(email.getText()),Integer.parseInt(pw.getText()));
                         // 서버에게 로그인 보내기
-                        out.writeObject(new User(
-                                new StringMsg("로그인"),
+                        Main.out.writeObject(new User(
+                                new MsgMode(ObjectMsg.LOGIN_MODE),
                                 Integer.parseInt(email.getText()),
-                                Integer.parseInt(String.valueOf(pw.getPassword()))
+                                Integer.parseInt(pw.getText())
                         ));
 
                         // 서버에서 로그인 정보 가져오기
-                        ObjectMsg response = (ObjectMsg) in.readObject();
+                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
 
-                        if (response instanceof StringMsg responseMsg) {
-                            if (responseMsg.getMsg().equals("아이디 없음")) {
-                                JOptionPane.showMessageDialog(
-                                        StartLogin.this,
-                                        "존재하지 않는 이메일입니다"
-                                );
-                            } else if (responseMsg.getMsg().equals("비밀번호 미입력")) {
-                                JOptionPane.showMessageDialog(
-                                        StartLogin.this,
-                                        "비밀번호를 입력하세요"
-                                );
-                            } else if (responseMsg.getMsg().equals("비밀번호 불일치")) {
-                                JOptionPane.showMessageDialog(
-                                        StartLogin.this,
-                                        "비밀번호가 일치하지 않습니다"
-                                );
-                            } else if (responseMsg.getMsg().equals("로그인 성공")) {
-                                setVisible(false);
-                                mainFrame.getContentPane().removeAll();
-                                mainFrame.add(new WaitRoom(mainFrame));
-                                mainFrame.revalidate();
-                                mainFrame.repaint();
-                            }
+                        if(Objects.equals(response.getMsgMode(), ObjectMsg.SUCESSED)){
+                            Main.Transition_go(new WaitRoom(f));
                         }
+                        else if(Objects.equals(response.getMsgMode(), ObjectMsg.FAILED)){
+                            JOptionPane.showMessageDialog(StartLogin.this, "로그인에 실패했습니다");
+                        }
+
                     } catch (IOException | ClassNotFoundException ex) {
-                        ex.printStackTrace();
+                        throw new RuntimeException(ex);
                     }
                 }
 
-            }
+                }
         });
 
     }
-
     public boolean isBlank() {
         boolean a = false;
         if(email.getText().isEmpty()) {
             email.requestFocus();
             return true;
         }
-        if(String.valueOf(pw.getPassword()).isEmpty()) {
+        if(String.valueOf(pw.getText()).isEmpty()) {
             pw.requestFocus();
             return true;
         }
         return a;
     }
-    //소켓 연결
-    public void connectToServer() throws IOException {
-        socket = new Socket();
-        out = new ObjectOutputStream(socket.getOutputStream());
-        in = new ObjectInputStream(socket.getInputStream());
 
-    }
 
 }
