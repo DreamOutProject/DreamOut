@@ -1,7 +1,6 @@
 package com.CommunicateObject;
 
 public class ObjectMsgDecorator extends ObjectMsg {
-    private ObjectMsg obj;
     public ObjectMsgDecorator(ObjectMsg obj){
         this.obj = obj;
     }

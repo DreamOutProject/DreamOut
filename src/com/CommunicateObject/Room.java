@@ -10,6 +10,7 @@ public class Room extends ObjectMsgDecorator {
 
     public Room(ObjectMsg obj,Integer roomId , Integer adminId,Integer roomSize){
         super(obj);
+        this.obj = obj;
         users = new Vector<>();
         this.roomId = roomId;
         this.adminId = adminId;
