@@ -14,6 +14,9 @@ public abstract class ObjectMsg implements Serializable {
     public static final int ENDING_START_MODE = 0x09;//방장이 엔딩화면 시작을 눌렀을 때
     public static final int ENDING_NEXT_MODE = 0x10;//다음으로 넘기고
     public static final int ENDING_PREV_MODE = 0x11;//엔딩 이전 앨범
+    public static final int SUCESSED = 0x12; // 성공
+    public static final int FAILED = 0x13; // 실패
+
     public static final int TEMP = 0xA;
 
     public abstract void setMsgMode(int mode);
