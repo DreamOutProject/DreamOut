@@ -57,11 +57,15 @@ public class TimeThread extends Thread {
                 public void run() {
                     super.run();
                     //해당하는 곳에서는 그림을 제대로 저장해주기 위해 쓰레드를 만들고 그림이 다 만들어지면 스레드를 종료한다.
-
+                    String path = "/Users/choejihun/Documents/GitHub/DreamOut/src/com/screenshot/" + round + ".png";
+                    JLabel temp = new JLabel(new ImageIcon(path));
+                    Game.picture.add(temp);
                 }
-            }
+            };
         }
-        Main.Transition_go(new GameEndRoom(MainFrame));
+        // ObejctMsg temp = new Picture(new MsgMode(ObjectMsg.PICTURE_MODE),Game.picture));
+        // out.writeObject(temp); //서버로 사진 파일 보내기
+        Main.Transition_go(new GameEndRoom(MainFrame));// 화면 전환해주기
     }
 
     private void saveToPicture(JLabel savePanel) {
@@ -72,7 +76,6 @@ public class TimeThread extends Thread {
         try{
             String path = "/Users/choejihun/Documents/GitHub/DreamOut/src/com/screenshot/" + round + ".png";
             ImageIO.write(image,"png", new File(path));
-            JOptionPane.showMessageDialog(MainFrame, "파일저장 성공");
         }catch(Exception ignored){}
     }
 }

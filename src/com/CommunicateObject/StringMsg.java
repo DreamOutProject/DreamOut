@@ -6,7 +6,6 @@ public class StringMsg extends ObjectMsgDecorator{
         super(obj);
         this.msg = msg;
     }
-    @Override
     public String getMsg() {
         if(msg==null)return"비어있는 메세지입니다.";
         return this.msg;

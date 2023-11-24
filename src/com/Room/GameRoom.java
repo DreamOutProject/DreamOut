@@ -8,10 +8,15 @@ import java.util.Vector;
 
 import com.Main.Main;
 import com.CommunicateObject.*;
+import com.Ui.Colors;
+import com.Ui.Fonts;
 
 
 public class GameRoom extends RoomPanel {
     private JScrollPane scrollPane;//플레이어 스크롤 바
+	private JButton first;
+	private JButton second;
+
     private String firstsentence = "<HTML><h3>1. 스피드 게임 </h3>" +
             "<ol><li>60초 45초 빠르게 줄여가는 시간 속에서 해당 주제에 대한 그림을 그려보세요!<BR>" +
             "촉박해진 시간 속에 다양한 그림들을 맛볼 수 있을 것입니다.</li></ol></HTML>";
@@ -29,7 +34,7 @@ public class GameRoom extends RoomPanel {
 	private final Room room;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
-		ObjectMsg t = new StringMsg("방");
+		ObjectMsg t = new MsgMode(ObjectMsg.MSG_MODE);
 		room = new Room(t,12,12,12);
         temp = room.getUsers();
 		temp.add(new User(t,12,12));
@@ -64,34 +69,40 @@ public class GameRoom extends RoomPanel {
     }
 	public JPanel createRightPanel(JFrame f) {
 		JPanel t = new JPanel(new BorderLayout());
+		JPanel south  = new JPanel(new GridLayout(1,0,10,0));
 		t.setSize(500,400);
         t.setLocation(620, 160);
 
-
-		JButton b_choice = new JButton("시작하기");
-		b_choice.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
-				if(button_num !=-1) {
-					Main.Transition_go(new GameStartRoom(f));
-				}else{
-					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
+		if(Main.my.getId() == room.getAdminId()){//현재 접속한 클라이언트가 방장일 때
+			JButton b_choice = new JButton("시작하기");//해당 버튼이 다른 것으로 띄워질 수도 있음
+			b_choice.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					super.mouseClicked(e);
+					if(button_num !=-1) {
+						Main.Transition_go(new GameStartRoom(f,button_num));
+					}else{
+						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
+					}
 				}
-			}
-			public void mousePressed(MouseEvent e) {
-				super.mousePressed(e);
-				if(button_num !=-1) {
-					Main.Transition_go(new GameStartRoom(f));
-				}else{
-					JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
+				public void mousePressed(MouseEvent e) {
+					super.mousePressed(e);
+					if(button_num !=-1) {
+						Main.Transition_go(new GameStartRoom(f,button_num));
+					}else{
+						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
+					}
 				}
-			}
-		});
-
+			});
+			south.add(b_choice);
+		}else{
+			JLabel waitingHost = new JLabel("방장의 게임 셋팅과 게임 시작을 기다립니다. :)");
+			waitingHost.setFont(Fonts.ShowFont);
+			waitingHost.setHorizontalAlignment(JLabel.CENTER);
+			south.add(waitingHost);
+		}
         t.add(createGamePanel(),BorderLayout.CENTER);
-        t.add(b_choice,BorderLayout.SOUTH);
-
+        t.add(south,BorderLayout.SOUTH);
 		return t;
 	}
 	public JPanel createPlayerPanel(){
@@ -106,7 +117,11 @@ public class GameRoom extends RoomPanel {
 
 		int total=room.getRoomSize();
 		for(int i=0;i<room.getUsers().size();i++){
-			JLabel temp = Main.NewLabel(room.getUsers().get(i).getId()+"",18);
+			StringBuilder insertMsg = new StringBuilder(room.getUsers().get(i).getId()+"");
+			if(room.getUsers().get(i).getId() == Main.my.getId()){
+				insertMsg.append("(ME)");
+			}
+			JLabel temp = Main.NewLabel(insertMsg.toString(),20);
 			t.add(temp);
 		}
 
@@ -121,15 +136,18 @@ public class GameRoom extends RoomPanel {
 	public JPanel createGamePanel(){
     	JPanel t = new JPanel(new GridLayout(1,2));
 		//첫 번쨰 버튼
-        JButton first = new JButton(firstsentence);
+        first = new JButton(firstsentence);
 		first.addMouseListener(new Clicked());
 		first.setHorizontalAlignment(JButton.CENTER);
+		first.setOpaque(true);
+		first.setBackground(Colors.GameMouserOut);
 
 		//두 번째 버튼
-        JButton second= new JButton(secondsentence);
+        second= new JButton(secondsentence);
         second.setHorizontalAlignment(JButton.CENTER);
         second.addMouseListener(new Clicked());
-
+		second.setOpaque(true);
+		second.setBackground(Colors.GameMouserOut);
 
         t.add(first);
         t.add(second);
@@ -142,19 +160,25 @@ public class GameRoom extends RoomPanel {
     		JButton temp = (JButton) e.getComponent();
     		if(temp.getText().charAt(1)== 'h') {//2번 클릭인지 확인
     			button_num = 2;
+				second.setBackground(Colors.GameMouseHover);
+				first.setBackground(Colors.GameMouserOut);
     		}else {
     			button_num = 1;
+				first.setBackground(Colors.GameMouseHover);
+				second.setBackground(Colors.GameMouserOut);
     		}
     	}
     	@Override
     	public void mousePressed(MouseEvent e) {
     		super.mousePressed(e);
-    		System.out.println("지금 클릭되었습니다.");
     		JButton temp = (JButton) e.getComponent();
-    		
     		if(temp.getText().charAt(1)== 'h') {//2번 클릭인지 확인
     			button_num = 2;
+				second.setBackground(Colors.GameMouseHover);
+				first.setBackground(Colors.GameMouserOut);
     		}else {
+				first.setBackground(Colors.GameMouseHover);
+				second.setBackground(Colors.GameMouserOut);
     			button_num = 1;
     		}
     	}

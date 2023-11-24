@@ -1,6 +1,6 @@
 package com.Room;
 
-import com.Main.Colors;
+import com.Ui.Colors;
 
 import javax.swing.*;
 import java.awt.*;

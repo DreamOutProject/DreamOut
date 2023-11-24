@@ -7,8 +7,6 @@ import com.Room.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,8 +18,7 @@ public class Main {
     protected static Socket s;//소켓
     public static ObjectOutputStream out;
     public static ObjectInputStream in;
-    public static User my = null;//로그인 안 했을 때
-    public static Room room=null;//현재 접속하고 있는 방 정보
+    public static User my = new User(null,12,12);//로그인 안 했을 때
 
     public static void Transition_go(RoomPanel panel){
         frame.getContentPane().removeAll();
@@ -46,7 +43,7 @@ public class Main {
             s = new Socket("localhost",54321);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
-            ObjectMsg msg = new User(new StringMsg("회원가입"),12,12);
+            ObjectMsg msg = new User(new MsgMode(ObjectMsg.REGISTER_MODE),12,12);
             out.writeObject(msg);
             in.readObject();
             new reapaintThread().start();
@@ -56,11 +53,10 @@ public class Main {
         //test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.setContentPane(new GameRoom(frame));
+        frame.setContentPane(new GameEndRoom(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
     }
     public static void main(String[] args) {new Main();}
 
@@ -85,8 +81,7 @@ public class Main {
             while(true){
                 try{
                     ObjectMsg msg =(ObjectMsg) in.readObject();
-                    if(msg.getMsg()==null);
-                    else if(msg.getMsg().equals("repaint")){//화면 다시 그려주기
+                    if(msg.getMsgMode() == ObjectMsg.REPAINT_MODE){//화면 다시 그려주기
                         frame.revalidate();
                         frame.repaint();
                         System.out.println("화면을 다시 그렸습니다.");
