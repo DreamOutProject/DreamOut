@@ -6,7 +6,12 @@ public class ObjectMsgDecorator extends ObjectMsg {
         this.obj = obj;
     }
     @Override
-    public String getMsg(){return obj.getMsg();}
+    public void setMsgMode(int mode) {
+        obj.setMsgMode(mode);
+    }
+
     @Override
-    public void setMsg(String msg){obj.setMsg(msg);}
+    public int getMsgMode() {
+        return obj.getMsgMode();
+    }
 }

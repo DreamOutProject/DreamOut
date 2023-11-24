@@ -1,6 +1,6 @@
 package com.Room;
 
-import com.Main.Colors;
+import com.Ui.Colors;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,10 +13,8 @@ public abstract class RoomPanel extends JPanel {
         setBackground(Colors.MainColor);
 
         JLabel Logo =new JLabel("DREAM OUT");
-        Logo.setLocation(15,5);
+        Logo.setBounds(15,5,200,110);
         Logo.setFont(new Font("궁서체",Font.ITALIC,30));
-        Logo.setSize(200,110);
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -31,8 +29,6 @@ public abstract class RoomPanel extends JPanel {
                 System.out.println(e.getPoint());
             }
         });
-
-
         add(Logo);//추가
     }
 }

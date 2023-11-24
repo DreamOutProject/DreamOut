@@ -2,6 +2,8 @@
 out
 *.iml
 .idea
+.png
+.jpg
 
 
 ### Mac OS ###

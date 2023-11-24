@@ -11,10 +11,7 @@ public class User extends ObjectMsgDecorator{
 	}
 	public int getId(){return this.id;}
 	public int getPw(){return this.pw;}
-	public boolean equals(User us) {//같다는 것 재정의
-        return this.id.equals(us.getId()) && this.pw.equals(us.getPw());
-    }
-	public boolean IsPw(User u) {return this.pw.equals(u.getPw());}
+	public boolean IsPw(User u) {return this.pw.equals(u.getPw());} //패스워드가 맞는지
 	public void setId(Integer id){this.id=id;}
 	public void setPw(Integer pw){this.pw=pw;}
 }
