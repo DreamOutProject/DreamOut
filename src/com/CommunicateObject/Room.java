@@ -1,6 +1,5 @@
 package com.CommunicateObject;
 
-import java.io.Serializable;
 import java.util.Vector;
 
 public class Room extends ObjectMsgDecorator {
