@@ -31,21 +31,9 @@ public class GameRoom extends RoomPanel {
     String[] topics=  {"일상생활", "스포츠","전자기기","랜덤"};
     
     private int button_num = -1;
-	private final Room room;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
-		ObjectMsg t = new MsgMode(ObjectMsg.MSG_MODE);
-		room = new Room(t,12,12,12);
-        temp = room.getUsers();
-		temp.add(new User(t,12,12));
-		temp.add(new User(t,123,123));
-		temp.add(new User(t,1234,12));
-		temp.add(new User(t,12322,123));
-		temp.add(new User(t,122234,12));
-		temp.add(new User(t,12234324,12));
-		temp.add(new User(t,123234234,123));
-		temp.add(new User(t,12323232,123));
-
+		temp = new Vector<>();
         //주제 선택창
         topic = new JComboBox<>(topics);
 		topic.setBounds(700,100,350,40);
@@ -73,7 +61,7 @@ public class GameRoom extends RoomPanel {
 		t.setSize(500,400);
         t.setLocation(620, 160);
 
-		if(Main.my.getId() == room.getAdminId()){//현재 접속한 클라이언트가 방장일 때
+		if(Main.my.getId() == Main.room.getAdminId()){//현재 접속한 클라이언트가 방장일 때
 			JButton b_choice = new JButton("시작하기");//해당 버튼이 다른 것으로 띄워질 수도 있음
 			b_choice.addMouseListener(new MouseAdapter() {
 				@Override
@@ -110,22 +98,22 @@ public class GameRoom extends RoomPanel {
 		t.setPreferredSize(new Dimension(300,500));
 		//플레이어는 아래로 계속 뜨게끔 만들 거임.
 		t.setBackground(new Color(77,34,146));
-		JLabel player = Main.NewLabel("플레이어 인원 "+room.getUsers().size()+"/"+room.getRoomSize(),23);
+		JLabel player = Main.NewLabel("플레이어 인원 "+Main.room.getUsers().size()+"/"+Main.room.getRoomSize(),23);
 		player.setForeground(new Color(191,179,215));
 		player.setBackground(new Color(77,37,148));
 		t.add(player);
 
-		int total=room.getRoomSize();
-		for(int i=0;i<room.getUsers().size();i++){
-			StringBuilder insertMsg = new StringBuilder(room.getUsers().get(i).getId()+"");
-			if(room.getUsers().get(i).getId() == Main.my.getId()){
+		int total=Main.room.getRoomSize();
+		for(int i=0;i<Main.room.getUsers().size();i++){
+			StringBuilder insertMsg = new StringBuilder(Main.room.getUsers().get(i).getId()+"");
+			if(Main.room.getUsers().get(i).getId() == Main.my.getId()){
 				insertMsg.append("(ME)");
 			}
 			JLabel temp = Main.NewLabel(insertMsg.toString(),20);
 			t.add(temp);
 		}
 
-		for(int i=0;i<total-room.getUsers().size();i++){
+		for(int i=0;i<total-Main.room.getUsers().size();i++){
 			JLabel temp = Main.NewLabel("비어 있음",18,new Color(76,41,160));
 			temp.setForeground(new Color(119,70,224));
 			t.add(temp);

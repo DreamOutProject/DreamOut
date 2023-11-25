@@ -2,6 +2,8 @@ package com.Room;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Vector;
 
 import com.CommunicateObject.*;
@@ -35,15 +37,7 @@ public class GameEndRoom extends RoomPanel {
         JPanel rightPanel = new JPanel(new BorderLayout());
         rightPanel.setBounds(550,160,660,400);
 
-        //시작 버튼
-        JButton startButton = new JButton("앨범 보기");
-        startButton.setFont(Fonts.ShowFont);
-        startButton.setOpaque(true);
-        startButton.setBackground(Colors.GameMouseHover);
-        startButton.setBounds(780,250,150,50);
-
-
-        //사진들
+        /* 사진들 */
         t_display = new JPanel(new GridLayout(0,2));
         t_display.setBackground(Color.WHITE);
 
@@ -61,6 +55,31 @@ public class GameEndRoom extends RoomPanel {
             insertSouth.setFont(Fonts.ShowFont);
             insertSouth.setHorizontalAlignment(JLabel.CENTER);
             south.add(insertSouth);
+
+            /*시작 버튼*/
+            JButton startButton = new JButton("앨범 보기");
+            startButton.setFont(Fonts.ShowFont);
+            startButton.setOpaque(true);
+            startButton.setBackground(Colors.GameMouseHover);
+            startButton.setBounds(800,450,150,50);
+            startButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent e) {
+                    super.mousePressed(e);
+                    startButton.removeAll();
+                    startButton.removeNotify();
+                    t_display.repaint();
+                }
+
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    startButton.removeAll();
+                    startButton.removeNotify();
+                    t_display.repaint();
+                }
+            });
+            add(startButton);
         }else{
             JButton prevButton = new JButton("이전 앨범으로 돌아가기");
             JButton nextButton = new JButton("다음 앨범으로 넘기기");//이전 버튼과 다음 버튼 둘 다 만들고 이전은 비활성화 하기
@@ -74,8 +93,6 @@ public class GameEndRoom extends RoomPanel {
             south.add(nextButton);
         }
         rightPanel.add(south,BorderLayout.SOUTH);
-
-        add(startButton);
         add(playerScroll);
         add(rightPanel);
 

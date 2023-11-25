@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class GameStartRoom extends RoomPanel {
     private int GameMode; // 1이면 1과 2로 게임이 나뉨
@@ -26,7 +27,6 @@ public class GameStartRoom extends RoomPanel {
         timeBar.setValue(5);
         timeBar.setString(5+"초");
         timeBar.setForeground(Color.GRAY);
-
 
 
         //client

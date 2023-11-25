@@ -26,6 +26,7 @@ public class Main {
     public static ObjectInputStream in;
     public static User my = null;//로그인 안 했을 때
     private static RoomPanel currentRoom;
+    private static Room room = null;
     public static void Transition_go(RoomPanel panel){
         frame.getContentPane().removeAll();
         frame.setContentPane(panel);
@@ -47,22 +48,17 @@ public class Main {
 
     public static void test(){
         try {
-            s = new Socket();
-            String IP = "172.20.10.12";
-            s.connect(new InetSocketAddress(IP,54321));
-            System.out.println("연결되었습니다.");
+            s = new Socket("localhost",54321);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
-            out.writeObject(new StringMsg(new MsgMode(ObjectMsg.MSG_MODE),"테스트"));
-//            ObjectMsg msg = new User(new MsgMode(ObjectMsg.REGISTER_MODE),12,12);
-//            out.writeObject(msg);
-//            in.readObject();
-//            new reapaintThread().start();
-        } catch (IOException ignored) {}
+            ObjectMsg msg = new User(new MsgMode(ObjectMsg.REGISTER_MODE),12,12);
+            out.writeObject(msg);
+            in.readObject();
+            new reapaintThread().start();
+        } catch (IOException | ClassNotFoundException ignored) {}
     }
-    Main() throws UnknownHostException {
-        test();//테스트 서버 접속
-        System.out.println(Arrays.toString(InetAddress.getLocalHost().getAddress()));
+    Main(){
+        //test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
         frame.setContentPane(new StartLogin(frame));
@@ -70,7 +66,7 @@ public class Main {
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
     }
-    public static void main(String[] args) throws UnknownHostException {new Main();}
+    public static void main(String[] args) {new Main();}
 
 
 
