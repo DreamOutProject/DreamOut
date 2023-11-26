@@ -57,7 +57,7 @@ public class TimeThread extends Thread {
                     JLabel temp = new JLabel(new ImageIcon(path));
                     Game.picture.add(temp);
 
-                    Main.out.writeObject();
+                    //Main.out.writeObject();
                 }
             };
 
@@ -84,8 +84,12 @@ public class TimeThread extends Thread {
         savePanel.print(g);
         g.dispose();
         try{
-            String path ="/Users/choejihun/Documents/GitHub/DreamOut/src/com/screenshot/" + round + ".png";
-            ImageIO.write(image,"png", new File(path));
+            String path = new File("").getAbsolutePath()+"src/com/screenshot";
+            File filePath = new File(path);
+            if(!filePath.exists())filePath.mkdir();
+            String alpha="/"+round + ".png";
+            filePath = new File(path+alpha);
+            ImageIO.write(image,"png", filePath);
         }catch(Exception ignored){}
     }
 }

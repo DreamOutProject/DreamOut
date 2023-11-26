@@ -2,7 +2,7 @@ package com.CommunicateObject;
 
 import java.util.Vector;
 
-public class Room extends ObjectMsgDecorator {
+public class Room extends ObjectMsgDecorator{
     private Integer roomId;//방 번호
     private Integer adminId;//방장 아이디
     private final Vector<User>users;//방 안에 있는 사람들
@@ -25,5 +25,10 @@ public class Room extends ObjectMsgDecorator {
         if(users.size()==roomSize)return false;
         users.add(u);
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "현재 방의 ID는 " + roomId +"이며 방에" + users.size() +"만큼의 사람이 들어있습니다.";
     }
 }

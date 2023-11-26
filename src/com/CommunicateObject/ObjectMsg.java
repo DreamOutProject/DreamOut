@@ -12,16 +12,22 @@ public abstract class ObjectMsg implements Serializable {
     public static final int REGISTER_MODE = 0x07;//회원가입 모드
     public static final int ROOM_MAKE_MODE = 0x08;//방만들기 모드
     public static final int ENDING_START_MODE = 0x09;//방장이 엔딩화면 시작을 눌렀을 때
-    public static final int ENDING_NEXT_MODE = 0x10;//다음으로 넘기고
-    public static final int ENDING_PREV_MODE = 0x11;//엔딩 이전 앨범
-    public static final int SUCESSED = 0x12; // 성공
-    public static final int FAILED = 0x13; // 실패
-    public static final int ROOM_VIEW = 0x14;//방 보이기
-    public static final int GAME_START_MODE = 0x15;//게임 시작
+    public static final int ENDING_NEXT_MODE = 0xA;//다음으로 넘기고
+    public static final int ENDING_PREV_MODE = 0xB;//엔딩 이전 앨범
+    public static final int SUCESSED = 0xC; // 성공
+    public static final int FAILED = 0xD; // 실패
+    public static final int ROOM_VIEW = 0xE;//방 보이기
+    public static final int GAME_START_MODE = 0xF;//게임 시작
+    public static final int ROOM_INFO = 0x10;//방 정보
     public static final int TEMP = 0xA;
     public ObjectMsg obj;
 
     public abstract void setMsgMode(int mode);
     public abstract int getMsgMode();
     public ObjectMsg getObj(){return this.obj;}
+
+
+    public String toString() {
+        return "";
+    }
 }

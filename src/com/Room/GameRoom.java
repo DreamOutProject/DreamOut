@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Vector;
 
 import com.Main.Main;
@@ -33,6 +34,21 @@ public class GameRoom extends RoomPanel {
     private int button_num = -1;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
+		try {
+			//여기 도달
+			Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
+			Main.out.writeObject(Main.room);
+			System.out.println("여기까지 왔죠?");
+			ObjectMsg msg =(ObjectMsg) Main.in.readObject();
+			Main.room = (Room)msg;
+		} catch (Exception ignored) {}
+		if(Main.room.getMsgMode() == ObjectMsg.FAILED){
+			//방 정보 제대로 못 갖고 온 것이므로 이전 화면으로 돌려줘야함.
+			//그리고 가기 전에 룸은 없는 것으로 바꾸기
+			Main.room = null;//비워주기
+			Main.Transition_go(new WaitRoom(frame));
+		}
+		//아니라면 ROOM이 제대로 들어왔음
 		temp = new Vector<>();
         //주제 선택창
         topic = new JComboBox<>(topics);

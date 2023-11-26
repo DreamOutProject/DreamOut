@@ -25,14 +25,14 @@ public class Main {
     public static ObjectOutputStream out;
     public static ObjectInputStream in;
     public static User my = null;//로그인 안 했을 때
-    private static RoomPanel currentRoom;
-    private static Room room = null;
+    private static RoomPanel presentRoom;
+    public static Room room = null;
     public static void Transition_go(RoomPanel panel){
         frame.getContentPane().removeAll();
         frame.setContentPane(panel);
         frame.revalidate();
         frame.repaint();
-        currentRoom = panel;
+        presentRoom = panel;
     }
     static public JLabel NewLabel(String insertMsg,int size){//빈 라벨
         return NewLabel(insertMsg,size,new Color(202,190,224));
@@ -48,20 +48,20 @@ public class Main {
 
     public static void test(){
         try {
-            s = new Socket("localhost",54321);
+
+            s = new Socket();
+            InetSocketAddress IP = new InetSocketAddress("172.30.1.47",54321);
+            s.connect(IP);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
-            ObjectMsg msg = new User(new MsgMode(ObjectMsg.REGISTER_MODE),12,12);
-            out.writeObject(msg);
-            in.readObject();
-            new reapaintThread().start();
-        } catch (IOException | ClassNotFoundException ignored) {}
+            //new reapaintThread().start();
+        } catch (IOException ignored) {}
     }
     Main(){
-        //test();//테스트 서버 접속
+        test();//테스트 서버 접속
         frame = new JFrame("DreamOut");
         frame.setSize(1280,720);
-        frame.setContentPane(new StartLogin(frame));
+        Transition_go(new StartLogin(frame));
         frame.setVisible(true);
         frame.setDefaultCloseOperation(frame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -91,7 +91,7 @@ public class Main {
                     ObjectMsg msg =(ObjectMsg) in.readObject();
                     if(msg.getMsgMode() == ObjectMsg.REPAINT_MODE){//화면 다시 그려주기
 
-                        currentRoom.repaint();
+                        presentRoom.repaint();
                         frame.revalidate();
                         frame.repaint();
                         System.out.println("화면을 다시 그렸습니다.");

@@ -20,4 +20,9 @@ public class User extends ObjectMsgDecorator{
 		User temp = (User)obj;
 		return temp.getId() == this.id && temp.getPw() == this.pw;
 	}
+
+	@Override
+	public String toString() {
+		return "현재 ID: "+ id + "PW : " + pw +"입니다.";
+	}
 }

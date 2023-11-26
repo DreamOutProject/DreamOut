@@ -7,6 +7,7 @@ import com.CommunicateObject.User;
 import com.Main.Main;
 import com.Room.GameRoom;
 import com.Room.GameStartRoom;
+import com.Room.RoomPanel;
 import com.Room.WaitRoom;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.util.Objects;
 import javax.swing.*;
 
 
-public class StartLogin extends JPanel{
+public class StartLogin extends RoomPanel {
     private JButton b_login, b_signup;
     private Font f1;
     private JLabel a;
@@ -29,23 +30,14 @@ public class StartLogin extends JPanel{
 
 
     public StartLogin(JFrame frame) {
-        super();
-
         buildGUI();
-        setLayout(null);
-        setBackground(new Color(115,52,211));
-        setSize(1280,720);
-        setVisible(true);
         addActionListener(frame);
-
-
     }
 
     public void buildGUI(){
         add(createNamePanel());
         add(createLoginPanel());
         add(createButtonPanel());
-
     }
 
 
