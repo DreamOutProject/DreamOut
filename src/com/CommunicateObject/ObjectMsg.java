@@ -19,7 +19,7 @@ public abstract class ObjectMsg implements Serializable {
     public static final int ROOM_VIEW = 0xE;//방 보이기
     public static final int GAME_START_MODE = 0xF;//게임 시작
     public static final int ROOM_INFO = 0x10;//방 정보
-    public static final int TEMP = 0xA;
+    public static final int TEMP = 0x11;
     public ObjectMsg obj;
 
     public abstract void setMsgMode(int mode);

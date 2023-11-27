@@ -24,7 +24,6 @@ public class StartLogin extends RoomPanel {
     private JLabel a;
     private JTextField email,pw;
     private JLabel Jlabel,lab1,lab2;
-    private User user;
 
 
 
@@ -116,7 +115,6 @@ public class StartLogin extends RoomPanel {
                                 Integer.parseInt(pw.getText())
                                 ));
 
-
                         // 서버에서 user 정보 읽어오기
                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
 
@@ -163,7 +161,7 @@ public class StartLogin extends RoomPanel {
 
                     //서버에서 아이디, 비번 불러 줄 경우 아래 코드 활성화
                     try {
-                        Main.my = new User(null,Integer.parseInt(email.getText()),Integer.parseInt(pw.getText()));
+                        Main.my = new User(new MsgMode(ObjectMsg.MSG_MODE),Integer.parseInt(email.getText()),Integer.parseInt(pw.getText()));
                         // 서버에게 로그인 보내기
                         Main.out.writeObject(new User(
                                 new MsgMode(ObjectMsg.LOGIN_MODE),
@@ -173,9 +171,10 @@ public class StartLogin extends RoomPanel {
 
                         // 서버에서 로그인 정보 가져오기
                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
-
                         if(Objects.equals(response.getMsgMode(), ObjectMsg.SUCESSED)){
+                            new Main.reapaintThread().start(); //해당 다시 그리기 객체 생성
                             Main.Transition_go(new WaitRoom(f));
+                            System.out.println("도달했습니다.");
                         }
                         else if(Objects.equals(response.getMsgMode(), ObjectMsg.FAILED)){
                             JOptionPane.showMessageDialog(StartLogin.this, "로그인에 실패했습니다");

@@ -12,6 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -68,17 +69,22 @@ public class Main {
 
 
 
-    static class reapaintThread extends Thread{
+    public static class reapaintThread extends Thread{
         JFrame frame;
         Socket paintSocket;
         ObjectInputStream in;
         ObjectOutputStream out;
-        reapaintThread(){
+        public reapaintThread(){
             frame=Main.frame;
             try{
                 paintSocket = new Socket("localhost",54321);
                 in = new ObjectInputStream(paintSocket.getInputStream());
-            }catch(IOException ignored){}
+                out = new ObjectOutputStream(paintSocket.getOutputStream());
+                User temp = Main.my;
+                temp.setMsgMode(ObjectMsg.TEMP);
+                out.writeObject(temp);
+                ObjectMsg receive = (ObjectMsg)in.readObject();
+            }catch(IOException | ClassNotFoundException ignored){}
         }
 
         @Override
@@ -95,10 +101,10 @@ public class Main {
                         }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
                             Transition_go(new GameRoom(frame));
                         }
-                        System.out.println("화면을 다시 그렸습니다.");
                     }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.
                         Transition_go(new GameStartRoom(frame,1));
                     }
+                    System.out.println("화면을 다시 그렸습니다.");
                 }catch (IOException | ClassNotFoundException e){
                     System.err.println("잘못된 데이터를 불러왔습니다.");
                     break;

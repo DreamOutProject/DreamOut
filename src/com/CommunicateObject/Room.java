@@ -2,7 +2,7 @@ package com.CommunicateObject;
 
 import java.util.Vector;
 
-public class Room extends ObjectMsgDecorator{
+public class Room extends ObjectMsgDecorator {
     private Integer roomId;//방 번호
     private Integer adminId;//방장 아이디
     private final Vector<User>users;//방 안에 있는 사람들
@@ -11,7 +11,7 @@ public class Room extends ObjectMsgDecorator{
     public Room(ObjectMsg obj,Integer roomId , Integer adminId,Integer roomSize){
         super(obj);
         this.obj = obj;
-        users = new Vector<>();
+        users = new Vector<User>();
         this.roomId = roomId;
         this.adminId = adminId;
         this.roomSize = roomSize;

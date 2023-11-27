@@ -4,7 +4,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class MsgMode extends ObjectMsg  {
-
     private int currentMode;
     private static final Map<Integer,String> convert = new LinkedHashMap<>(){
         {
