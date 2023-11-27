@@ -17,6 +17,7 @@ public class GameRoom extends RoomPanel {
     private JScrollPane scrollPane;//플레이어 스크롤 바
 	private JButton first;
 	private JButton second;
+	private ObjectMsg outMsg=new MsgMode(ObjectMsg.GAME_START_MODE);
 
     private String firstsentence = "<HTML><h3>1. 스피드 게임 </h3>" +
             "<ol><li>60초 45초 빠르게 줄여가는 시간 속에서 해당 주제에 대한 그림을 그려보세요!<BR>" +
@@ -34,15 +35,7 @@ public class GameRoom extends RoomPanel {
     private int button_num = -1;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
-		try {
-			//여기 도달
-			Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
-			Main.out.writeObject(Main.room);
-			System.out.println("여기까지 왔죠?");
-			ObjectMsg msg =(ObjectMsg) Main.in.readObject();
-			Main.room = (Room)msg;
-		} catch (Exception ignored) {}
-		if(Main.room.getMsgMode() == ObjectMsg.FAILED){
+		if(Main.room != null && Main.room.getMsgMode() == ObjectMsg.FAILED){
 			//방 정보 제대로 못 갖고 온 것이므로 이전 화면으로 돌려줘야함.
 			//그리고 가기 전에 룸은 없는 것으로 바꾸기
 			Main.room = null;//비워주기
@@ -84,6 +77,10 @@ public class GameRoom extends RoomPanel {
 				public void mouseClicked(MouseEvent e) {
 					super.mouseClicked(e);
 					if(button_num !=-1) {
+						Main.room.setMsgMode(ObjectMsg.GAME_START_MODE);
+						try {
+							Main.out.writeObject(Main.room);
+						} catch (IOException ignored) {}
 						Main.Transition_go(new GameStartRoom(f,button_num));
 					}else{
 						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
@@ -92,6 +89,10 @@ public class GameRoom extends RoomPanel {
 				public void mousePressed(MouseEvent e) {
 					super.mousePressed(e);
 					if(button_num !=-1) {
+						Main.room.setMsgMode(ObjectMsg.GAME_START_MODE);
+						try {
+							Main.out.writeObject(Main.room);
+						} catch (IOException ignored) {}
 						Main.Transition_go(new GameStartRoom(f,button_num));
 					}else{
 						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");

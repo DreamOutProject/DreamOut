@@ -58,6 +58,7 @@ public class WaitRoom extends RoomPanel{
                             Main.out.writeObject(new User(exroom, Main.my.getId(),Main.my.getPw()));
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
+                                exroom.addUser(Main.my);
                                 Main.room = exroom;
                                 Main.Transition_go(new GameRoom(f));
                             }
@@ -91,9 +92,10 @@ public class WaitRoom extends RoomPanel{
                     ObjectMsg roomxo = (MsgMode) Main.in.readObject();
                     if (roomxo.getMsgMode() == ObjectMsg.SUCESSED) {
                         Main.room = temp;
+                        Main.room.addUser(Main.my);
                         Main.Transition_go(new GameRoom(f));
                     }
-                } catch (Exception exx){}
+                } catch (Exception ignored){}
             }
         });
 

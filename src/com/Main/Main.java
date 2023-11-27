@@ -48,13 +48,11 @@ public class Main {
 
     public static void test(){
         try {
-
             s = new Socket();
-            InetSocketAddress IP = new InetSocketAddress("172.30.1.47",54321);
+            InetSocketAddress IP = new InetSocketAddress("172.20.10.12",54321);
             s.connect(IP);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
-            //new reapaintThread().start();
         } catch (IOException ignored) {}
     }
     Main(){
@@ -74,6 +72,7 @@ public class Main {
         JFrame frame;
         Socket paintSocket;
         ObjectInputStream in;
+        ObjectOutputStream out;
         reapaintThread(){
             frame=Main.frame;
             try{
@@ -89,12 +88,16 @@ public class Main {
             while(true){
                 try{
                     ObjectMsg msg =(ObjectMsg) in.readObject();
+                    if(presentRoom instanceof GameStartRoom)continue;//게임 중이면 리페인트 안 하기
                     if(msg.getMsgMode() == ObjectMsg.REPAINT_MODE){//화면 다시 그려주기
-
-                        presentRoom.repaint();
-                        frame.revalidate();
-                        frame.repaint();
+                        if(presentRoom instanceof WaitRoom){//기다리는 중이라면 화면을
+                            Transition_go(new WaitRoom(frame));//다시 화면 돌리기
+                        }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
+                            Transition_go(new GameRoom(frame));
+                        }
                         System.out.println("화면을 다시 그렸습니다.");
+                    }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.
+                        Transition_go(new GameStartRoom(frame,1));
                     }
                 }catch (IOException | ClassNotFoundException e){
                     System.err.println("잘못된 데이터를 불러왔습니다.");

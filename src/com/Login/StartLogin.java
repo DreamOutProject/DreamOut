@@ -172,7 +172,7 @@ public class StartLogin extends RoomPanel {
                         ));
 
                         // 서버에서 로그인 정보 가져오기
-                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
+                        ObjectMsg response = (ObjectMsg) Main.in.readObject();
 
                         if(Objects.equals(response.getMsgMode(), ObjectMsg.SUCESSED)){
                             Main.Transition_go(new WaitRoom(f));
