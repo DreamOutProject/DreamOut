@@ -26,7 +26,6 @@ public class WaitRoom extends RoomPanel{
 
 
     public WaitRoom(JFrame f) {
-
         try{
         //방만들기 버튼
             mkroom = new JButton("방만들기");
@@ -61,8 +60,8 @@ public class WaitRoom extends RoomPanel{
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
                                 Main.room = exroom;
-                                System.out.println(Main.room);
-                                Main.Transition_go(new GameRoom(f));
+                                Main.setPanel(new GameRoom(f));
+                                Main.Transition_go();
                             }
                             else if(Objects.equals(x.getMsgMode(), ObjectMsg.FAILED)){
                                 JOptionPane.showMessageDialog(WaitRoom.this, "방 입장에 실패했습니다");
@@ -98,7 +97,8 @@ public class WaitRoom extends RoomPanel{
                     ObjectMsg receive = (ObjectMsg) Main.in.readObject();
                     if(receive.getMsgMode() == ObjectMsg.SUCESSED){
                         Main.room = (Room)receive;
-                        Main.Transition_go(new GameRoom(f));
+                        Main.setPanel(new GameRoom(f));
+                        Main.Transition_go();
                     }
                 } catch (Exception ignored){}
             }

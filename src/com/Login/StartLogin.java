@@ -173,7 +173,8 @@ public class StartLogin extends RoomPanel {
                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
                         if(Objects.equals(response.getMsgMode(), ObjectMsg.SUCESSED)){
                             Main.flag=true;
-                            Main.Transition_go(new WaitRoom(f));
+                            Main.setPanel(new WaitRoom(f));
+                            Main.Transition_go();
                         }
                         else if(Objects.equals(response.getMsgMode(), ObjectMsg.FAILED)){
                             JOptionPane.showMessageDialog(StartLogin.this, "로그인에 실패했습니다");

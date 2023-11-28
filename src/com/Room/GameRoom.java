@@ -37,7 +37,7 @@ public class GameRoom extends RoomPanel {
 			IntMsg roominfo = new IntMsg(new MsgMode(ObjectMsg.ROOM_INFO),Main.room.getRoomId());
 			Main.out.writeObject(roominfo);
 			Room receive = (Room)Main.in.readObject();
-			System.out.println(receive.getUsers());
+			System.out.println(receive);
 		}catch (Exception ignored){
 			System.out.println(ignored + "에러 발생");
 		}
@@ -68,13 +68,15 @@ public class GameRoom extends RoomPanel {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				System.out.println("뒤로가기");
-				Main.Transition_go(new WaitRoom(frame));
+				Main.setPanel(new WaitRoom(frame));
+				Main.Transition_go();
 			}
 			@Override
 			public void mousePressed(MouseEvent e) {
 				super.mousePressed(e);
 				System.out.println("뒤로가기");
-				Main.Transition_go(new WaitRoom(frame));
+				Main.setPanel(new WaitRoom(frame));
+				Main.Transition_go();
 			}
 		});
 		add(backButton);
@@ -101,7 +103,8 @@ public class GameRoom extends RoomPanel {
 							Main.room.setMsgMode(ObjectMsg.GAME_START_MODE);
 							Main.out.writeObject(Main.room);
 						} catch (IOException ignored) {}
-						Main.Transition_go(new GameStartRoom(f,button_num));
+						Main.setPanel(new GameStartRoom(f,button_num));
+						Main.Transition_go();
 					}else{
 						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
 					}
@@ -114,7 +117,8 @@ public class GameRoom extends RoomPanel {
 							Main.room.setMsgMode(ObjectMsg.GAME_START_MODE);
 							Main.out.writeObject(Main.room);
 						} catch (IOException ignored) {}
-						Main.Transition_go(new GameStartRoom(f,button_num));
+						Main.setPanel(new GameStartRoom(f,button_num));
+						Main.Transition_go();
 					}else{
 						JOptionPane.showMessageDialog(GameRoom.this,"게임을 선택해주세요");
 					}

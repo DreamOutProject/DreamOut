@@ -75,7 +75,8 @@ public class TimeThread extends Thread {
         }
         // ObejctMsg temp = new Picture(new MsgMode(ObjectMsg.PICTURE_MODE),Game.picture));
         // out.writeObject(temp); //서버로 사진 파일 보내기
-        Main.Transition_go(new GameEndRoom(MainFrame));// 화면 전환해주기
+        Main.setPanel(new GameEndRoom(MainFrame));
+        Main.Transition_go();// 화면 전환해주기
     }
 
     private void saveToPicture(JLabel savePanel) {
