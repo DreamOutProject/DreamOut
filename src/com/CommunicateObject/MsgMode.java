@@ -1,9 +1,10 @@
 package com.CommunicateObject;
 
+import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MsgMode extends ObjectMsg  {
+public class MsgMode extends ObjectMsg  implements Serializable{
     private int currentMode;
     private static final Map<Integer,String> convert = new LinkedHashMap<>(){
         {
@@ -20,8 +21,8 @@ public class MsgMode extends ObjectMsg  {
             put(11,"이전 앨범으로 돌아갑니다.");
             put(12,"접근에 성공하였습니다.");
             put(13,"접근에 실패하였습니다.");
-            put(14,"게임을 시작하려고 합니다.");
-            put(15,"방정보를 확인하려고 합니다.");
+            put(14,"방정보를 확인하려고 합니다.");
+            put(15,"게임을 시작하려고 합니다.");
         }
     }
             ;

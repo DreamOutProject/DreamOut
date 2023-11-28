@@ -1,6 +1,8 @@
 package com.CommunicateObject;
 
-public class User extends ObjectMsgDecorator{
+import java.io.Serializable;
+
+public class User extends ObjectMsgDecorator implements Serializable{
 	private Integer id;
 	private Integer pw;
 	//나중에 업데이트 사항 private String nick;

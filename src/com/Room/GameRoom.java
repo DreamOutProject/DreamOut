@@ -34,18 +34,11 @@ public class GameRoom extends RoomPanel {
     private int button_num = -1;
 	private final Vector<User> temp;
     public GameRoom(JFrame frame){
-		if(Main.room != null && Main.room.getMsgMode() == ObjectMsg.FAILED){
-			//방 정보 제대로 못 갖고 온 것이므로 이전 화면으로 돌려줘야함.
-			//그리고 가기 전에 룸은 없는 것으로 바꾸기
-			Main.room = null;//비워주기
-			Main.Transition_go(new WaitRoom(frame));
+		if(Main.room.getMsgMode() == ObjectMsg.SUCESSED){
+			System.out.println("제대로 방 들어감.,");
+		}else{
+			System.out.println("방 제대로 못 들어감");
 		}
-		try{
-            Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
-			Main.out.writeObject(Main.room);
-			Main.room  = (Room)Main.in.readObject();
-		}catch(Exception ignored){}
-		//아니라면 ROOM이 제대로 들어왔음
 		temp = new Vector<>();
         //주제 선택창
         topic = new JComboBox<>(topics);

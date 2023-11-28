@@ -1,9 +1,10 @@
 package com.CommunicateObject;
 
 import javax.swing.*;
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Picture extends ObjectMsgDecorator{
+public class Picture extends ObjectMsgDecorator implements Serializable{
     private Vector<JLabel>picture;//누구 유저의 그림앨범
     public Picture(ObjectMsg obj,Vector<JLabel> insert ) {
         super(obj);

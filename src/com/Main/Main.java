@@ -30,7 +30,7 @@ public class Main {
     public static Room room = null;
     public static void Transition_go(RoomPanel panel){
         frame.getContentPane().removeAll();
-        frame.setContentPane(panel);
+        frame.add(panel);
         frame.revalidate();
         frame.repaint();
         presentRoom = panel;
@@ -83,6 +83,7 @@ public class Main {
                 User temp = Main.my;
                 temp.setMsgMode(ObjectMsg.TEMP);
                 out.writeObject(temp);
+                out.flush();
                 ObjectMsg receive = (ObjectMsg)in.readObject();
             }catch(IOException | ClassNotFoundException ignored){}
         }
@@ -99,6 +100,9 @@ public class Main {
                         if(presentRoom instanceof WaitRoom){//기다리는 중이라면 화면을
                             Transition_go(new WaitRoom(frame));//다시 화면 돌리기
                         }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
+                            Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
+                            Main.out.writeObject(Main.room);
+                            Main.room  = (Room)Main.in.readObject();
                             Transition_go(new GameRoom(frame));
                         }
                     }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.

@@ -36,26 +36,30 @@ public class WaitRoom extends RoomPanel{
             scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             scroll.setBounds(165,100,1000,530);
             Main.out.writeObject(new MsgMode(ObjectMsg.ROOM_VIEW));
-            StringMsg data = (StringMsg) Main.in.readObject();
-            int dataInt = Integer.parseInt(data.getMsg());
+            Main.out.flush();
 
+            ObjectMsg data = (ObjectMsg) Main.in.readObject();
+            IntMsg datas = (IntMsg)data;
+            int dataInt = datas.getNumber();
             for(int i = 1; i<=dataInt; i++){
                 p = new JPanel();
                 p.setPreferredSize(new Dimension(450,100));
                 p.setMaximumSize(new Dimension(450, 100));
 
                 exroom = (Room) Main.in.readObject();
-
                 room1 = new JButton("방번호:"+ exroom.getAdminId()+ "방인원: "+exroom.getUsers().size()+"/"+exroom.getRoomSize());
                 room1.setPreferredSize(new Dimension(450,100));
-                room1.setEnabled(true);
                 room1.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         super.mousePressed(e);
-                        exroom.setMsgMode(ObjectMsg.ROOM_MODE);
+                        Integer roomid = exroom.getRoomId();
+                        User CurrentUser = Main.my;
+                        CurrentUser.setMsgMode(ObjectMsg.ROOM_MODE);
                         try {
-                            Main.out.writeObject(new User(exroom, Main.my.getId(),Main.my.getPw()));
+                            Main.out.writeObject(new IntMsg(CurrentUser,roomid));
+                            Main.out.flush();
+
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
                                 Main.room = exroom;
@@ -64,13 +68,17 @@ public class WaitRoom extends RoomPanel{
                             else if(Objects.equals(x.getMsgMode(), ObjectMsg.FAILED)){
                                 JOptionPane.showMessageDialog(WaitRoom.this, "방 입장에 실패했습니다");
                             }
-                        } catch (IOException | ClassNotFoundException ignored) {}
+                        } catch (IOException | ClassNotFoundException ignored) {
+                            System.out.println(ignored +"메세지");
+                        }
                     }
                 });
                 p.add(room1);
                 t.add(p);
             }
-        } catch (ClassNotFoundException | IOException ignored){}
+        } catch (ClassNotFoundException | IOException ignored){
+            System.out.println(ignored);
+        }
         add(scroll);
         add(mkroom);
         addActionListener(f);
@@ -85,13 +93,13 @@ public class WaitRoom extends RoomPanel{
             if(choice !=null) {
                 try {
                     ObjectMsg outMsg = new MsgMode(ObjectMsg.ROOM_MAKE_MODE);
-                    Room temp = new Room(outMsg, a, a, Integer.parseInt(choice));
-                    User T = new User(temp, Main.my.getId(), Main.my.getPw());
-                    System.out.println((ObjectMsg)T);
-                    Main.out.writeObject(T);
-                    ObjectMsg roomxo = (MsgMode) Main.in.readObject();
-                    if (roomxo.getMsgMode() == ObjectMsg.SUCESSED) {
-                        Main.room = temp;
+                    IntMsg roomsize = new IntMsg(outMsg, Integer.parseInt(choice));
+                    User userOut = new User(roomsize,Main.my.getId(),Main.my.getPw());
+                    Main.out.writeObject(userOut);
+                    Main.out.flush();
+                    ObjectMsg inputs = (ObjectMsg) Main.in.readObject();
+                    Main.room = (Room)inputs;
+                    if(Main.room.getMsgMode() == ObjectMsg.SUCESSED){
                         Main.Transition_go(new GameRoom(f));
                     }
                 } catch (Exception ignored){}

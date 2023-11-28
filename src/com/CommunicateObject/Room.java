@@ -1,8 +1,9 @@
 package com.CommunicateObject;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class Room extends ObjectMsgDecorator {
+public class Room extends ObjectMsgDecorator implements Serializable{
     private Integer roomId;//방 번호
     private Integer adminId;//방장 아이디
     private final Vector<User>users;//방 안에 있는 사람들

@@ -114,7 +114,7 @@ public class StartLogin extends RoomPanel {
                                 Integer.parseInt(email.getText()),
                                 Integer.parseInt(pw.getText())
                                 ));
-
+                        Main.out.flush();
                         // 서버에서 user 정보 읽어오기
                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
 
@@ -168,13 +168,12 @@ public class StartLogin extends RoomPanel {
                                 Integer.parseInt(email.getText()),
                                 Integer.parseInt(pw.getText())
                         ));
-
+                        Main.out.flush();
                         // 서버에서 로그인 정보 가져오기
                         ObjectMsg response = (ObjectMsg) Main.in.readObject();
                         if(Objects.equals(response.getMsgMode(), ObjectMsg.SUCESSED)){
                             new Main.reapaintThread().start(); //해당 다시 그리기 객체 생성
                             Main.Transition_go(new WaitRoom(f));
-                            System.out.println("도달했습니다.");
                         }
                         else if(Objects.equals(response.getMsgMode(), ObjectMsg.FAILED)){
                             JOptionPane.showMessageDialog(StartLogin.this, "로그인에 실패했습니다");
