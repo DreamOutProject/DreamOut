@@ -95,20 +95,23 @@ public class Main {
             while(true){
                 try{
                     ObjectMsg msg =(ObjectMsg) in.readObject();
+                    if(msg == null)continue;
                     if(presentRoom instanceof GameStartRoom)continue;//게임 중이면 리페인트 안 하기
                     if(msg.getMsgMode() == ObjectMsg.REPAINT_MODE){//화면 다시 그려주기
+                        System.out.println("화면을 다시 그렸습니다.");
                         if(presentRoom instanceof WaitRoom){//기다리는 중이라면 화면을
                             Transition_go(new WaitRoom(frame));//다시 화면 돌리기
                         }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
                             Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
-                            Main.out.writeObject(Main.room);
+                            out.writeObject(Main.room);
                             Main.room  = (Room)Main.in.readObject();
+                            System.out.println(MsgMode.ToString(room.getMsgMode()));
                             Transition_go(new GameRoom(frame));
                         }
                     }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.
+                        System.out.println("화면을 다시 그렸습니다.");
                         Transition_go(new GameStartRoom(frame,1));
                     }
-                    System.out.println("화면을 다시 그렸습니다.");
                 }catch (IOException | ClassNotFoundException e){
                     System.err.println("잘못된 데이터를 불러왔습니다.");
                     break;

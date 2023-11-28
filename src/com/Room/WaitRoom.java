@@ -59,10 +59,12 @@ public class WaitRoom extends RoomPanel{
                         try {
                             Main.out.writeObject(new IntMsg(CurrentUser,roomid));
                             Main.out.flush();
-
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
-                                Main.room = exroom;
+                                exroom.setMsgMode(ObjectMsg.ROOM_INFO);
+                                Main.out.writeObject(exroom);
+                                System.out.println("도달");
+                                Main.room  = (Room)Main.in.readObject();
                                 Main.Transition_go(new GameRoom(f));
                             }
                             else if(Objects.equals(x.getMsgMode(), ObjectMsg.FAILED)){
