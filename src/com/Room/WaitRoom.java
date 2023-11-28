@@ -61,6 +61,7 @@ public class WaitRoom extends RoomPanel{
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
                                 Main.room = exroom;
+                                System.out.println(Main.room);
                                 Main.Transition_go(new GameRoom(f));
                             }
                             else if(Objects.equals(x.getMsgMode(), ObjectMsg.FAILED)){

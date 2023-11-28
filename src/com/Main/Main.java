@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 
 
@@ -28,6 +29,7 @@ public class Main {
     public static User my = null;//로그인 안 했을 때
     private static RoomPanel presentRoom;
     public static Room room = null;
+    public static boolean flag = false;
     public static void Transition_go(RoomPanel panel){
         frame.getContentPane().removeAll();
         frame.add(panel);
@@ -49,11 +51,10 @@ public class Main {
 
     public static void test(){
         try {
-            s = new Socket();
-            InetSocketAddress IP = new InetSocketAddress("192.168.185.102",54321);
-            s.connect(IP);
+            s = new Socket("172.30.1.5",54321);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
+            new reapaintThread().start(); //해당 다시 그리기 객체 생성
         } catch (IOException ignored) {}
     }
     Main(){
@@ -77,30 +78,41 @@ public class Main {
         public reapaintThread(){
             frame=Main.frame;
             try{
-                paintSocket = new Socket("192.168.185.102",54321);
-                in = new ObjectInputStream(paintSocket.getInputStream());
+                paintSocket = new Socket("172.30.1.5",54321);
                 out = new ObjectOutputStream(paintSocket.getOutputStream());
-                User temp = Main.my;
-                temp.setMsgMode(ObjectMsg.TEMP);
-                out.writeObject(temp);
-                ObjectMsg receive = (ObjectMsg)in.readObject();
-            }catch(IOException | ClassNotFoundException ignored){}
+                in = new ObjectInputStream(paintSocket.getInputStream());
+            }catch(IOException ignored){}
         }
 
         @Override
         public void run() {
             super.run();
             //해당하는 곳에서는 repaint명령이 떨어지면 계속 화면을 그려줘야 된다.
+            while(!flag){
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            User temp = new User(new MsgMode(ObjectMsg.TEMP),my.getId(),my.getPw());
+            try {
+                out.writeObject(temp);
+                ObjectMsg receive = (ObjectMsg)in.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
             while(true){
                 try{
                     ObjectMsg msg =(ObjectMsg) in.readObject();
                     if(msg == null)continue;
                     if(presentRoom instanceof GameStartRoom)continue;//게임 중이면 리페인트 안 하기
                     if(msg.getMsgMode() == ObjectMsg.REPAINT_MODE){//화면 다시 그려주기
-                        System.out.println("화면을 다시 그렸습니다.");
                         if(presentRoom instanceof WaitRoom){//기다리는 중이라면 화면을
+                            System.out.println("대기방 다시 그리기");
                             Transition_go(new WaitRoom(frame));//다시 화면 돌리기
                         }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
+                            System.out.println("게임방 다시 그리기");
                             Transition_go(new GameRoom(frame));
                         }
                     }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.

@@ -36,9 +36,8 @@ public class GameRoom extends RoomPanel {
 		try{
 			IntMsg roominfo = new IntMsg(new MsgMode(ObjectMsg.ROOM_INFO),Main.room.getRoomId());
 			Main.out.writeObject(roominfo);
-			ObjectMsg receive =(ObjectMsg)Main.in.readObject();
-			Date n = new Date();
-			System.out.println(n.toString() +receive);
+			Room receive = (Room)Main.in.readObject();
+			System.out.println(receive.getUsers());
 		}catch (Exception ignored){
 			System.out.println(ignored + "에러 발생");
 		}
