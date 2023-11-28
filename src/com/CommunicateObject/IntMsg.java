@@ -2,7 +2,7 @@ package com.CommunicateObject;
 
 public class IntMsg extends ObjectMsgDecorator{
     private Integer number;
-    public IntMsg(ObjectMsg obj, int number) {
+    public IntMsg(ObjectMsg obj,int number) {
         super(obj);
         this.number = number;
     }

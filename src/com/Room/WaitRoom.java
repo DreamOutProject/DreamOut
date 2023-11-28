@@ -35,6 +35,7 @@ public class WaitRoom extends RoomPanel{
             scroll = new JScrollPane(t);
             scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
             scroll.setBounds(165,100,1000,530);
+
             Main.out.writeObject(new MsgMode(ObjectMsg.ROOM_VIEW));
             Main.out.flush();
 
@@ -53,18 +54,13 @@ public class WaitRoom extends RoomPanel{
                     @Override
                     public void mousePressed(MouseEvent e) {
                         super.mousePressed(e);
-                        Integer roomid = exroom.getRoomId();
-                        User CurrentUser = Main.my;
-                        CurrentUser.setMsgMode(ObjectMsg.ROOM_MODE);
                         try {
-                            Main.out.writeObject(new IntMsg(CurrentUser,roomid));
-                            Main.out.flush();
+                            Main.out.writeObject(new IntMsg(new MsgMode(ObjectMsg.ROOM_MODE),exroom.getRoomId()));
+
+                            //여기서는
                             ObjectMsg x = (ObjectMsg) Main.in.readObject();
                             if(Objects.equals(x.getMsgMode(), ObjectMsg.SUCESSED)){
-                                exroom.setMsgMode(ObjectMsg.ROOM_INFO);
-                                Main.out.writeObject(exroom);
-                                System.out.println("도달");
-                                Main.room  = (Room)Main.in.readObject();
+                                Main.room = exroom;
                                 Main.Transition_go(new GameRoom(f));
                             }
                             else if(Objects.equals(x.getMsgMode(), ObjectMsg.FAILED)){
@@ -96,12 +92,11 @@ public class WaitRoom extends RoomPanel{
                 try {
                     ObjectMsg outMsg = new MsgMode(ObjectMsg.ROOM_MAKE_MODE);
                     IntMsg roomsize = new IntMsg(outMsg, Integer.parseInt(choice));
-                    User userOut = new User(roomsize,Main.my.getId(),Main.my.getPw());
-                    Main.out.writeObject(userOut);
+                    Main.out.writeObject(roomsize);
                     Main.out.flush();
-                    ObjectMsg inputs = (ObjectMsg) Main.in.readObject();
-                    Main.room = (Room)inputs;
-                    if(Main.room.getMsgMode() == ObjectMsg.SUCESSED){
+                    ObjectMsg receive = (ObjectMsg) Main.in.readObject();
+                    if(receive.getMsgMode() == ObjectMsg.SUCESSED){
+                        Main.room = (Room)receive;
                         Main.Transition_go(new GameRoom(f));
                     }
                 } catch (Exception ignored){}

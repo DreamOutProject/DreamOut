@@ -17,18 +17,9 @@ public class GameEndRoom extends RoomPanel {
     private JScrollPane displayScroll;//그림 스크롤
     private JPanel t_display;//그림 그린 것들이 뜨는 곳
     private Room room=new Room(null,12,12,12);
-    private Vector<User>temp;
+    private Vector<Integer>temp;
     public GameEndRoom(JFrame f){
-        temp = room.getUsers();
-        temp.add(new User(null,12,12));
-        temp.add(new User(null,123,123));
-        temp.add(new User(null,1234,12));
-        temp.add(new User(null,12322,123));
-        temp.add(new User(null,122234,12));
-        temp.add(new User(null,12234324,12));
-        temp.add(new User(null,123234234,123));
-        temp.add(new User(null,12323232,123));
-
+        temp = new Vector<>();
         //스크롤
         playerScroll = new JScrollPane(createPlayerPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         playerScroll.setBounds(250,160,300,400);
@@ -114,9 +105,9 @@ public class GameEndRoom extends RoomPanel {
         t.add(player);
 
 
-        Vector<User> temps = room.getUsers();
+        Vector<Integer> temps = room.getUsers();
         for (int i=0;i<temps.size();i++){
-            JLabel temp = Main.NewLabel(temps.get(i).getId()+"",18);
+            JLabel temp = Main.NewLabel(temps.get(i)+"",18);
             t.add(temp);
         }
         return t;

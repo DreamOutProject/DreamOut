@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.Date;
 
 import com.Main.Main;
 import com.CommunicateObject.*;
@@ -32,14 +32,22 @@ public class GameRoom extends RoomPanel {
     String[] topics=  {"일상생활", "스포츠","전자기기","랜덤"};
     
     private int button_num = -1;
-	private final Vector<User> temp;
     public GameRoom(JFrame frame){
+		try{
+			IntMsg roominfo = new IntMsg(new MsgMode(ObjectMsg.ROOM_INFO),Main.room.getRoomId());
+			Main.out.writeObject(roominfo);
+			ObjectMsg receive =(ObjectMsg)Main.in.readObject();
+			Date n = new Date();
+			System.out.println(n.toString() +receive);
+		}catch (Exception ignored){
+			System.out.println(ignored + "에러 발생");
+		}
 		if(Main.room.getMsgMode() == ObjectMsg.SUCESSED){
 			System.out.println("제대로 방 들어감.,");
 		}else{
+			System.out.println(MsgMode.ToString(Main.room.getMsgMode()));
 			System.out.println("방 제대로 못 들어감");
 		}
-		temp = new Vector<>();
         //주제 선택창
         topic = new JComboBox<>(topics);
 		topic.setBounds(700,100,350,40);
@@ -54,8 +62,23 @@ public class GameRoom extends RoomPanel {
         scrollPane = new JScrollPane(createPlayerPanel(),JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setSize(300,400);
         scrollPane.setLocation(250, 160);
-
-
+		JButton backButton = new JButton("뒤로가기");
+		backButton.setBounds(1175,50,75,50);
+		backButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				System.out.println("뒤로가기");
+				Main.Transition_go(new WaitRoom(frame));
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				super.mousePressed(e);
+				System.out.println("뒤로가기");
+				Main.Transition_go(new WaitRoom(frame));
+			}
+		});
+		add(backButton);
 		add(topic);
         add(scrollPane);
         add(l_topic);
@@ -121,8 +144,8 @@ public class GameRoom extends RoomPanel {
 
 		int total=Main.room.getRoomSize();
 		for(int i=0;i<Main.room.getUsers().size();i++){
-			StringBuilder insertMsg = new StringBuilder(Main.room.getUsers().get(i).getId()+"");
-			if(Main.room.getUsers().get(i).getId() == Main.my.getId()){
+			StringBuilder insertMsg = new StringBuilder(Main.room.getUsers().get(i)+"");
+			if(Main.room.getUsers().get(i) == Main.my.getId()){
 				insertMsg.append("(ME)");
 			}
 			JLabel temp = Main.NewLabel(insertMsg.toString(),20);

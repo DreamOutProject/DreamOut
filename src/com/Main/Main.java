@@ -50,7 +50,7 @@ public class Main {
     public static void test(){
         try {
             s = new Socket();
-            InetSocketAddress IP = new InetSocketAddress("172.20.10.12",54321);
+            InetSocketAddress IP = new InetSocketAddress("192.168.185.102",54321);
             s.connect(IP);
             out = new ObjectOutputStream(s.getOutputStream());
             in = new ObjectInputStream(s.getInputStream());
@@ -77,13 +77,12 @@ public class Main {
         public reapaintThread(){
             frame=Main.frame;
             try{
-                paintSocket = new Socket("localhost",54321);
+                paintSocket = new Socket("192.168.185.102",54321);
                 in = new ObjectInputStream(paintSocket.getInputStream());
                 out = new ObjectOutputStream(paintSocket.getOutputStream());
                 User temp = Main.my;
                 temp.setMsgMode(ObjectMsg.TEMP);
                 out.writeObject(temp);
-                out.flush();
                 ObjectMsg receive = (ObjectMsg)in.readObject();
             }catch(IOException | ClassNotFoundException ignored){}
         }
@@ -102,10 +101,6 @@ public class Main {
                         if(presentRoom instanceof WaitRoom){//기다리는 중이라면 화면을
                             Transition_go(new WaitRoom(frame));//다시 화면 돌리기
                         }else if(presentRoom instanceof GameRoom){//그림 그려야 되는 경우
-                            Main.room.setMsgMode(ObjectMsg.ROOM_INFO);
-                            out.writeObject(Main.room);
-                            Main.room  = (Room)Main.in.readObject();
-                            System.out.println(MsgMode.ToString(room.getMsgMode()));
                             Transition_go(new GameRoom(frame));
                         }
                     }else if(msg.getMsgMode() == ObjectMsg.GAME_START_MODE){//게임 시작이다.
