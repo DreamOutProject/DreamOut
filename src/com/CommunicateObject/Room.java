@@ -3,32 +3,61 @@ package com.CommunicateObject;
 import java.io.Serializable;
 import java.util.Vector;
 
-public class Room extends ObjectMsgDecorator implements Serializable{
-    private Integer roomId;//방 번호
-    private Integer adminId;//방장 아이디
-    private Vector<Integer>users;//방 안에 있는 사람들
-    private Integer roomSize;//방 최대 생성
-
-    public Room(ObjectMsg obj,Integer roomId , Integer adminId,Integer roomSize){
-        super(obj);
-        this.obj = obj;
-        users = new Vector<>();
-        this.roomId = roomId;
-        this.adminId = adminId;
+public class Room extends MOD implements Serializable {
+    private int roomId;
+    private int adminId;
+    private int roomSize;
+    private Vector<Integer>participant;
+    public Room(int roomId,int roomSize){//방 정보만 받는다.
+        this.roomId=roomId;
+        this.adminId=roomId;
         this.roomSize = roomSize;
+        participant = new Vector<>();
     }
-    public int getAdminId() {return adminId;}
-    public int getRoomId(){return roomId;}
-    public Vector<Integer> getUsers(){return users;}
-    public int getRoomSize(){return roomSize;}
-    public boolean addUser(User u){//성공적으로 추가됐을 때는 true
-        //아닐 때는 false를 던져줌
-        if(users.size()==roomSize)return false;
-        users.add(u.getId());
+
+    public Room(Room t){
+        this.roomId = t.getRoomId();
+        this.adminId = t.getAdminId();
+        this.roomSize = t.roomSize;
+        this.participant = new Vector<>(t.getParticipant());
+    }
+
+    public void setRoomId(int roomId) {this.roomId = roomId;}
+    public void setAdminId(int adminId){this.adminId=adminId;}
+    public void setParticipant(Vector<Integer>participant){this.participant = new Vector<>(participant);}
+
+    public int getRoomId(){return this.roomId;}
+    public int getAdminId(){return this.adminId;}
+    public Vector<Integer> getParticipant(){return this.participant;}
+    public int getRoomSize(){return this.roomSize;}
+    public boolean addUser(User u){
+        int id = u.getId();
+        for(Integer ID : participant){
+            if(ID == id)return false;
+        }
+        participant.add(id);
         return true;
     }
+    public boolean removeUser(User u){
+        int id = u.getId();
+        for(Integer ID : participant){
+            if(ID == id){
+                participant.remove(ID);
+                return true;
+            }
+        }
+        return false;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Room r){
+            return this.roomId == r.getRoomId() && this.adminId == r.getAdminId();
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
-        return "현재 방의 ID는 " + roomId +"이며 방에" + users.size() +"만큼의 사람이 들어있습니다.";
+        return "방 아이디는 : " + roomId + "방장은 : " + adminId +"입니다.";
     }
 }

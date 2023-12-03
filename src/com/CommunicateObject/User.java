@@ -2,29 +2,34 @@ package com.CommunicateObject;
 
 import java.io.Serializable;
 
-public class User extends ObjectMsgDecorator implements Serializable{
-	private Integer id;
-	private Integer pw;
-	//나중에 업데이트 사항 private String nick;
-	public User(ObjectMsg obj,Integer id, Integer pw){
-		super(obj);
-		this.obj = obj;
-		this.id = id;
-		this.pw = pw;
-	}
-	public int getId(){return this.id;}
-	public int getPw(){return this.pw;}
-	public boolean IsPw(User u) {return this.pw.equals(u.getPw());} //패스워드가 맞는지
-	public void setId(Integer id){this.id=id;}
-	public void setPw(Integer pw){this.pw=pw;}
-	@Override
-	public boolean equals(Object obj) {
-		User temp = (User)obj;
-		return temp.getId() == this.id && temp.getPw() == this.pw;
-	}
+public class User extends MOD implements Serializable {
+    private int id;
+    private int pw;
+    public User(int id, int pw){
+        this.id = id;
+        this.pw = pw;
+    }
+    public User(User t){
+        this.id = t.getId();
+        this.pw = t.getPw();
+    }
 
-	@Override
-	public String toString() {
-		return "현재 ID: "+ id + "PW : " + pw +"입니다.";
-	}
+    public int getId(){return this.id;}
+    public void setId(int id){this.id =id;}
+
+    public void setPw(int pw){this.pw=pw;}
+    public int getPw(){return this.pw;}
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof User t){
+            return this.id == t.getId() && this.pw == t.getPw();
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "아이디는 : " + id + "비밀번호는 : " + pw +"입니다.";
+    }
 }
