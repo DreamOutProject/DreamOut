@@ -3,6 +3,7 @@ package com.Main;
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.User;
 import com.Panel.GameWaitRoom;
+import com.Panel.GamingRoom;
 import com.Panel.WaitRoom;
 
 import java.io.IOException;
@@ -54,13 +55,26 @@ public class repaintThread extends Thread{
                 receive = (MOD)InputStream.readObject();
                 while(!main.isrepaint);//여길 벗어나면 현재 패널에 그림을 그려도 되는 것임 그럼 읽어놓은 데이터를 화면에 띄워주자.
                 System.out.println(receive + "가 들어왔습니다.");
-                if(receive.getMOD() == REPAINT_MODE){//그림 그리라고 하면
-                    if(main.presentPanel instanceof WaitRoom) {//현재 패널에 따라서 그림을 다시 그린다.
+                if(main.presentPanel instanceof GameWaitRoom){
+                    if(receive.getMOD() == REPAINT_MODE) {
+                        System.out.println("게임방 다시그리시오.");
+                        ((GameWaitRoom) main.presentPanel).reapainting();
+                    }else if(receive.getMOD() == GAME_START_MODE){
+                        System.out.println("읽었습니다.");
+                        while(!main.isrepaint); // 다시그리기가 false일 때까지 돌다가
+                        main.isrepaint = false;
+                        main.transition(new GamingRoom(main));//다음 화면으로 넘겨주기
+                        main.isrepaint = true;
+                    }else if(receive.getMOD() == GAME_ONE_CHOICE){
+
+                    }else if(receive.getMOD() == GAME_TWO_CHOICE){
+
+                    }
+
+                }else if(main.presentPanel instanceof  WaitRoom){
+                    if(receive.getMOD() == REPAINT_MODE) {//그림 그리라고 하면
                         System.out.println("대기방 다시그리시오.");
                         ((WaitRoom) main.presentPanel).repainTing();
-                    }else if(main.presentPanel instanceof GameWaitRoom){
-                        System.out.println("게임방 다시그리시오.");
-                        ((GameWaitRoom)main.presentPanel).reapainting();
                     }
                 }
             } catch (IOException e) {

@@ -87,13 +87,15 @@ public class WaitRoom extends RootPanel {
                 try {
                     msg.setMod(ROOM_MODE);//방 들어가기
                     main.MainOutput.writeObject(msg);//내가 몇 번 방에 들어갈게
-                    main.isrepaint=false;
                     MOD receive = (MOD) main.MainInput.readObject();
+                    main.isrepaint=false;
                     if(receive.getMOD() == SUCCESSED){//성공적으로 방 정보 받음
                         main.room = new Room((Room)main.MainInput.readObject());
                         main.transition(new GameWaitRoom(main));
-                        main.isrepaint=true;
+                    }else{
+                        JOptionPane.showMessageDialog(null,"방에 접근할 수 없습니다.","실패",JOptionPane.ERROR_MESSAGE);
                     }
+                    main.isrepaint=true;
                 } catch (IOException ex) {
                     System.out.println("데이터를 못 보냈습니다.");
                 } catch (ClassNotFoundException ex) {

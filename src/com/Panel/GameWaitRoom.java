@@ -17,7 +17,7 @@ import static com.CommunicateObject.MODE.*;
 //옆에 방 데이터를 계속 실시간으로 바꿔줘야 한다.
 public class GameWaitRoom extends RootPanel{
     public Main main;
-    public int NumberGame=-1;
+    public int NumberGame=1;
     public JPanel leftSide;
     public JPanel rightSide;
     public JPanel Center;
@@ -54,9 +54,16 @@ public class GameWaitRoom extends RootPanel{
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mousePressed(e);
-                setBackground(Colors.GameMouseHover);
+                secondGame.setBackground(Colors.GameMouseHover);
                 firstGame.setBackground(Colors.GameMouserOut);
                 NumberGame = 2;//1번 게임
+                //2번을 클릭했다고 서버로 보내주기
+                MOD outMsg = new MOD(GAME_TWO_CHOICE);//2번 클릭했습니다.
+                try {
+                    main.MainOutput.writeObject(outMsg);
+                }catch (IOException ex) {
+                    System.out.println("2번을 선택했다고 서버로 보내지 못 했습니다.");
+                }
             }
         });
 
@@ -64,12 +71,23 @@ public class GameWaitRoom extends RootPanel{
             @Override
             public void mousePressed(MouseEvent e) {
                 super.mouseClicked(e);
-                setBackground(Colors.GameMouseHover);
+                firstGame.setBackground(Colors.GameMouseHover);
                 secondGame.setBackground(Colors.GameMouserOut);
                 NumberGame = 1;//1번 게임
+                MOD outMsg = new MOD(GAME_ONE_CHOICE);//2번 클릭했습니다.
+                try {
+                    main.MainOutput.writeObject(outMsg);
+                }catch (IOException ex) {
+                    System.out.println("2번을 선택했다고 서버로 보내지 못 했습니다.");
+                }
             }
         });
+        firstGame.setBackground(Colors.GameMouseHover);//처음에 default로 이 아이가 선택
 
+        if(main.room.getAdminId()!= main.ID.getId()){//현재 방의 정보가 다르다면 동적으로 화면 설정이 불가능하도록 만들기
+            firstGame.setEnabled(false);
+            secondGame.setEnabled(false);
+        }
 
         JPanel center = new JPanel(new GridLayout(0,2));
         center.add(firstGame);
@@ -89,19 +107,15 @@ public class GameWaitRoom extends RootPanel{
                 @Override
                 public void mousePressed(MouseEvent e) {
                     super.mousePressed(e);
-                    if(NumberGame==-1)JOptionPane.showMessageDialog(null,"게임을 선택하세요","실패",JOptionPane.ERROR_MESSAGE);
-                    else{//다음 맵으로 넘어가기
-                        //서버에 다음 맵으로 넘어간다고 말을 해줘야 됨.
-                        MOD outMsg = new MOD(GAME_START_MODE);
-                        main.isrepaint=false;
-                        try {
-                            main.MainOutput.writeObject(outMsg);
-                            main.transition(new GamingRoom(main));
-                            main.isrepaint=true;
-                        } catch (IOException ex) {
-                            System.out.println("게임 시작메세지를 제대로 보내지 못했습니다.");
-                        }
+                    MOD outMsg = new MOD(GAME_START_MODE);
+                    main.isrepaint=false;
+                    try {
+                        main.MainOutput.writeObject(outMsg);
+                        main.transition(new GamingRoom(main));
+                    } catch (IOException ex) {
+                        System.out.println("게임 시작메세지를 제대로 보내지 못했습니다.");
                     }
+                    main.isrepaint=true;
                 }
             });
             south.add(startButton);

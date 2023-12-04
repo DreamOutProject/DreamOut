@@ -1,6 +1,7 @@
 package com.CommunicateObject;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class User extends MOD implements Serializable {
     private int id;
@@ -26,6 +27,11 @@ public class User extends MOD implements Serializable {
             return this.id == t.getId() && this.pw == t.getPw();
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, pw);
     }
 
     @Override
