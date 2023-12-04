@@ -35,6 +35,7 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
         add(timeBar);
         add(drawPanel);//일단 화면 보기
         add(pallete);
+        new Game(main,timeBar).start();
     }
 
     public JPanel setPallete() {
