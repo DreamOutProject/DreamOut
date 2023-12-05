@@ -10,11 +10,13 @@ public class Room extends MOD implements Serializable {
     private int roomSize;
     private Vector<Integer>participant;
     private boolean isInto;
+    private int Gamecategory;
     public Room(int roomId,int roomSize){//방 정보만 받는다.
         this.roomId=roomId;
         this.adminId=roomId;
         this.roomSize = roomSize;
         isInto=true;//처음에는 들어갈 수 있음
+        Gamecategory=1;
         participant = new Vector<>();
     }
 
@@ -23,6 +25,7 @@ public class Room extends MOD implements Serializable {
         this.adminId = t.getAdminId();
         this.roomSize = t.roomSize;
         this.isInto = t.isInto;
+        this.Gamecategory = t.getGamecategory();
         this.participant = new Vector<>(t.getParticipant());
     }
 
@@ -53,6 +56,11 @@ public class Room extends MOD implements Serializable {
         }
         return false;
     }
+
+    public int getGamecategory() {return Gamecategory;}
+
+    public void setGamecategory(int gamecategory) {Gamecategory = gamecategory;}
+
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof Room r){
