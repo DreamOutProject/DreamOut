@@ -1,4 +1,4 @@
-package com.Panel;
+package com.Logic;
 
 import javax.swing.*;
 import java.awt.*;

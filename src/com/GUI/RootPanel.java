@@ -1,9 +1,7 @@
-package com.Panel;
+package com.GUI;
 
 import com.Main.Main;
-import com.Ui.Colors;
-import com.Ui.Images;
-
+import com.Ui.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -14,12 +12,11 @@ public abstract class RootPanel extends JPanel {//모든 패널들이 가져야 
     public RootPanel(){
         setLayout(null);//레이블 널이어야한다.
         setSize(Main.WIDTH,Main.HEIGHT);//크기
-        setOpaque(true);
 //        setBackground(Colors.BackColor);//배경 색깔
         repaint();
         testing();
     }
-    public void paint(Graphics g){
+    public void paintComponent(Graphics g){
         g.drawImage(Images.BackImage,0,0,null);
     }
 

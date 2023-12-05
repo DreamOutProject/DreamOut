@@ -5,16 +5,14 @@ package com.Main;
 import javax.swing.*;
 
 import com.CommunicateObject.*;
-import com.Panel.Login;
-import com.Panel.RootPanel;
+import com.GUI.Login;
+import com.GUI.RootPanel;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Main{
     public JFrame MainFrame;

@@ -1,5 +1,6 @@
-package com.Panel;
+package com.GUI;
 
+import com.Logic.LoginLogic;
 import com.Main.Main;
 import com.Ui.Colors;
 

@@ -2,9 +2,9 @@ package com.Main;
 
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.User;
-import com.Panel.GameWaitRoom;
-import com.Panel.GamingRoom;
-import com.Panel.WaitRoom;
+import com.GUI.GameWaitRoom;
+import com.GUI.GamingRoom;
+import com.GUI.WaitRoom;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -66,9 +66,9 @@ public class repaintThread extends Thread{
                         main.transition(new GamingRoom(main));//다음 화면으로 넘겨주기
                         main.isrepaint = true;
                     }else if(receive.getMOD() == GAME_ONE_CHOICE){
-
+                        ((GameWaitRoom) main.presentPanel).logic.firstGameChoice();
                     }else if(receive.getMOD() == GAME_TWO_CHOICE){
-
+                        ((GameWaitRoom) main.presentPanel).logic.secondGameChoice();
                     }
 
                 }else if(main.presentPanel instanceof  WaitRoom){
@@ -76,11 +76,17 @@ public class repaintThread extends Thread{
                         System.out.println("대기방 다시그리시오.");
                         ((WaitRoom) main.presentPanel).repainTing();
                     }
+                }else if(main.presentPanel instanceof  GamingRoom){//게임 시작했음.
+                    if(receive.getMOD() == NEXT_ROUND){
+                        ((GamingRoom) main.presentPanel).logic.nextRound();
+                    }
                 }
             } catch (IOException e) {
                 System.out.println("제대로 데이터를 읽지 못했습니다.");
+                break;
             } catch (ClassNotFoundException e) {
                 System.out.println("캐스팅이 제대로 안 됐습니다.");
+                break;
             }
         }
     }

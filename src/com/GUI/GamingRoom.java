@@ -1,5 +1,7 @@
-package com.Panel;
+package com.GUI;
 
+import com.Logic.Drawing;
+import com.Logic.GamingLogic;
 import com.Main.Main;
 import com.Ui.Colors;
 
@@ -17,6 +19,7 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
     public JPanel drawPanel;
     public JPanel pallete;
     public Drawing D = new Drawing();
+    public GamingLogic logic;
     public GamingRoom(Main main){
         this.main = main;
         //1. 맨 위에 시간 지나는 progressbar
@@ -35,7 +38,9 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
         add(timeBar);
         add(drawPanel);//일단 화면 보기
         add(pallete);
-        new Game(main,timeBar).start();
+
+        logic = new GamingLogic(main,timeBar);
+        logic.start();
     }
 
     public JPanel setPallete() {

@@ -1,4 +1,4 @@
-package com.Panel;
+package com.GUI;
 
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.Room;

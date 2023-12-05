@@ -1,10 +1,11 @@
-package com.Panel;
+package com.Logic;
 
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.MODE;
 import com.CommunicateObject.User;
 import com.Main.Main;
 import com.Main.repaintThread;
+import com.GUI.WaitRoom;
 
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
