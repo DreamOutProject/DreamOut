@@ -3,6 +3,7 @@ package com.GUI;
 import com.Logic.LoginLogic;
 import com.Main.Main;
 import com.Ui.Colors;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,31 +35,32 @@ public class Login extends RootPanel{
             JPanel t = new JPanel();
             t.setBounds(300,50,600,200);
             t.setBackground(Colors.BackColor);
-            Font font = new Font("바탕",Font.ITALIC,100);
+            t.setOpaque(false);
             JLabel name = new JLabel("Dream Out");
-            name.setForeground(Colors.ForeColor);
-            name.setFont(font);
+            name.setForeground(Colors.BackColor);
+            name.setFont(Fonts.title_font);
             t.add(name);
             return t;
     }
 
     public JPanel leftSide(){
-        JPanel t = new JPanel(new GridLayout(0,2));
+        JPanel t = new JPanel(new GridLayout(0,2,0,5));
         t.setBounds(200,365,220,100);
         t.setBackground(Colors.BackColor);
+        t.setOpaque(false);
         JLabel ids = new JLabel("ID : ");
         JLabel pws = new JLabel("PW : ");
 
-        Font id_font = new Font("바탕",Font.ITALIC,20);
-        Font pw_font = new Font("바탕",Font.ITALIC,20);
 
         id = new JTextField();
         pw = new JTextField();
 
-        ids.setFont(id_font);
-        pws.setFont(pw_font);
-        ids.setForeground(Colors.ForeColor);
-        pws.setForeground(Colors.ForeColor);
+        ids.setFont(Fonts.font);
+        pws.setFont(Fonts.font);
+        ids.setForeground(Colors.BackColor);
+        pws.setForeground(Colors.BackColor);
+        id.setFont(Fonts.font);
+        pw.setFont(Fonts.font);
 
         t.add(ids);
         t.add(id);
@@ -67,10 +69,17 @@ public class Login extends RootPanel{
         return t;
     }
     public JPanel rightSide(){
-        JPanel t = new JPanel(new GridLayout(0,1));
+        JPanel t = new JPanel(new GridLayout(0,1,0,5));
         t.setBounds(850,365,220,100);
+        t.setOpaque(false);
         register = new JButton("회원가입");
+        register.setFont(Fonts.ShowFont);
+        register.setBackground(Colors.PURPLE);
+        register.setOpaque(true);
         login = new JButton("로그인");
+        login.setFont(Fonts.ShowFont);
+        login.setBackground(Colors.PURPLE);
+        login.setOpaque(true);
 
         t.add(register);
         t.add(login);

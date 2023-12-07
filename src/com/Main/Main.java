@@ -5,6 +5,7 @@ package com.Main;
 import javax.swing.*;
 
 import com.CommunicateObject.*;
+import com.GUI.GameWaitRoom;
 import com.GUI.Login;
 import com.GUI.RootPanel;
 
@@ -26,7 +27,7 @@ public class Main{
     public ObjectOutputStream MainOutput;
 
     public static final int port = 54321;
-    public static final String IP = "192.168.173.102";
+    public static final String IP = "192.168.18.102";
     public RootPanel presentPanel=null;
     public Thread repaint = null;
     public boolean isrepaint=false;

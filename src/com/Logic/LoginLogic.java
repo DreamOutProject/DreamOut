@@ -71,7 +71,7 @@ public class LoginLogic {
             id = Integer.parseInt(this.id.getText());
             pw = Integer.parseInt(this.pw.getText());
         }catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"제대로 된 숫자를 입력해주세요","숫자확인",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(main.MainFrame,"제대로 된 숫자를 입력해주세요","숫자확인",JOptionPane.ERROR_MESSAGE);
             return ret;
         }
         User user = new User(id,pw);

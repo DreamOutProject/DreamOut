@@ -5,12 +5,15 @@ import com.CommunicateObject.Room;
 import com.Logic.GameWaitLogic;
 import com.Main.Main;
 import com.Ui.Colors;
+import com.Ui.Fonts;
+import com.Ui.Images;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.sql.SQLOutput;
 
 import static com.CommunicateObject.MODE.*;
 
@@ -20,6 +23,8 @@ public class GameWaitRoom extends RootPanel{
     public Main main;
     public int NumberGame=1;
     public JPanel leftSide,rightSide,Center;
+    public JLabel player;
+
     JButton secondGame = new JButton();
     JButton firstGame = new JButton();
     public GameWaitLogic logic;
@@ -27,10 +32,14 @@ public class GameWaitRoom extends RootPanel{
         this.main = main;
 
         Center = new JPanel(new BorderLayout());
-        Center.setBounds(100,55,1100,550);
+        Center.setBounds(80,55,1120,550);
 
-        leftSide = new JPanel(new GridLayout(0,1));
+
+        leftSide = new JPanel(new GridLayout(0,1,0,5));
+        leftSide.setPreferredSize(new Dimension(250,500));
         rightSide =new JPanel(new BorderLayout());
+        rightSide.setPreferredSize(new Dimension(780,500));
+
 
 
         Center.add(leftSide,BorderLayout.WEST);
@@ -105,6 +114,9 @@ public class GameWaitRoom extends RootPanel{
         JPanel south = new JPanel(new GridLayout(0,1));
         if(main.room.getAdminId()==main.ID.getId()){//로그인 한 정보가 어드민이라면?
             JButton startButton = new JButton("게임 시작하기");
+            startButton.setPreferredSize(new Dimension(780,60));
+            startButton.setFont(Fonts.ShowFont);
+            startButton.setBackground(Colors.Button);
             startButton.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
@@ -120,18 +132,39 @@ public class GameWaitRoom extends RootPanel{
         return south;
     }
 
+
     public void leftSide() {
         JLabel l_player = new JLabel("플레이어 인원 " + main.room.getParticipant().size() + " / " + main.room.getRoomSize());
+        l_player.setFont(Fonts.ShowFont);
+        l_player.setHorizontalAlignment(JLabel.CENTER);
+        leftSide.setBackground(Colors.PURPLE);
         leftSide.add(l_player);
-        int total = main.room.getParticipant().size();
-        for(Integer id:main.room.getParticipant()){
-            JLabel player = new JLabel("ID : " + id);
-            leftSide.add(player);
+
+        int total = main.room.getRoomSize();
+        for(Integer id:main.room.getParticipant()) {
+            JPanel p = new JPanel(new GridLayout(0,1));
+            if(id == main.ID.getId()){
+                player = new JLabel("ID : " + id+"(ME)");
+            }
+            else {
+                player = new JLabel("ID : " + id);
+            }
+            player.setHorizontalAlignment(JLabel.CENTER);
+            p.add(player);
+            player.setFont(Fonts.ShowFont);
+            leftSide.add(p);
+            p.setBackground(Colors.PURPLE1);
             total--;
         }
         for(int i=0;i<total;i++){
-            JLabel player = new JLabel("비어있는 자리");
-            leftSide.add(player);
+            JPanel p = new JPanel(new GridLayout(0,1));
+            JLabel player = new JLabel("비어있음");
+            player.setHorizontalAlignment(JLabel.CENTER);
+            p.add(player);
+            p.setBackground(Colors.PURPLE1);
+            player.setFont(Fonts.ShowFont);
+            leftSide.add(p);
+
         }
     }
 

@@ -3,6 +3,8 @@ package com.GUI;
 import com.CommunicateObject.Room;
 import com.Logic.WaitLogic;
 import com.Main.Main;
+import com.Ui.Colors;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 
@@ -14,15 +16,25 @@ import java.awt.event.MouseEvent;
 public class WaitRoom extends RootPanel {
     public Main main;
     public JPanel roomshowPanel;
+    public JScrollPane scroll;
     private WaitLogic logic;
     public WaitRoom(Main main){//서버로부터 현재 있는 방들 달라고 하자.
         this.main = main;
-        roomshowPanel = new JPanel(new GridLayout(0,4));
-        roomshowPanel.setBounds(100,55,1100,550);
+        roomshowPanel = new JPanel(new GridLayout(0,2,20,20));
+        roomshowPanel.setBackground(Colors.PURPLE);
 
+        scroll = new JScrollPane(roomshowPanel,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        );
+        scroll.setBounds(100,55,1100,550);
+        scroll.setBackground(Colors.PURPLE);
 
         JButton makeRoom = new JButton("방 만들기");
-        makeRoom.setBounds(1150,20,75,30);
+        makeRoom.setFont(Fonts.makeRoom);
+        makeRoom.setBackground(Colors.MainColor);
+        makeRoom.setForeground(Colors.WHITE);
+
+        makeRoom.setBounds(1100,20,100,30);
+
 
         logic = new WaitLogic(main,makeRoom,roomshowPanel);
         logic.readRoomdata();
@@ -36,7 +48,7 @@ public class WaitRoom extends RootPanel {
         });
 
 
-        add(roomshowPanel);
+        add(scroll);
         add(makeRoom);
     }
     public void repainTing(){
