@@ -1,12 +1,15 @@
 package com.GUI;
 
 import com.CommunicateObject.MOD;
+import com.CommunicateObject.Picture;
 import com.CommunicateObject.Room;
+import com.Logic.GameEndLogic;
 import com.Main.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Vector;
 
 import static com.CommunicateObject.MODE.ROOM_VIEW;
 import static com.CommunicateObject.MODE.SUCCESSED;
@@ -15,6 +18,9 @@ public class GameEnd extends RootPanel{
     public Main main;
     public JPanel Center;
     public JPanel leftSide;
+    public JPanel rightSide;
+    public GameEndLogic logic;
+    public Vector<Picture>AllData = new Vector<>();
     public GameEnd(Main main){
         this.main = main;
         readData();//서버에서 해당 방 데이터 읽어오기
@@ -22,10 +28,13 @@ public class GameEnd extends RootPanel{
         Center.setBounds(100,55,1100,550);
 
         leftSide = leftSide();
+        rightSide = new JPanel(new GridLayout(0,1));
         Center.add(leftSide,BorderLayout.WEST);
-
+        Center.add(rightSide,BorderLayout.CENTER);
 
         add(Center);
+        logic = new GameEndLogic(main,this,AllData);
+        logic.start();
     }
     public void readData(){
         try{
@@ -47,16 +56,22 @@ public class GameEnd extends RootPanel{
         JPanel t= new JPanel(new GridLayout(0,1));
         JLabel l_player = new JLabel("플레이어 인원 " + main.room.getParticipant().size() + " / " + main.room.getRoomSize());
         t.add(l_player);
-        int total = main.room.getParticipant().size();
         for(Integer id:main.room.getParticipant()){
             JLabel player = new JLabel("ID : " + id);
             t.add(player);
-            total--;
-        }
-        for(int i=0;i<total;i++){
-            JLabel player = new JLabel("비어있는 자리");
-            t.add(player);
         }
         return t;
+    }
+    public void showData(){
+        for(Picture data:AllData){
+            Vector<JLabel> t = data.getFiles();
+            for(JLabel d:t){
+                System.out.println("파일 추가");
+                if(d==null)continue;
+                rightSide.add(d);
+            }
+        }
+        rightSide.repaint();
+        rightSide.revalidate();
     }
 }

@@ -7,7 +7,10 @@ import java.util.Vector;
 public class Picture extends MOD implements Serializable {
     private Vector<JLabel>files;
     public Picture(){files = new Vector<>();}
-    public Picture(int size){files = new Vector<>(size);}
+    public Picture(int size){
+        files = new Vector<>();
+        for(int i=0;i<size;i++)files.add(null);
+    }
     public Picture(Picture t){files = new Vector<>(t.getFiles());}
     public Vector<JLabel> getFiles(){return this.files;}
     public void setFiles(Vector<JLabel> files) {this.files = files;}

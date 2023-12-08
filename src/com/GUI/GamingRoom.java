@@ -39,7 +39,7 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
         add(drawPanel);//일단 화면 보기
         add(pallete);
 
-        logic = new GamingLogic(main,timeBar);
+        logic = new GamingLogic(main,timeBar,drawPanel);
         logic.start();
     }
 

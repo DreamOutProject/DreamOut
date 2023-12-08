@@ -80,8 +80,7 @@ public class GameWaitLogic {
         MOD outMsg = new MOD(GAME_START_MODE);
         main.isrepaint=false;
         try {
-            main.MainOutput.writeObject(outMsg);
-            main.transition(new GamingRoom(main));
+            main.MainOutput.writeObject(outMsg);//같은 방 아이들에게 데이터 파일 나눠주세요
         } catch (IOException ex) {
             System.out.println("게임 시작메세지를 제대로 보내지 못했습니다.");
         }
