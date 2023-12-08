@@ -70,7 +70,6 @@ public class repaintThread extends Thread{
                     }else if(receive.getMOD() == GAME_TWO_CHOICE){
                         ((GameWaitRoom) main.presentPanel).logic.secondGameChoice();
                     }
-
                 }else if(main.presentPanel instanceof  WaitRoom){
                     if(receive.getMOD() == REPAINT_MODE) {//그림 그리라고 하면
                         System.out.println("대기방 다시그리시오.");
