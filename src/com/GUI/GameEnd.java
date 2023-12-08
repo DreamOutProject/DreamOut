@@ -46,7 +46,7 @@ public class GameEnd extends RootPanel{
                 main.room = new Room((Room)receive);
             }else throw new ClassNotFoundException();
         } catch (IOException e) {
-            System.out.println("대기방 데이터를 제대로 보내지 못했습니다. ");
+            System.out.println("대기방 데이터를 제대로 보내지 못했습니다.");
         } catch (ClassNotFoundException e) {
             System.out.println("대기방 데이터를 제대로 받지 못했습니다.");
             main.transition(new WaitRoom(main));//굳.
@@ -54,8 +54,6 @@ public class GameEnd extends RootPanel{
     }
     public JPanel leftSide() {
         JPanel t= new JPanel(new GridLayout(0,1));
-        JLabel l_player = new JLabel("플레이어 인원 " + main.room.getParticipant().size() + " / " + main.room.getRoomSize());
-        t.add(l_player);
         for(Integer id:main.room.getParticipant()){
             JLabel player = new JLabel("ID : " + id);
             t.add(player);
@@ -63,11 +61,11 @@ public class GameEnd extends RootPanel{
         return t;
     }
     public void showData(){
-        for(Picture data:AllData){
+        for(Picture data:AllData){//모든 유저의 그림앨범
             Vector<JLabel> t = data.getFiles();
             for(JLabel d:t){
-                System.out.println("파일 추가");
                 if(d==null)continue;
+                System.out.println("파일 추가");
                 rightSide.add(d);
             }
         }
