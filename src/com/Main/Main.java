@@ -25,7 +25,7 @@ public class Main{
     public ObjectInputStream MainInput;
     public ObjectOutputStream MainOutput;
 
-    public static final int port = 3333;
+    public static final int port = 3334;
     public static final String IP = "183.97.190.141";
     public RootPanel presentPanel=null;
     public Thread repaint = null;

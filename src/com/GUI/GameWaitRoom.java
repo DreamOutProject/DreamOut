@@ -10,6 +10,8 @@ import com.Ui.Images;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -22,6 +24,7 @@ import static com.CommunicateObject.MODE.*;
 public class GameWaitRoom extends RootPanel{
     public Main main;
     public int NumberGame=1;
+    public JComboBox<String> subject;
     public JPanel leftSide,rightSide,Center;
     public JLabel player;
 
@@ -32,7 +35,7 @@ public class GameWaitRoom extends RootPanel{
         this.main = main;
 
         Center = new JPanel(new BorderLayout());
-        Center.setBounds(80,55,1120,550);
+        Center.setBounds(80,100,1120,550);
 
 
         leftSide = new JPanel(new GridLayout(0,1,0,5));
@@ -45,8 +48,9 @@ public class GameWaitRoom extends RootPanel{
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(rightSide,BorderLayout.CENTER);
 
+        subject();
 
-        logic = new GameWaitLogic(main,leftSide,rightSide,Center,firstGame,secondGame);
+        logic = new GameWaitLogic(main,leftSide,rightSide,Center,firstGame,secondGame,subject);
         logic.readData();//서버에서 해당 방 데이터 읽어오기
 
         leftSide();
@@ -112,9 +116,10 @@ public class GameWaitRoom extends RootPanel{
 
     private JPanel setSouthPanel() {
         JPanel south = new JPanel(new GridLayout(0,1));
+
         if(main.room.getAdminId()==main.ID.getId()){//로그인 한 정보가 어드민이라면?
             JButton startButton = new JButton("게임 시작하기");
-            startButton.setPreferredSize(new Dimension(780,60));
+            startButton.setPreferredSize(new Dimension(780,50));
             startButton.setFont(Fonts.ShowFont);
             startButton.setBackground(Colors.Button);
             startButton.addMouseListener(new MouseAdapter() {
@@ -126,8 +131,14 @@ public class GameWaitRoom extends RootPanel{
             });
             south.add(startButton);
         }else{
-            JLabel waitLabel = new JLabel("방장의 선택을 기다립니다.");
+            JLabel waitLabel = new JLabel("방장의 선택을 기다립니다");
+            waitLabel.setPreferredSize(new Dimension(780,50));
+            waitLabel.setFont(Fonts.ShowFont);
+            waitLabel.setHorizontalAlignment(JLabel.CENTER);
+            waitLabel.setBackground(Colors.Button);
+            waitLabel.setOpaque(true);
             south.add(waitLabel);
+
         }
         return south;
     }
@@ -166,6 +177,28 @@ public class GameWaitRoom extends RootPanel{
             leftSide.add(p);
 
         }
+    }
+
+    public void subject(){
+        JLabel t;
+
+        String[] Date = {"일상생활","포켓몬", "스포츠","영화","자유 주제"};
+        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        p.setBounds(765,30,435,45);
+        p.setOpaque(false);
+
+        t = new JLabel("주제: ");
+        t.setFont(Fonts.ShowFont);
+
+        subject = new JComboBox<>(Date);
+        subject.setPreferredSize(new Dimension(377,30));
+
+        p.add(t);
+        p.add(subject);
+        add(p);
+
+        setVisible(true);
+
     }
 
     public void reapainting(){

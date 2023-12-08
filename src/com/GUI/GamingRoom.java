@@ -18,6 +18,7 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
     public JProgressBar timeBar;
     public JPanel drawPanel;
     public JPanel pallete;
+    public JTextField word;
     public Drawing D = new Drawing();
     public GamingLogic logic;
     public GamingRoom(Main main){
@@ -26,18 +27,23 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
         timeBar = new JProgressBar(MTIME,XTIME);//어느 게임에 따라 시간 초가 달리 흐르나.?
         timeBar.setStringPainted(true);//몇 초로 나오게끔 설정 가능
         setTime(XTIME);
-        timeBar.setBounds(150,60,950,40);//위치 설정
+        timeBar.setBounds(150,30,950,40);//위치 설정
 
         //가운데 그림 그리는 패널
         drawPanel = D;//해당 패널은 추가적인 부수 기능이 들어감
-        drawPanel.setBounds(150,150,950,450);
+        drawPanel.setBounds(150,100,950,450);
         //팔렛트 패널 하나 만들기
         pallete = setPallete();//선 굵기는 일단 신경 쓰지 말자
-        pallete.setBounds(1150,150,100,450);
+        pallete.setBounds(1130,100,100,450);
+
+        word = new JTextField();
+        word.setBounds(150,580,950,50);
+
 
         add(timeBar);
         add(drawPanel);//일단 화면 보기
         add(pallete);
+        add(word);
 
         logic = new GamingLogic(main,timeBar,drawPanel);
         logic.start();

@@ -2,7 +2,6 @@ package com.Logic;
 
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.Room;
-import com.GUI.GamingRoom;
 import com.GUI.WaitRoom;
 import com.Main.Main;
 import com.Ui.Colors;
@@ -14,24 +13,27 @@ import static com.CommunicateObject.MODE.*;
 
 public class GameWaitLogic {
     public Main main;
+    public JComboBox<String> subject;
     public int NumberGame=1;
     public JPanel leftSide;
     public JPanel rightSide;
     public JPanel Center;
     JButton secondGame;
     JButton firstGame;
-    public GameWaitLogic(Main main,JPanel left,JPanel right,JPanel center,JButton f,JButton s){
+    public GameWaitLogic(Main main, JPanel left, JPanel right, JPanel center, JButton f, JButton s, JComboBox<String> subject){
         this.main = main;
         this.leftSide = left;
         this.rightSide = right;
         this.Center = center;
         this.firstGame =f;
         this.secondGame = s;
+        this.subject = subject;
     }
     public void ButtonEnable(){
         if(main.room.getAdminId()!= main.ID.getId()){//현재 방의 정보가 다르다면 동적으로 화면 설정이 불가능하도록 만들기
             firstGame.setEnabled(false);
             secondGame.setEnabled(false);
+            subject.setEnabled(false);
         }
     }
     public void readData(){
