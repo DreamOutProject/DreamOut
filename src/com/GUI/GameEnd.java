@@ -9,6 +9,7 @@ import com.Ui.Colors;
 import com.Ui.Fonts;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Vector;
@@ -23,6 +24,7 @@ public class GameEnd extends RootPanel{
     public JLabel player;
     public JPanel rightSide;
     public GameEndLogic logic;
+    public JButton album;
     public Vector<Picture>AllData = new Vector<>();
     public GameEnd(Main main){
         this.main = main;
@@ -34,12 +36,20 @@ public class GameEnd extends RootPanel{
         rightSide = new JPanel(new GridLayout(0,1));
         rightSide.setBackground(Colors.PURPLE);
         JScrollPane scroll = new JScrollPane(rightSide,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+//        album = new JButton("앨범 시작하기");
+//        album.setPreferredSize(new Dimension(270,50));
+//        album.setFont(Fonts.ShowFont);
+//        rightSide.add(album);
+
+
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(scroll,BorderLayout.CENTER);
 
         add(Center);
-        logic = new GameEndLogic(main,this,AllData);
+        logic = new GameEndLogic(main,this,AllData,album);
         logic.start();
+        //  logic.ButtonEnable();
     }
     public void readData(){
         try{
@@ -57,6 +67,7 @@ public class GameEnd extends RootPanel{
             main.transition(new WaitRoom(main));//굳.
         }
     }
+
     public JPanel leftSide() {
         JPanel t= new JPanel(new GridLayout(0,1,0,10));
         t.setPreferredSize(new Dimension(250,500));
@@ -82,12 +93,13 @@ public class GameEnd extends RootPanel{
             for(JLabel d:t){
                 if(d==null)continue;
                 System.out.println("파일 추가");
-                d.setBackground(Colors.WHITE);
                 rightSide.add(d);
-
             }
         }
         rightSide.repaint();
         rightSide.revalidate();
     }
 }
+
+//1. rightpanel에 버튼 만들기(앨범시작하기)
+//2. 1번 앨범 보여지며 아이디 색깔 변경되게 만들기(색은 초록색과 같이 다르게)

@@ -44,26 +44,22 @@ public class GameWaitRoom extends RootPanel{
         rightSide =new JPanel(new BorderLayout());
         rightSide.setPreferredSize(new Dimension(780,500));
 
-        //뒤로가기
-        back = new JButton("뒤로가기");
-        back.setFont(Fonts.makeRoom);
-        back.setBackground(Colors.MainColor);
-        back.setForeground(Colors.WHITE);
-        back.setBounds(80,40,100,30);
 
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(rightSide,BorderLayout.CENTER);
 
         subject();
+        back();
 
-        logic = new GameWaitLogic(main,leftSide,rightSide,Center,firstGame,secondGame,subject);
+        logic = new GameWaitLogic(main,leftSide,rightSide,Center,firstGame,secondGame,subject,back);
         logic.readData();//서버에서 해당 방 데이터 읽어오기
 
         leftSide();
         rightSide();
-        logic.ButtonEnable();
 
-        add(back);
+        logic.ButtonEnable();
+        logic.return_waitroom();
+
         add(Center);
     }
 
@@ -206,6 +202,16 @@ public class GameWaitRoom extends RootPanel{
 
         setVisible(true);
 
+    }
+
+    public void back(){
+        //뒤로가기
+        back = new JButton("뒤로가기");
+        back.setFont(Fonts.makeRoom);
+        back.setBackground(Colors.MainColor);
+        back.setForeground(Colors.WHITE);
+        back.setBounds(80,40,100,30);
+        add(back);
     }
 
     public void reapainting(){
