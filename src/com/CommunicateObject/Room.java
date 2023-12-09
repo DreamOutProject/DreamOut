@@ -11,6 +11,7 @@ public class Room extends MOD implements Serializable {
     private Vector<Integer>participant;
     private boolean isInto;
     private int Gamecategory;
+    private int topic;
     private int round;
     public Room(int roomId, int roomSize){//방 정보만 받는다.
         this.roomId=roomId;
@@ -19,6 +20,7 @@ public class Room extends MOD implements Serializable {
         isInto=true;//처음에는 들어갈 수 있음
         Gamecategory=1;
         round =1;
+        topic = 1;
         participant = new Vector<>();
     }
 
@@ -29,8 +31,11 @@ public class Room extends MOD implements Serializable {
         this.isInto = t.isInto;
         this.Gamecategory = t.getGamecategory();
         this.round = t.getRound();
+        this.topic = t.getTopic();
         this.participant = new Vector<>(t.getParticipant());
     }
+    public int getTopic() {return this.topic;}
+    public void setTopic(int topic){this.topic = topic;}
     public void setRound(int round){this.round=round;}
     public int getRound(){return this.round;}
     public void setRoomId(int roomId) {this.roomId = roomId;}
