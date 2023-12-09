@@ -5,6 +5,8 @@ import com.CommunicateObject.Picture;
 import com.CommunicateObject.Room;
 import com.Logic.GameEndLogic;
 import com.Main.Main;
+import com.Ui.Colors;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ public class GameEnd extends RootPanel{
     public Main main;
     public JPanel Center;
     public JPanel leftSide;
+    public JLabel player;
     public JPanel rightSide;
     public GameEndLogic logic;
     public Vector<Picture>AllData = new Vector<>();
@@ -29,8 +32,10 @@ public class GameEnd extends RootPanel{
 
         leftSide = leftSide();
         rightSide = new JPanel(new GridLayout(0,1));
+        rightSide.setBackground(Colors.PURPLE);
+        JScrollPane scroll = new JScrollPane(rightSide,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         Center.add(leftSide,BorderLayout.WEST);
-        Center.add(rightSide,BorderLayout.CENTER);
+        Center.add(scroll,BorderLayout.CENTER);
 
         add(Center);
         logic = new GameEndLogic(main,this,AllData);
@@ -53,10 +58,21 @@ public class GameEnd extends RootPanel{
         }
     }
     public JPanel leftSide() {
-        JPanel t= new JPanel(new GridLayout(0,1));
+        JPanel t= new JPanel(new GridLayout(0,1,0,10));
+        t.setPreferredSize(new Dimension(250,500));
+        JPanel p = new JPanel(new GridLayout(0,1));
         for(Integer id:main.room.getParticipant()){
-            JLabel player = new JLabel("ID : " + id);
-            t.add(player);
+            if(id == main.ID.getId()){
+                player = new JLabel("ID : " + id+"(ME)");
+            }
+            else {
+                player = new JLabel("ID : " + id);
+            }
+            player.setHorizontalAlignment(JLabel.CENTER);
+            player.setFont(Fonts.ShowFont);
+            p.setBackground(Colors.PURPLE1);
+            p.add(player);
+            t.add(p);
         }
         return t;
     }
@@ -66,7 +82,9 @@ public class GameEnd extends RootPanel{
             for(JLabel d:t){
                 if(d==null)continue;
                 System.out.println("파일 추가");
+                d.setBackground(Colors.WHITE);
                 rightSide.add(d);
+
             }
         }
         rightSide.repaint();

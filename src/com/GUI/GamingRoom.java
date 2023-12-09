@@ -4,6 +4,7 @@ import com.Logic.Drawing;
 import com.Logic.GamingLogic;
 import com.Main.Main;
 import com.Ui.Colors;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,7 +39,6 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
 
         word = new JTextField();
         word.setBounds(150,580,950,50);
-
 
         add(timeBar);
         add(drawPanel);//일단 화면 보기

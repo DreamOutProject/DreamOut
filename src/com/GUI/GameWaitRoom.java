@@ -27,6 +27,7 @@ public class GameWaitRoom extends RootPanel{
     public JComboBox<String> subject;
     public JPanel leftSide,rightSide,Center;
     public JLabel player;
+    public JButton back;
 
     JButton secondGame = new JButton();
     JButton firstGame = new JButton();
@@ -43,7 +44,12 @@ public class GameWaitRoom extends RootPanel{
         rightSide =new JPanel(new BorderLayout());
         rightSide.setPreferredSize(new Dimension(780,500));
 
-
+        //뒤로가기
+        back = new JButton("뒤로가기");
+        back.setFont(Fonts.makeRoom);
+        back.setBackground(Colors.MainColor);
+        back.setForeground(Colors.WHITE);
+        back.setBounds(80,40,100,30);
 
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(rightSide,BorderLayout.CENTER);
@@ -57,6 +63,7 @@ public class GameWaitRoom extends RootPanel{
         rightSide();
         logic.ButtonEnable();
 
+        add(back);
         add(Center);
     }
 
