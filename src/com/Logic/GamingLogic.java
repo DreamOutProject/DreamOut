@@ -88,7 +88,7 @@ public class GamingLogic extends Thread{
             String path = new File("").getAbsolutePath()+"/src/com/screenshot";
             File filePath = new File(path);
             if(!filePath.exists())filePath.mkdir();
-            String alpha="/"+curRound + ".png";
+            String alpha="/"+curRound + main.socket.getPort()+".png";
             filePath = new File(path+alpha);
             ImageIO.write(image,"png", filePath);
             ImageIcon t = new ImageIcon(image);
@@ -97,7 +97,7 @@ public class GamingLogic extends Thread{
         }catch(Exception ignored){}
     }
     public void sendMessage(int cur){//해당하는 그림파일 서버로 보내기
-        String path = new File("").getAbsolutePath()+"/src/com/screenshot/"+cur+".png";
+        String path = new File("").getAbsolutePath()+"/src/com/screenshot/"+cur+ main.socket.getPort()+".png";
         File filePath = new File(path);
         if(!filePath.exists())return;//없으면 일단 하질 말자
         try {
