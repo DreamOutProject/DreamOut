@@ -29,6 +29,7 @@ public class GameEnd extends RootPanel{
 
         leftSide = leftSide();
         rightSide = new JPanel(new GridLayout(0,1));
+        //1. rightside에다가 버튼 만들기 ("앨범 시작하기") 
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(rightSide,BorderLayout.CENTER);
 

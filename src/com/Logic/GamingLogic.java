@@ -61,6 +61,7 @@ public class GamingLogic extends Thread{
             }
             savePanel(round);
             sendMessage(round);//그렸던 사진 서버로 보내주기
+            waiting();
             if(this.totalRound != round){
                 nextRound();
             }else break;
@@ -76,6 +77,25 @@ public class GamingLogic extends Thread{
             System.out.println("제대로 게임 끝 데이터를 보내지 못 했습니다.");
         } catch (ClassNotFoundException e) {
             System.out.println("다음 페이지로 넘어가는 데이터 못 받음");
+        }
+    }
+
+    private void waiting() {
+        try{
+            MOD outMsg = new MOD(WAITING);
+            main.MainOutput.writeObject(outMsg);
+        } catch (IOException e) {
+            System.out.println("기다린다 메세지 제대로 못 보냄");
+        }
+        try{
+            MOD receive = (MOD)main.MainInput.readObject();
+            if(receive.getMOD() == SUCCESSED){
+                System.out.println("모든 사람들이 다 기다리기 성공");
+            }
+        } catch (IOException e) {
+            System.out.println("기다리기 끝 메세지를 못 읽음");
+        } catch (ClassNotFoundException e) {
+            System.out.println("캐스팅 불가요  ㅋㅋ");
         }
     }
 
@@ -104,6 +124,7 @@ public class GamingLogic extends Thread{
             MOD outMsg = new Picture(Data);
             outMsg.setMod(PICTURE_MODE);//그림 데이터 다시 보내기
             main.MainOutput.writeObject(outMsg);//서버로 데이터 보내기
+            Data=null;
         } catch (IOException e) {
             System.out.println("그림 사진을 서버로 제대로 보내지 못 했습니다.");
         }
