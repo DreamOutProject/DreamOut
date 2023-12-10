@@ -2,6 +2,7 @@ package com.Main;
 
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.User;
+import com.GUI.GameEnd;
 import com.GUI.GameWaitRoom;
 import com.GUI.GamingRoom;
 import com.GUI.WaitRoom;
@@ -78,6 +79,20 @@ public class repaintThread extends Thread{
                 }else if(main.presentPanel instanceof  GamingRoom){//게임 시작했음.
                     if(receive.getMOD() == NEXT_ROUND){
                         ((GamingRoom) main.presentPanel).logic.nextRound();
+                    }
+                }else if(main.presentPanel instanceof GameEnd){//마지막 방일떄
+                    if(receive.getMOD() == ENDING_START_MODE){
+
+                    }else if(receive.getMOD() == ENDING_NEXT_MODE){
+
+                    }else if(receive.getMOD() == ENDING_PREV_MODE){
+
+                    }else if(receive.getMOD() == RETURN_GAMEROOM){
+                        System.out.println("방 돌아가기");
+                        while(!main.isrepaint); // 다시그리기가 false일 때까지 돌다가
+                        main.isrepaint = false;
+                        main.transition(new GameWaitRoom(main));//다음 화면으로 넘겨주기
+                        main.isrepaint = true;
                     }
                 }
             } catch (IOException e) {

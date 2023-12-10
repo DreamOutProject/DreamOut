@@ -199,9 +199,6 @@ public class GameWaitRoom extends RootPanel{
         p.add(t);
         p.add(subject);
         add(p);
-
-        setVisible(true);
-
     }
 
     public void back(){

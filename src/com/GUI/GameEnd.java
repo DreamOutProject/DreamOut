@@ -49,7 +49,6 @@ public class GameEnd extends RootPanel{
         add(Center);
         logic = new GameEndLogic(main,this,AllData,album);
         logic.start();
-        //  logic.ButtonEnable();
     }
     public void readData(){
         try{
@@ -67,7 +66,6 @@ public class GameEnd extends RootPanel{
             main.transition(new WaitRoom(main));//굳.
         }
     }
-
     public JPanel leftSide() {
         JPanel t= new JPanel(new GridLayout(0,1,0,10));
         t.setPreferredSize(new Dimension(250,500));
@@ -100,6 +98,3 @@ public class GameEnd extends RootPanel{
         rightSide.revalidate();
     }
 }
-
-//1. rightpanel에 버튼 만들기(앨범시작하기)
-//2. 1번 앨범 보여지며 아이디 색깔 변경되게 만들기(색은 초록색과 같이 다르게)
