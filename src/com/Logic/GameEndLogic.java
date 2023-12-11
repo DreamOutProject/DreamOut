@@ -44,6 +44,7 @@ public class GameEndLogic extends Thread{
     public void nextPage(){
         if(this.index!=allData.size()-1){
             this.index++;
+            GameEnd.prev.setEnabled(true);
         }else{
             GameEnd.South.remove(GameEnd.next);//지우기
             GameEnd.South.add(GameEnd.returnWait);//돌아가는 것을 붙이기

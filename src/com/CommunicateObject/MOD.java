@@ -9,7 +9,12 @@ public class MOD implements Serializable {
     public MOD(){this.mod = null;}
     public void setMod(MODE mod) {this.mod = mod;}
     public MODE getMOD(){return this.mod;}
-
+    @Override
+    public String toString() {
+        return "MOD{" +
+                "mod=" + this.mod.toString() +
+                '}';
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
