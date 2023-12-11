@@ -62,10 +62,10 @@ public class GamingLogic extends Thread{
             savePanel(round);
             sendMessage(round);//그렸던 사진 서버로 보내주기
             waiting();
-            if(this.totalRound != round){
-                nextRound();
-            }else break;
+            if(this.totalRound==round)break;
+            nextRound();
         }
+        nextRound();
         try{
             MOD outMsg = new MOD(TEMP);
             main.MainOutput.writeObject(outMsg);
