@@ -41,11 +41,17 @@ public class GameEndLogic extends Thread{
         }
         GameEnd.prev.setEnabled(false);
     }
+    public void Messge(MOD outMsg){
+        try{
+            main.MainOutput.writeObject(outMsg);
+        } catch (IOException e) {
+            System.out.println("메세지를 제대로 보내지 못 했습니다.");
+        }
+    }
     public void nextPage(){
-        if(this.index!=allData.size()-1){
-            this.index++;
-            GameEnd.prev.setEnabled(true);
-        }else{
+        this.index++;
+        ButtonEnable();
+        if(this.index==allData.size()-1){
             GameEnd.South.remove(GameEnd.next);//지우기
             GameEnd.South.add(GameEnd.returnWait);//돌아가는 것을 붙이기
             GameEnd.South.revalidate();
@@ -53,12 +59,25 @@ public class GameEndLogic extends Thread{
         }
         GameEnd.showData(this.index);
     }
+    public void ButtonEnable(){
+        if(main.room.getAdminId()!=main.ID.getId()){
+            GameEnd.prev.setEnabled(false);
+            GameEnd.next.setEnabled(false);
+            GameEnd.returnWait.setEnabled(false);
+            GameEnd.albumStart.setEnabled(false);
+        }else{
+            if(index!=0) GameEnd.prev.setEnabled(true);
+            if(index!=allData.size()-1)GameEnd.next.setEnabled(true);
+            GameEnd.returnWait.setEnabled(true);
+            GameEnd.albumStart.setEnabled(true);
+        }
+    }
+
     public void prevPage(){
         if(this.index!=0){
             this.index--;
-        }else{
-            GameEnd.prev.setEnabled(false);
         }
+        ButtonEnable();
         GameEnd.South.remove(GameEnd.returnWait);
         GameEnd.South.add(GameEnd.next);
         GameEnd.South.revalidate();
@@ -79,9 +98,6 @@ public class GameEndLogic extends Thread{
             int j=0;
             while((receive = (MOD)main.MainInput.readObject()).getMOD() != SUCCESSED){
                 Picture data = (Picture)receive;
-                for(int i=0;i<data.getFiles().size();i++){
-                    System.out.println(j+"의 "+i+"번째가 : " + data.getFiles().get(i)+"입니다.");
-                }
                 allData.add(data);
             }
         } catch (IOException e) {

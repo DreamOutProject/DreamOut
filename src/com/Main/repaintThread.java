@@ -70,6 +70,16 @@ public class repaintThread extends Thread{
                         ((GameWaitRoom) main.presentPanel).logic.firstGameChoice();
                     }else if(receive.getMOD() == GAME_TWO_CHOICE){
                         ((GameWaitRoom) main.presentPanel).logic.secondGameChoice();
+                    }else if(receive.getMOD() == CATEGORY_ONE){
+                        ((GameWaitRoom) main.presentPanel).logic.settingSubject("일상생활");
+                    }else if(receive.getMOD() == CATEGORY_TWO){
+                        ((GameWaitRoom) main.presentPanel).logic.settingSubject("포켓몬");
+                    }else if(receive.getMOD() == CATEGORY_THREE){
+                        ((GameWaitRoom) main.presentPanel).logic.settingSubject("스포츠");
+                    }else if(receive.getMOD() == CATEGORY_FOUR){
+                        ((GameWaitRoom) main.presentPanel).logic.settingSubject("영화");
+                    }else if (receive.getMOD() == CATEGORY_FIVE){
+                        ((GameWaitRoom) main.presentPanel).logic.settingSubject("자유 주제");
                     }
                 }else if(main.presentPanel instanceof  WaitRoom){
                     if(receive.getMOD() == REPAINT_MODE) {//그림 그리라고 하면
@@ -82,11 +92,11 @@ public class repaintThread extends Thread{
                     }
                 }else if(main.presentPanel instanceof GameEnd){//마지막 방일떄
                     if(receive.getMOD() == ENDING_START_MODE){
-
+                        ((GameEnd) main.presentPanel).logic.albumStart();
                     }else if(receive.getMOD() == ENDING_NEXT_MODE){
-
+                        ((GameEnd) main.presentPanel).logic.nextPage();
                     }else if(receive.getMOD() == ENDING_PREV_MODE){
-
+                        ((GameEnd) main.presentPanel).logic.prevPage();
                     }else if(receive.getMOD() == RETURN_GAMEROOM){
                         System.out.println("방 돌아가기");
                         while(!main.isrepaint); // 다시그리기가 false일 때까지 돌다가

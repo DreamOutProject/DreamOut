@@ -5,6 +5,7 @@ import com.CommunicateObject.Picture;
 import com.CommunicateObject.Room;
 import com.Logic.GameEndLogic;
 import com.Main.Main;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
-import static com.CommunicateObject.MODE.ROOM_VIEW;
-import static com.CommunicateObject.MODE.SUCCESSED;
+import static com.CommunicateObject.MODE.*;
 
 public class GameEnd extends RootPanel{
     public Main main;
@@ -38,28 +38,27 @@ public class GameEnd extends RootPanel{
         leftSide = leftSide();
         rightSide = new JPanel(new BorderLayout());
         South = new JPanel(new GridLayout(0, 2));
-        showPicture = new JPanel(new GridLayout(0,1));
+        showPicture = new JPanel(new GridLayout(0,2));
         next = new JButton("다음 앨범으로 넘기기");
         prev = new JButton("이전 앨범으로 넘기기");
         next.addActionListener(e -> {
-            logic.nextPage();
-
+            logic.Messge(new MOD(ENDING_NEXT_MODE));
         });
         prev.addActionListener(e->{
-            logic.prevPage();
+            logic.Messge(new MOD(ENDING_PREV_MODE));
         });
         South.add(prev);
         South.add(next);
 
         returnWait = new JButton("방으로 돌아가기");
         returnWait.addActionListener(e->{
-            logic.returnWait();
+            logic.Messge(new MOD(RETURN_GAMEROOM));
         });
         //1. rightside에다가 버튼 만들기 ("앨범 시작하기")
 
         albumStart = new JButton("앨범 시작하기 ");
         albumStart.addActionListener(e -> {
-            logic.albumStart();//앨범 시작
+            logic.Messge(new MOD(ENDING_START_MODE));
             //그리고 현재 버튼삭제 하고 다음으로 버튼 생기기
         });
 
@@ -72,6 +71,7 @@ public class GameEnd extends RootPanel{
         add(Center);
         logic = new GameEndLogic(main,this,AllData);
         logic.start();
+        logic.ButtonEnable();
     }
     public void readData(){
         try{
@@ -99,12 +99,21 @@ public class GameEnd extends RootPanel{
     }
     public void showData(int index){
         showPicture.removeAll();
+        System.out.println("여기까지는 왔어요");
+        Vector<Integer>IDs = main.room.getParticipant();
+
         Picture data = AllData.get(index);
         Vector<JLabel>Files = data.getFiles();
         for(int i=0;i<Files.size();i++){
+            int id =  IDs.get((index+i)%IDs.size());
+            JLabel showId = new JLabel("ID : " + id);
+            showId.setHorizontalAlignment(JLabel.CENTER);
+            showId.setFont(Fonts.ShowFont);
+            showPicture.add(showId);
             showPicture.add(Files.get(i));
         }
         showPicture.repaint();
         showPicture.revalidate();
+        System.out.println("끝");
     }
 }

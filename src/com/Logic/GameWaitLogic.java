@@ -55,12 +55,12 @@ public class GameWaitLogic {
     public void firstGameChoice(){
         firstGame.setBackground(Colors.GameMouseHover);
         secondGame.setBackground(Colors.GameMouserOut);
-        NumberGame = 1;//1번 게임
+        main.room.setGamecategory(1);
     }
     public void secondGameChoice(){
         secondGame.setBackground(Colors.GameMouseHover);
         firstGame.setBackground(Colors.GameMouserOut);
-        NumberGame = 2;//1번 게임
+        main.room.setGamecategory(2);
     }
     public void Message(int num){
         MOD outMsg = new MOD(FAILED);
@@ -87,5 +87,67 @@ public class GameWaitLogic {
             System.out.println("게임 시작메세지를 제대로 보내지 못했습니다.");
         }
         main.isrepaint=true;
+    }
+
+    public void back() {
+        MOD outMsg = new MOD(RETURN_WAITROOM);
+        main.isrepaint=false;
+        try {
+            main.MainOutput.writeObject(outMsg);//로비로 돌아갑니다.
+            MOD receive= (MOD)main.MainInput.readObject();
+            if(receive.getMOD()==SUCCESSED){
+                main.transition(new WaitRoom(main));
+            }
+        } catch (IOException ex) {
+            System.out.println("게임 시작메세지를 제대로 보내지 못했습니다.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("캐스팅을 할 수 없습니다.");
+        }
+        main.isrepaint=true;
+    }
+
+    public void messge(Object item) {
+        MOD outMsg = new MOD(CATEGORY_ONE);
+        switch (item.toString()){
+            case "포켓몬"->{
+                outMsg.setMod(CATEGORY_TWO);
+            }
+            case "스포츠"->{
+                outMsg.setMod(CATEGORY_THREE);
+            }
+            case "영화"->{
+                outMsg.setMod(CATEGORY_FOUR);
+            }
+            case "자유 주제"->{
+                outMsg.setMod(CATEGORY_FIVE);
+            }
+        }
+        try {
+            main.MainOutput.writeObject(outMsg);
+        } catch (IOException e) {
+            System.out.println("카테고리 메세지 못 보냄");
+        }
+    }
+    public void settingSubject(String data){
+        subject.setSelectedItem(data);
+    }
+    public void settingSubject(int data){
+        switch (data){
+            case 1->{
+                settingSubject("일상 생활");
+            }
+            case 2->{
+                settingSubject("포켓몬");
+            }
+            case 3->{
+                settingSubject("스포츠");
+            }
+            case 4->{
+                settingSubject("영화");
+            }
+            case 5->{
+                settingSubject("자유 주제");
+            }
+        }
     }
 }

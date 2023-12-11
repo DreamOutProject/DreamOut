@@ -10,12 +10,10 @@ import com.Ui.Images;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.sql.SQLOutput;
+import java.util.Arrays;
 
 import static com.CommunicateObject.MODE.*;
 
@@ -30,6 +28,7 @@ public class GameWaitRoom extends RootPanel{
 
     JButton secondGame = new JButton();
     JButton firstGame = new JButton();
+    JButton backButton ;
     public GameWaitLogic logic;
     public GameWaitRoom(Main main){
         this.main = main;
@@ -44,20 +43,29 @@ public class GameWaitRoom extends RootPanel{
         rightSide.setPreferredSize(new Dimension(780,500));
 
 
-
+        backButton= new JButton("로비로 돌아가기");
+        backButton.setBounds(80,40,130,50);
+        backButton.setFont(Fonts.ShowFont);
+        backButton.setOpaque(true);
+        backButton.setBackground(Colors.BackColor);
+        backButton.addActionListener(e -> {
+            logic.back();
+        });
         Center.add(leftSide,BorderLayout.WEST);
         Center.add(rightSide,BorderLayout.CENTER);
 
         subject();
 
         logic = new GameWaitLogic(main,leftSide,rightSide,Center,firstGame,secondGame,subject);
-        logic.readData();//서버에서 해당 방 데이터 읽어오기
+        logic.readData();//서버에서 해당 방 데이터 읽어오기]
+
 
         leftSide();
         rightSide();
         logic.ButtonEnable();
-
+        logic.settingSubject(main.room.getTopic());
         add(Center);
+        add(backButton);
     }
 
     public void rightSide() {
@@ -192,6 +200,11 @@ public class GameWaitRoom extends RootPanel{
 
         subject = new JComboBox<>(Date);
         subject.setPreferredSize(new Dimension(377,30));
+        subject.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED){
+                logic.messge(e.getItem());
+            }
+        });
 
         p.add(t);
         p.add(subject);

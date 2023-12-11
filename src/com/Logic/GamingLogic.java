@@ -5,10 +5,13 @@ import com.CommunicateObject.Picture;
 import com.GUI.GameEnd;
 import com.GUI.GamingRoom;
 import com.Main.Main;
+import com.Ui.Fonts;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +23,8 @@ public class GamingLogic extends Thread{
 
     public Main main;
     public JProgressBar bar;
-    public int TIME=3;//현재 시간
-    public int initTime =3;
+    public int TIME=15;//현재 시간
+    public int initTime =15;
     public boolean wait=true;//
     public JPanel draw;
     public int round;
@@ -43,6 +46,7 @@ public class GamingLogic extends Thread{
         //3. 게임이 종료되면 그린 사진 파일 저장하기
         //4. 저장된 그림 파일 서버로 보내기
         //5. 라운드가 끝나지 않았다면 다시 1번부터 반복
+        if(main.room.getGamecategory()==1)((GamingRoom)main.presentPanel).prevPicture.setVisible(false);
         while(true){
             try{
                 MOD outMsg = new MOD(PICTURE_INFO);//사진 정보 주세요
@@ -52,6 +56,16 @@ public class GamingLogic extends Thread{
                 System.out.println("데이터를 제대로 읽지 못했습니다.");
             } catch (ClassNotFoundException e) {
                 System.out.println("캐스팅 에러가 났습니다.");
+            }
+            if(main.room.getGamecategory()==2){//라운드에 따라 그림 활성화 비활성화 하기
+                if(round%2==0){
+                    ((GamingRoom)main.presentPanel).drawPanel.setVisible(false);
+                    ((GamingRoom)main.presentPanel).word.setVisible(true);
+                }
+                else {
+                    ((GamingRoom)main.presentPanel).drawPanel.setVisible(true);
+                    ((GamingRoom)main.presentPanel).word.setVisible(false);
+                }
             }
             while(TIME!=-1){
                 try{
@@ -126,6 +140,13 @@ public class GamingLogic extends Thread{
             Image s = t.getImage();
             t = new ImageIcon(s.getScaledInstance(150,150,Image.SCALE_SMOOTH));
             JLabel pictureLabel = new JLabel(t);
+            if(main.room.getGamecategory()==2){
+                if(round%2==0){
+                    pictureLabel = new JLabel(((GamingRoom)main.presentPanel).word.getText());
+                    pictureLabel.setHorizontalAlignment(JLabel.CENTER);
+                }
+            }
+            pictureLabel.setFont(Fonts.ShowFont);
             Data.setPicture(pictureLabel,curRound-1);//그림 파일 셋팅
         }catch(Exception ignored){}
     }
@@ -145,7 +166,7 @@ public class GamingLogic extends Thread{
     public void setTime(int Time){this.bar.setValue(Time);this.bar.setString(Time+"초");}
     public void nextRound(){
         round++;//라운드 다음
-        initTime-=1;
+        initTime-=7;
         TIME=initTime;
         if(main.room.getAdminId()==main.ID.getId()){//서버만 다음 라운드라고 말하기
             try{
@@ -154,6 +175,27 @@ public class GamingLogic extends Thread{
             } catch (IOException e) {
                 System.out.println("해당하는 다음 라운드로 넘어가는 메세지를 못 보냈습니다.");
             }
+        }
+    }
+
+    public void Pictureshow() {
+        //이전 그림이 있었다면 그걸 볼 수 있게끔 만들어야 함.
+        if(round!=1){//1라운드가 아니라면 볼 수 있음
+            JFrame sub  = new JFrame("사진만 띄워주기");
+            sub.setLayout(new GridLayout(0,1));
+            JLabel insertimg = Data.getFiles().get(round-2);
+            sub.add(insertimg);
+            sub.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    super.windowClosed(e);
+                    sub.dispose();
+                }
+            });
+            sub.setSize(500,500);
+            sub.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null,"이전 그림이 없습니다.","실패",JOptionPane.ERROR_MESSAGE);
         }
     }
 }

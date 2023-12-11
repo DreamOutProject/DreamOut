@@ -4,6 +4,7 @@ import com.Logic.Drawing;
 import com.Logic.GamingLogic;
 import com.Main.Main;
 import com.Ui.Colors;
+import com.Ui.Fonts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,7 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
     public JTextField word;
     public Drawing D = new Drawing();
     public GamingLogic logic;
+    public JButton prevPicture;
     public GamingRoom(Main main){
         this.main = main;
         //1. 맨 위에 시간 지나는 progressbar
@@ -37,14 +39,23 @@ public class GamingRoom extends RootPanel{//어떤 게임인지 설정해줘야 
         pallete.setBounds(1130,100,100,450);
 
         word = new JTextField();
-        word.setBounds(150,580,950,50);
+        word.setFont(Fonts.ShowFont);
+        word.setBounds(150,580,950, 50);
+        word.setHorizontalAlignment(JTextField.RIGHT);
+
+
+        prevPicture = new JButton("이전 그림 확인");
+        prevPicture.addActionListener(e->{
+            logic.Pictureshow();
+        });
+        prevPicture.setBounds(1130,30,100,50);
 
 
         add(timeBar);
         add(drawPanel);//일단 화면 보기
         add(pallete);
         add(word);
-
+        add(prevPicture);
         logic = new GamingLogic(main,timeBar,drawPanel);
         logic.start();
     }
