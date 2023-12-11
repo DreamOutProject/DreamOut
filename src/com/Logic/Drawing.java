@@ -70,6 +70,11 @@ public class Drawing extends JPanel implements MouseListener,MouseMotionListener
 
     @Override
     public void mouseMoved(MouseEvent e) {}
+    public void ClearData(){
+        this.Point.clear();//비워주기
+        repaint();
+    }
+
 
     static class MYDATA{
         private Point p;

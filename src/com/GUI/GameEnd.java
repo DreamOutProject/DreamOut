@@ -5,12 +5,11 @@ import com.CommunicateObject.Picture;
 import com.CommunicateObject.Room;
 import com.Logic.GameEndLogic;
 import com.Main.Main;
-import com.Ui.Colors;
-import com.Ui.Fonts;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -21,11 +20,15 @@ public class GameEnd extends RootPanel{
     public Main main;
     public JPanel Center;
     public JPanel leftSide;
-    public JLabel player;
     public JPanel rightSide;
     public GameEndLogic logic;
-    public JButton album;
     public Vector<Picture>AllData = new Vector<>();
+    public JPanel showPicture;
+    public JButton next;
+    public JButton prev;
+    public JButton returnWait;//
+    public JButton albumStart;
+    public JPanel South;
     public GameEnd(Main main){
         this.main = main;
         readData();//서버에서 해당 방 데이터 읽어오기
@@ -33,21 +36,41 @@ public class GameEnd extends RootPanel{
         Center.setBounds(100,55,1100,550);
 
         leftSide = leftSide();
-        rightSide = new JPanel(new GridLayout(0,1));
-        rightSide.setBackground(Colors.PURPLE);
-        JScrollPane scroll = new JScrollPane(rightSide,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        rightSide = new JPanel(new BorderLayout());
+        South = new JPanel(new GridLayout(0, 2));
+        showPicture = new JPanel(new GridLayout(0,1));
+        next = new JButton("다음 앨범으로 넘기기");
+        prev = new JButton("이전 앨범으로 넘기기");
+        next.addActionListener(e -> {
+            logic.nextPage();
 
-//        album = new JButton("앨범 시작하기");
-//        album.setPreferredSize(new Dimension(270,50));
-//        album.setFont(Fonts.ShowFont);
-//        rightSide.add(album);
+        });
+        prev.addActionListener(e->{
+            logic.prevPage();
+        });
+        South.add(prev);
+        South.add(next);
 
+        returnWait = new JButton("방으로 돌아가기");
+        returnWait.addActionListener(e->{
+            logic.returnWait();
+        });
+        //1. rightside에다가 버튼 만들기 ("앨범 시작하기")
+
+        albumStart = new JButton("앨범 시작하기 ");
+        albumStart.addActionListener(e -> {
+            logic.albumStart();//앨범 시작
+            //그리고 현재 버튼삭제 하고 다음으로 버튼 생기기
+        });
+
+        rightSide.add(showPicture,BorderLayout.CENTER);
+        rightSide.add(albumStart,BorderLayout.SOUTH);
 
         Center.add(leftSide,BorderLayout.WEST);
-        Center.add(scroll,BorderLayout.CENTER);
+        Center.add(rightSide,BorderLayout.CENTER);
 
         add(Center);
-        logic = new GameEndLogic(main,this,AllData,album);
+        logic = new GameEndLogic(main,this,AllData);
         logic.start();
     }
     public void readData(){
@@ -67,34 +90,21 @@ public class GameEnd extends RootPanel{
         }
     }
     public JPanel leftSide() {
-        JPanel t= new JPanel(new GridLayout(0,1,0,10));
-        t.setPreferredSize(new Dimension(250,500));
-        JPanel p = new JPanel(new GridLayout(0,1));
+        JPanel t= new JPanel(new GridLayout(0,1));
         for(Integer id:main.room.getParticipant()){
-            if(id == main.ID.getId()){
-                player = new JLabel("ID : " + id+"(ME)");
-            }
-            else {
-                player = new JLabel("ID : " + id);
-            }
-            player.setHorizontalAlignment(JLabel.CENTER);
-            player.setFont(Fonts.ShowFont);
-            p.setBackground(Colors.PURPLE1);
-            p.add(player);
-            t.add(p);
+            JLabel player = new JLabel("ID : " + id);
+            t.add(player);
         }
         return t;
     }
-    public void showData(){
-        for(Picture data:AllData){//모든 유저의 그림앨범
-            Vector<JLabel> t = data.getFiles();
-            for(JLabel d:t){
-                if(d==null)continue;
-                System.out.println("파일 추가");
-                rightSide.add(d);
-            }
+    public void showData(int index){
+        showPicture.removeAll();
+        Picture data = AllData.get(index);
+        Vector<JLabel>Files = data.getFiles();
+        for(int i=0;i<Files.size();i++){
+            showPicture.add(Files.get(i));
         }
-        rightSide.repaint();
-        rightSide.revalidate();
+        showPicture.repaint();
+        showPicture.revalidate();
     }
 }

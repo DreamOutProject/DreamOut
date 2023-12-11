@@ -3,6 +3,7 @@ package com.Logic;
 import com.CommunicateObject.MOD;
 import com.CommunicateObject.Picture;
 import com.GUI.GameEnd;
+import com.GUI.GamingRoom;
 import com.Main.Main;
 
 import javax.imageio.ImageIO;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import static com.CommunicateObject.MODE.*;
 
@@ -25,6 +27,7 @@ public class GamingLogic extends Thread{
     public int round;
     public Picture Data;
     public int totalRound;
+    public int randomAlpha;
     public GamingLogic(Main main, JProgressBar bar,JPanel draw){
         this.main = main;//메인 갖고 오기
         this.bar = bar;//bar 설정하기
@@ -62,14 +65,15 @@ public class GamingLogic extends Thread{
             savePanel(round);
             sendMessage(round);//그렸던 사진 서버로 보내주기
             waiting();
-            if(this.totalRound != round){
-                nextRound();
-            }else break;
+            clearPanel();
+            if(this.totalRound==round)break;
+            nextRound();
         }
         try{
             MOD outMsg = new MOD(TEMP);
             main.MainOutput.writeObject(outMsg);
             MOD receive = (MOD)main.MainInput.readObject();
+            System.out.println("여기가 안 왔어요");
             if(receive.getMOD() == SUCCESSED){
                 main.transition(new GameEnd(main));
             }
@@ -77,6 +81,12 @@ public class GamingLogic extends Thread{
             System.out.println("제대로 게임 끝 데이터를 보내지 못 했습니다.");
         } catch (ClassNotFoundException e) {
             System.out.println("다음 페이지로 넘어가는 데이터 못 받음");
+        }
+    }
+
+    public void clearPanel() {
+        if(main.presentPanel instanceof GamingRoom){
+            ((GamingRoom) main.presentPanel).D.ClearData();//데이터 초기화 해주기
         }
     }
 
@@ -108,16 +118,19 @@ public class GamingLogic extends Thread{
             String path = new File("").getAbsolutePath()+"/src/com/screenshot";
             File filePath = new File(path);
             if(!filePath.exists())filePath.mkdir();
-            String alpha="/"+curRound + main.socket.getPort()+".png";
+            randomAlpha = (int) ((Math.random()*10000)%1000);
+            String alpha="/"+curRound + randomAlpha  +".png";//랜덤으로 형성해야된다.
             filePath = new File(path+alpha);
             ImageIO.write(image,"png", filePath);
             ImageIcon t = new ImageIcon(image);
+            Image s = t.getImage();
+            t = new ImageIcon(s.getScaledInstance(150,150,Image.SCALE_SMOOTH));
             JLabel pictureLabel = new JLabel(t);
             Data.setPicture(pictureLabel,curRound-1);//그림 파일 셋팅
         }catch(Exception ignored){}
     }
     public void sendMessage(int cur){//해당하는 그림파일 서버로 보내기
-        String path = new File("").getAbsolutePath()+"/src/com/screenshot/"+cur+ main.socket.getPort()+".png";
+        String path = new File("").getAbsolutePath()+"/src/com/screenshot/"+cur+ randomAlpha+".png";
         File filePath = new File(path);
         if(!filePath.exists())return;//없으면 일단 하질 말자
         try {
