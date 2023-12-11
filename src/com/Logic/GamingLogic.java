@@ -47,11 +47,15 @@ public class GamingLogic extends Thread{
             try{
                 MOD outMsg = new MOD(PICTURE_INFO);//사진 정보 주세요
                 main.MainOutput.writeObject(outMsg);
-                Data = (Picture) main.MainInput.readObject();//그림 파일 갖고 오고
+                MOD receive = (MOD)main.MainInput.readObject();
+                System.out.println(receive+"데이터입니다.");
+                Data = (Picture) receive;//그림 파일 갖고 오고
+
             } catch (IOException e) {
                 System.out.println("데이터를 제대로 읽지 못했습니다.");
             } catch (ClassNotFoundException e) {
                 System.out.println("캐스팅 에러가 났습니다.");
+                System.out.println(e);
             }
             while(TIME!=-1){
                 try{
@@ -73,7 +77,6 @@ public class GamingLogic extends Thread{
             MOD outMsg = new MOD(TEMP);
             main.MainOutput.writeObject(outMsg);
             MOD receive = (MOD)main.MainInput.readObject();
-            System.out.println("여기가 안 왔어요");
             if(receive.getMOD() == SUCCESSED){
                 main.transition(new GameEnd(main));
             }
@@ -137,7 +140,7 @@ public class GamingLogic extends Thread{
             MOD outMsg = new Picture(Data);
             outMsg.setMod(PICTURE_MODE);//그림 데이터 다시 보내기
             main.MainOutput.writeObject(outMsg);//서버로 데이터 보내기
-            Data=null;
+            Data = null;
         } catch (IOException e) {
             System.out.println("그림 사진을 서버로 제대로 보내지 못 했습니다.");
         }

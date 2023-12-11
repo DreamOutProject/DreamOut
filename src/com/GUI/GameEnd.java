@@ -20,6 +20,7 @@ public class GameEnd extends RootPanel{
     public Main main;
     public JPanel Center;
     public JPanel leftSide;
+    public JLabel player;
     public JPanel rightSide;
     public GameEndLogic logic;
     public Vector<Picture>AllData = new Vector<>();
@@ -92,7 +93,12 @@ public class GameEnd extends RootPanel{
     public JPanel leftSide() {
         JPanel t= new JPanel(new GridLayout(0,1));
         for(Integer id:main.room.getParticipant()){
-            JLabel player = new JLabel("ID : " + id);
+            if(id == main.ID.getId()){
+                player = new JLabel("ID : " + id+"(ME)");
+            }
+            else {
+                player = new JLabel("ID : " + id);
+            }
             t.add(player);
         }
         return t;

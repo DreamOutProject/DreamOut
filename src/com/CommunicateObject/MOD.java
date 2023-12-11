@@ -11,6 +11,13 @@ public class MOD implements Serializable {
     public MODE getMOD(){return this.mod;}
 
     @Override
+    public String toString() {
+        return "MOD{"+
+                "mod="+this.mod.toString()+
+                "}";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MOD mod1)) return false;

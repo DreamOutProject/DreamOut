@@ -76,17 +76,23 @@ public class GameEndLogic extends Thread{
         try{
             MOD receive;
             int j=0;
-            while((receive = (MOD)main.MainInput.readObject()).getMOD() != SUCCESSED){
-                Picture data = (Picture)receive;
-                for(int i=0;i<data.getFiles().size();i++){
-                    System.out.println(j+"의 "+i+"번째가 : " + data.getFiles().get(i)+"입니다.");
-                }
-                allData.add(data);
+            if(main.MainInput.readObject() instanceof Picture t){
+                System.out.println("살려주삼");
+            }else{
+                System.out.println("뭐임");
             }
+//            while((receive = (MOD)main.MainInput.readObject()).getMOD() != SUCCESSED){
+//                Picture data = (Picture)receive;
+//                for(int i=0;i<data.getFiles().size();i++){
+//                    System.out.println(j+"의 "+i+"번째가 : " + data.getFiles().get(i)+"입니다.");
+//                }
+//                allData.add(data);
+//            }
         } catch (IOException e) {
             System.out.println("모든 사진 데이터를 제대로 읽지 못했습니다.");
         } catch (ClassNotFoundException e) {
             System.out.println("사진 데이터들을 제대로 캐스팅하지 못했습니다. ");
+            System.out.println(e);
         }
     }
 
