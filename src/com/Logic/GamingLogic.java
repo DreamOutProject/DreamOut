@@ -46,7 +46,10 @@ public class GamingLogic extends Thread{
         //3. 게임이 종료되면 그린 사진 파일 저장하기
         //4. 저장된 그림 파일 서버로 보내기
         //5. 라운드가 끝나지 않았다면 다시 1번부터 반복
-        if(main.room.getGamecategory()==1)((GamingRoom)main.presentPanel).prevPicture.setVisible(false);
+        if(main.room.getGamecategory()==1){
+            ((GamingRoom)main.presentPanel).prevPicture.setVisible(false);
+            ((GamingRoom)main.presentPanel).word.setVisible(false);
+        }
         while(true){
             try{
                 MOD outMsg = new MOD(PICTURE_INFO);//사진 정보 주세요
@@ -129,7 +132,7 @@ public class GamingLogic extends Thread{
         draw.print(g);
         g.dispose();
         try{
-            String path = new File("").getAbsolutePath()+"/src/com/screenshot";
+            String path = "src/com/screenshot";
             File filePath = new File(path);
             if(!filePath.exists())filePath.mkdir();
             randomAlpha = (int) ((Math.random()*10000)%1000);
@@ -151,7 +154,7 @@ public class GamingLogic extends Thread{
         }catch(Exception ignored){}
     }
     public void sendMessage(int cur){//해당하는 그림파일 서버로 보내기
-        String path = new File("").getAbsolutePath()+"/src/com/screenshot/"+cur+ randomAlpha+".png";
+        String path = "src/com/screenshot/"+cur+ randomAlpha+".png";
         File filePath = new File(path);
         if(!filePath.exists())return;//없으면 일단 하질 말자
         try {

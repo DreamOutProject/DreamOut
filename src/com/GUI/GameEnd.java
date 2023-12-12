@@ -5,6 +5,7 @@ import com.CommunicateObject.Picture;
 import com.CommunicateObject.Room;
 import com.Logic.GameEndLogic;
 import com.Main.Main;
+import com.Ui.Colors;
 import com.Ui.Fonts;
 
 import javax.swing.*;
@@ -35,7 +36,10 @@ public class GameEnd extends RootPanel{
         Center = new JPanel(new BorderLayout());
         Center.setBounds(100,55,1100,550);
 
-        leftSide = leftSide();
+        leftSide = new JPanel(new GridLayout(0,1));
+        leftSide();
+
+        leftSide.setPreferredSize(new Dimension(250,500));
         rightSide = new JPanel(new BorderLayout());
         South = new JPanel(new GridLayout(0, 2));
         showPicture = new JPanel(new GridLayout(0,2));
@@ -89,13 +93,23 @@ public class GameEnd extends RootPanel{
             main.transition(new WaitRoom(main));//굳.
         }
     }
-    public JPanel leftSide() {
-        JPanel t= new JPanel(new GridLayout(0,1));
+    public void leftSide() {
+        leftSide.setBackground(Colors.PURPLE);
+        JLabel player;
         for(Integer id:main.room.getParticipant()){
-            JLabel player = new JLabel("ID : " + id);
-            t.add(player);
+            JPanel p = new JPanel(new GridLayout(0,1));
+            if(id == main.ID.getId()){
+                player = new JLabel("ID : " + id+"(ME)");
+            }
+            else {
+                player = new JLabel("ID : " + id);
+            }
+            player.setHorizontalAlignment(JLabel.CENTER);
+            p.add(player);
+            player.setFont(Fonts.ShowFont);
+            leftSide.add(p);
+            p.setBackground(Colors.PURPLE1);
         }
-        return t;
     }
     public void showData(int index){
         showPicture.removeAll();

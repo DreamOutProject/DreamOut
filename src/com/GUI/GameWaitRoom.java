@@ -119,7 +119,6 @@ public class GameWaitRoom extends RootPanel{
         JPanel south = setSouthPanel();
         rightSide.add(center,BorderLayout.CENTER);
         rightSide.add(south,BorderLayout.SOUTH);
-
     }
 
     private JPanel setSouthPanel() {

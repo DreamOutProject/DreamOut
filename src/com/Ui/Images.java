@@ -4,5 +4,5 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Images {
-    public static final Image BackImage = new ImageIcon("src/image/background.jpeg").getImage();
+    public static final Image BackImage = new ImageIcon(getClass().getClassLoder().getResource("background.jpeg")).getImage();
 }
